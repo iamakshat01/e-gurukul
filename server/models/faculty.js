@@ -1,26 +1,20 @@
 const mongoose = require('mongoose');
 const ScheduleSchema = require('./schemas/schedule');
+const InfoSchema = require('./schemas/info');
 
 const FacultySchema = new mongoose.Schema({
+    user_id: {
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: 'User'
+    },
     faculty_code: {
         type: String,
         required: true,
     },
-    first_name: {
-        type: String,
-        required: true,
-    },
-    last_name: {
-        type: String,
-        required: true
-    },
-    classrooms: [{
-        type: mongoose.SchemaTypes.ObjectId,
-        ref: 'classroom'
-    }],
+    personal_info: InfoSchema,
     schedule: ScheduleSchema
 }, {timestamps: true});
 
-const Faculty = mongoose.model('faculty', FacultySchema);
+const Faculty = mongoose.model('Faculty', FacultySchema);
 
 module.exports = Faculty;

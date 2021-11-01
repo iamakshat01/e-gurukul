@@ -4,7 +4,7 @@ const ScheduleSchema = require('./schemas/schedule');
 const ClassroomSchema = new mongoose.Schema({
     batch: {
         type: mongoose.SchemaTypes.ObjectId,
-        ref: 'batch',
+        ref: 'Batch',
     },
     subject: {
         type: String,
@@ -12,7 +12,7 @@ const ClassroomSchema = new mongoose.Schema({
     },
     faculty: {
         type: mongoose.SchemaTypes.ObjectId,
-        ref: 'faculty'
+        ref: 'Faculty'
     },
     meetlinks: [String],
     schedule: ScheduleSchema

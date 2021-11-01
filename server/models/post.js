@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const PostSchema = new mongoose.Schema({
     classroom: {
         type: mongoose.SchemaTypes.ObjectId,
-        ref: 'classroom',
+        ref: 'Classroom',
     },
     content: {
         type: String,
@@ -12,6 +12,6 @@ const PostSchema = new mongoose.Schema({
     files: [String]
 }, {timestamps: true});
 
-const Post = mongoose.model('post', PostSchema);
+const Post = mongoose.model('Post', PostSchema);
 
 module.exports = Post;
