@@ -20,4 +20,4 @@ const InfoSchema = new mongoose.Schema({
     }
 }, {timestamps: true});
 
-module.exports = ScheduleSchema;
+module.exports = InfoSchema;
