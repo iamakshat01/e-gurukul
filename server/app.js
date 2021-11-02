@@ -15,6 +15,7 @@ mongoose.connect(config.mongourl, {useUnifiedTopology: true, useNewUrlParser: tr
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+const facultyRouter = require('./routes/faculty');
 const adminRouter = require('./routes/admin');
 
 const app = express();
@@ -27,6 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/faculty', facultyRouter);
 app.use('/admin',adminRouter);
 
 // catch 404 and forward to error handler
@@ -42,7 +44,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.json({error: err.message});
 });
 
 module.exports = app;
