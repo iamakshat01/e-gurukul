@@ -12,7 +12,8 @@ const StudentSchema = new mongoose.Schema({
     },
     batch: {
         type: mongoose.SchemaTypes.ObjectId,
-        ref: 'Batch'
+        ref: 'Batch',
+        required: true,
     },
     personal_info: InfoSchema
 }, {timestamps: true});
