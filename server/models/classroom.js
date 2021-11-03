@@ -12,10 +12,15 @@ const ClassroomSchema = new mongoose.Schema({
     },
     faculty: {
         type: mongoose.SchemaTypes.ObjectId,
-        ref: 'Faculty'
+        ref: 'Faculty',
+        required: true, 
     },
     meetlinks: [String],
-    schedule: ScheduleSchema
+    status : {
+        type: String,
+        enum: ['active', 'inactive'],
+        default: 'active',  
+    }
 }, {timestamps: true});
 
 const Classroom = mongoose.model('Classroom', ClassroomSchema);
