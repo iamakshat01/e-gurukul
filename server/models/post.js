@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const fileSchema = require('./schemas/fileSchema');
+const commentSchema = require('./schemas/commentSchema');
 
 const PostSchema = new mongoose.Schema({
     classroom: {
@@ -6,10 +8,21 @@ const PostSchema = new mongoose.Schema({
         ref: 'Classroom',
     },
     content: {
-        type: String,
-        required: true,
+        title: {
+            type: String,
+            required: true,
+        },
+        subtitle: {
+            type: String,
+            default: ""
+        },
+        info: {
+            type: String,
+            default: ''
+        }
     },
-    files: [String]
+    files: [fileSchema],
+    comments: [commentSchema]
 }, {timestamps: true});
 
 const Post = mongoose.model('Post', PostSchema);

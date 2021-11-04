@@ -5,6 +5,7 @@ const ClassroomSchema = new mongoose.Schema({
     batch: {
         type: mongoose.SchemaTypes.ObjectId,
         ref: 'Batch',
+        required: true
     },
     subject: {
         type: String,
@@ -13,13 +14,20 @@ const ClassroomSchema = new mongoose.Schema({
     faculty: {
         type: mongoose.SchemaTypes.ObjectId,
         ref: 'Faculty',
-        required: true, 
+        required: true,
     },
-    meetlinks: [String],
-    status : {
+    meet_link: {
         type: String,
-        enum: ['active', 'inactive'],
-        default: 'active',  
+        default: ''
+    },
+    alternate_link: {
+        type: String,
+        default: ''
+    },
+    status: {
+        type: String,
+        enum: ['active','inactive'],
+        default: 'active'
     }
 }, {timestamps: true});
 
