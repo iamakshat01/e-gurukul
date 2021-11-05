@@ -48,7 +48,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.json({error: err.message});
+  res.json({error: (err.status ? err.message : 'Could not process your request.')});
 });
 
 module.exports = app;

@@ -3,20 +3,23 @@ const mongoose = require('mongoose');
 const InfoSchema = new mongoose.Schema({
     first_name: {
         type: String,
-        minlength: 3
+        default: ''
     },
     last_name: {
         type: String,
-        minlength: 3
+        default: ''
     },
     dob: {
-        type: Date
+        type: Date,
+        required: true
     },
     email: {
-        type: String
+        type: String,
+        default: ''
     },
     mobile: {
-        type: 'Number'
+        type: String,
+        default: ''
     }
 }, {timestamps: true});
 
