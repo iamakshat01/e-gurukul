@@ -153,3 +153,89 @@ exports.updateBatch = async (req, res, next) => {
 }
 
 
+// not tested
+exports.deleteBatch = async (req,res,next) => {
+    try {
+
+        if(req.user.role!='admin') {
+            let error = new Error('Unauthorised');
+            error.status = 401;
+            throw error;
+        }
+
+        const {batch_id} = req.params;
+
+        const batch = await Batch.findById(batch_id);
+
+        if(batch) {
+
+            const students = await Student.find({
+                batch: batch_id
+            })
+
+            const classrooms = await Classroom.find({
+                batch: batch_id
+            })
+
+            await students.remove();
+
+            await classrooms.remove();
+        } 
+        else {
+            throw new Error('No batch found');
+        } 
+
+        return res.status(200).json('Batch deletion successfull');
+
+    } catch (err) {
+
+        return next({
+            status: 400,
+            message: err.message,
+        });
+
+    }
+}
+
+exports.deleteUser = async (req,res,next) => {
+    try {
+
+        if(req.user.role!='admin') {
+            let error = new Error('Unauthorised');
+            error.status = 401;
+            throw error;
+        }
+    
+        const {user_id} = req.params;
+        const user = await User.findById(user_id);
+        if(user) {
+            if(user.role=='student') {
+                const student = Student.findOne({
+                    user_id: user_id
+                })
+
+                if(student){
+                    await student.remove();
+                    await user.remove();
+                }
+            }
+            // not tested, to be discussed
+            else if(user.role=='faculty') {
+
+            }
+        }
+        else {
+            throw new Error('No user found');
+        }
+
+        return res.status(200).json('Deleted Successfully');
+
+    } catch (err) {
+
+        return next({
+            status: 400,
+            message: err.message,
+        });
+    }
+}
+
