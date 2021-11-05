@@ -3,6 +3,7 @@ const User = require('../models/user');
 const Faculty = require('../models/faculty');
 const Student = require('../models/student');
 const Batch = require('../models/batch');
+const Classroom = require('../models/classroom');
 
 // registering faculty
 exports.registerFaculty = async (req, res, next) => {
@@ -86,3 +87,69 @@ exports.createBatch = async (req,res,next) => {
         })
     }
 }
+
+
+exports.getbatchDetails = async (req,res,next) => {
+
+    try {
+
+        const {batch_id} = req.params;
+        
+        const batchDetails = await Batch.findById(batch_id);
+        
+        const studentDetails = await Student.find({
+            batch: batch_id
+        })
+
+        const facultyDetails = await Classroom.find({
+            batch: batch_id
+        }).select('faculty').populate('faculty')
+
+        return res.status(200).json({
+            batch: batchDetails,
+            students: studentDetails,
+            faculties: facultyDetails
+        });
+    } catch (err) {
+        
+        return next({
+            status: 400,
+            message: err.message
+        })
+    }
+}
+
+
+exports.updateBatch = async (req, res, next) => {
+    try {
+        if(req.user.role!='admin') {
+            let error = new Error('Unauthorised');
+            error.status = 401;
+            throw error;
+        }
+        const {batch_id} = req.params;
+
+        const batch = await Batch.findById(batch_id);
+
+        const info = ['batch_code','start_year','end_year','schedule']
+
+        for(let k of info) {
+            if(req.body[k]) {
+                batch[k]=req.body[k]
+            }
+        }
+        
+        await batch.save();
+
+        return res.status(200).json(batch);
+
+    } catch(err) {
+
+        return next({
+            status: 400,
+            message: err.message
+        })
+    }
+}
+
+
