@@ -1,5 +1,16 @@
 const mongoose = require('mongoose');
 const ScheduleSchema = require('./schemas/schedule');
+// {class_id, batch, subject}
+const initialSchedule = 
+[
+    [null, null, null, null, null, null, null], 
+    [null, null, null, null, null, null, null], 
+    [null, null, null, null, null, null, null], 
+    [null, null, null, null, null, null, null], 
+    [null, null, null, null, null, null, null], 
+    [null, null, null, null, null, null, null], 
+    [null, null, null, null, null, null, null], 
+];
 
 const ClassroomSchema = new mongoose.Schema({
     batch: {
@@ -26,8 +37,13 @@ const ClassroomSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['active','inactive'],
-        default: 'active'
+        enum: ['active', 'inactive'],
+        default: 'active',  
+    },
+    // mon, tue, wed, thr, fri, sat, sun
+    schedule: {
+        type: mongoose.SchemaTypes.Array,
+        default: initialSchedule
     }
 }, {timestamps: true});
 

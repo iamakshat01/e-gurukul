@@ -103,7 +103,7 @@ exports.getClassroomInfoById = (req, res, next) => {
 
     // query database for classroom with given id
 
-    Classroom.findById(class_id).then(classroom => {
+    Classroom.findById(class_id).populate('batch').populate('faculty').then(classroom => {
 
         // check if the classroom with given id exists or not
 
