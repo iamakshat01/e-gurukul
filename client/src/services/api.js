@@ -6,6 +6,7 @@ const host = 'http://localhost:3000';
 // call this without token for logout
 export const setToken = token => {
   if (token) {
+    localStorage.setItem('jwtToken', token);
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   } else {
     delete axios.defaults.headers.common['Authorization'];
@@ -23,6 +24,7 @@ export const call = async (method, path, data) => {
 
 // check authentication
 export const isAuthenticated = () => {
+
     if (localStorage.jwtToken)
         return (decode(localStorage.jwtToken))
     else
