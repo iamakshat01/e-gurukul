@@ -4,7 +4,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const config = require('./bin/config');
-
+const cors = require('cors');
 const mongoose = require('mongoose');
 
 mongoose.connect(config.mongourl, {useUnifiedTopology: true, useNewUrlParser: true}).then(() => {
@@ -21,7 +21,7 @@ const authRouter = require('./routes/auth');
 const studentRouter = require('./routes/student');
 
 const app = express();
-
+app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
