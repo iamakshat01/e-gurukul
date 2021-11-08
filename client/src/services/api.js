@@ -31,5 +31,9 @@ export const isAuthenticated = () => {
       return false
 }
 
+export const removeToken = () => {
+  localStorage.removeItem('jwtToken');
+}
 
-export default { setToken, call, isAuthenticated };
+
+export default { setToken, call, isAuthenticated, removeToken };
