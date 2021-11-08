@@ -3,8 +3,10 @@ import { call, setToken } from '../services/api';
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
 import { makeStyles } from '@mui/styles';
-import { Avatar, Typography, Grid, TextField, Button } from '@mui/material';
+import { Avatar, Typography, Grid, TextField, Button, InputAdornment, autocompleteClasses } from '@mui/material';
 import LockIcon from '@mui/icons-material/Lock';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import Notification from './Notifications'
 
 const initialValues = {
@@ -13,11 +15,22 @@ const initialValues = {
 }
 
 const useStyles = makeStyles((theme) => ({
-
+    
+    root: {
+        height: '100vh',
+        width: '100%',
+    },
     container: {
+        position: 'absolute',
         marginTop: theme.spacing(8),
-        backgroundColor:'white',
-        border: '2px solid'
+        backgroundColor:'#F8F8FF',
+        border: '2px solid white',
+        boxShadow: '1px 2px 2px #f0f0f0',
+        left: '0', 
+        right: '0', 
+        marginLeft: 'auto', 
+        marginRight: 'auto', 
+        width: '100px',
     },
     formwrap: {
         marginTop: theme.spacing(8),
@@ -68,66 +81,89 @@ export default function Login(props) {
     const classes = useStyles();
 
     return (
-        <Container maxWidth="xs" className={classes.container}>
 
-            <CssBaseline />
+        <div className={classes.root}>
 
-            <div className={classes.formwrap}>
+            <Container maxWidth="xs" className={classes.container}>
 
-                <Avatar sx={{ bgcolor: 'red' }} variant="square">
-                     <LockIcon />
-                </Avatar>
+                <CssBaseline />
 
-                <Typography component="h1" variant="h5" mt={2}>
-                    Sign In
-                </Typography>
+                <div className={classes.formwrap}>
+
+                    <Avatar sx={{ bgcolor: 'red' }} >
+                        <LockIcon />
+                    </Avatar>
+
+                    <Typography component="h1" variant="h5" mt={2}>
+                        Sign In
+                    </Typography>
 
 
-                <form className={classes.form} onSubmit={handleSubmit}>
+                    <form className={classes.form} onSubmit={handleSubmit}>
 
 
-                            <TextField
-                                margin="normal"
-                                fullWidth
-                                variant="outlined"
-                                label="Username"
-                                name="username"
-                                value={values.username}
-                                onChange={handleInputChange}
-                            />
+                                <TextField
+                                    required
+                                    placeholder="Username"
+                                    margin="normal"
+                                    fullWidth
+                                    variant="outlined"
+                                    name="username"
+                                    value={values.username}
+                                    onChange={handleInputChange}
+                                    InputProps={{
+                                        startAdornment: (
+                                        <InputAdornment position="start">
+                                            <AccountCircleIcon/>
+                                        </InputAdornment>
+                                        ),
+                                    }}
+                                    InputLabelProps={{ required: false }}
+                                />
 
-                            <TextField
-                                margin="normal"
-                                fullWidth
-                                variant="outlined"
-                                label="Password"
-                                name="password"
-                                type="password"
-                                value={values.password}
-                                onChange={handleInputChange}
-                            />
-                            
-                            <Button
-                                variant="contained"
-                                size="large"
-                                margin="normal"
-                                color="primary"
-                                type="submit"
-                                text="Submit"
-                            >
-                                Submit
-                            </Button>
-                </form>
+                                <TextField
+                                    required
+                                    placeholder="Password"
+                                    margin="normal"
+                                    fullWidth
+                                    variant="outlined"
+                                    name="password"
+                                    type="password"
+                                    value={values.password}
+                                    onChange={handleInputChange}
+                                    InputProps={{
+                                        startAdornment: (
+                                        <InputAdornment position="start">
+                                            <VpnKeyIcon/>
+                                        </InputAdornment>
+                                        ),
+                                    }}
+                                    InputLabelProps={{ required: false }}
+                                />
+                                
+                                <Button
+                                    variant="contained"
+                                    size="large"
+                                    margin="normal"
+                                    color="primary"
+                                    type="submit"
+                                    text="Submit"
+                                    style={{marginTop: '20px'}}
+                                >
+                                    Submit
+                                </Button>
+                    </form>
 
-            </div>
+                </div>
+
+            </Container>
 
             <Notification
-                notify={notify}
-                setNotify={setNotify}
+                    notify={notify}
+                    setNotify={setNotify}
             />
-
-        </Container>
-
+            
+        </div>
     )
 
 }
