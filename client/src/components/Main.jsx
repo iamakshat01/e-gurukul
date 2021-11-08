@@ -1,36 +1,36 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
     Routes,
     Route
-  } from "react-router-dom";
+} from "react-router-dom";
 
-import {isAuthenticated} from '../services/api';
+import { isAuthenticated, removeToken } from '../services/api';
 import Home from './Home';
 import Navigation from './Navigation';
 import Login from './Login';
 import Dashboard from './Dashboard';
-import User_Info from './UserInfo';
+import Profile from './Profile';
 
-const ProtectedView = () => {
+const ProtectedView = ({ auth, handleLogOut }) => {
     return (
         <>
-            <Navigation />
+            <Navigation auth={auth} handleLogOut={handleLogOut} />
             <Routes>
-                <Route path = 'dashboard' element={<Dashboard />} />
-                <Route path = 'user_info' element={<User_Info />} />
-                <Route path = '*' element = {<Dashboard />} />
+                <Route path='dashboard' element={<Dashboard />} />
+                <Route path='profile' element={<Profile />} />
+                <Route path='*' element={<Dashboard />} />
             </Routes>
         </>
     );
 };
 
-const UnprotectedView = () => {
+const UnprotectedView = ({ auth, handleLogin }) => {
     return (
         <Routes>
-            <Route path = '/login' exact element = {<Login />} />
-            <Route path = '*' element = {
+            <Route path='/login' exact element={<Login handleLogin={handleLogin} />} />
+            <Route path='*' element={
                 <>
-                    <Navigation />
+                    <Navigation auth={auth} />
                     <Home />
                 </>
             } />
@@ -38,11 +38,23 @@ const UnprotectedView = () => {
     );
 };
 
-const Main = (props) => {
-    
-    const token = isAuthenticated();
+const Main = () => {
 
-    return ( token ? <ProtectedView /> : <UnprotectedView /> );
-}
+    let [auth, setAuth] = useState(false);
+
+    useEffect(() => {
+        setAuth(isAuthenticated());
+    }, []);
+
+    const handleLogIn = useCallback((auth) => {
+        setAuth(auth);
+    },[setAuth]);
+
+    const handleLogOut = useCallback(() => {
+        removeToken();
+        setAuth(false);
+    },[setAuth]);
+    return (auth ? <ProtectedView auth={auth}  handleLogOut={handleLogOut}/> : <UnprotectedView auth={auth} handleLogin={handleLogIn} />);
+};
 
 export default Main;
