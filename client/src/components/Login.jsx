@@ -45,9 +45,6 @@ const useStyles = makeStyles((theme) => ({
        alignItems: 'center',
        width: '100%'
     },
-    Button: {
-        fontSize: '200px'
-    }
 }));
 
 export default function Login(props) {
