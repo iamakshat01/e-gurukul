@@ -31,7 +31,6 @@ const useStyles = makeStyles((theme) => ({
         right: '0', 
         marginLeft: 'auto', 
         marginRight: 'auto', 
-        width: '100px',
     },
     formwrap: {
         marginTop: theme.spacing(8),
@@ -76,7 +75,7 @@ export default function Login(props) {
                 type: 'success'
             })
 
-            
+
             navigate.push("/");
 
             
