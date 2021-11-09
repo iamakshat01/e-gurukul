@@ -11,22 +11,12 @@ import Navigation from './Navigation/Navigation';
 import Login from './Login';
 import Dashboard from './Dashboard';
 import Profile from './Profile';
-<<<<<<< HEAD
-import CreateBatch from './CreateBatch';
-=======
 import PageNotFound from './PageNotFound';
->>>>>>> 72f801677aa401c5fb21d80d34416d6931216817
 
 const ProtectedView = ({ auth, handleLogOut }) => {
     return (
         <>
             <Routes>
-<<<<<<< HEAD
-                <Route path='dashboard' element={<Dashboard />} />
-                <Route path='profile' element={<Profile />} />
-                <Route path='/createbatch' element={<CreateBatch/>}/>
-                <Route path='*' element={<Dashboard />} />
-=======
                 <Route path='/' element={
                     <>
                         <Navigation auth={auth} handleLogOut={handleLogOut}/>
@@ -38,7 +28,6 @@ const ProtectedView = ({ auth, handleLogOut }) => {
                     <Route path='dashboard/*' element={<Dashboard auth={auth} />} />
                 </Route>
                 <Route path='*' element={<PageNotFound />} />
->>>>>>> 72f801677aa401c5fb21d80d34416d6931216817
             </Routes>
         </>
     );
