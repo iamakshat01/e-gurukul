@@ -5,7 +5,7 @@ import {
 import { ThemeProvider } from '@mui/material/styles';
 
 import theme from './theme';
-
+import './App.css';
 import Main from "./components/Main";
 
 

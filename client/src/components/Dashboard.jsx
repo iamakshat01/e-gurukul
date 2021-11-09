@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import FacultyDashboard from './Fac_Dashboard';
 
-const Dashboard = (props) => {
+const Dashboard = ({auth}) => {
     return (
-        <h1>Dashboard</h1>
+        (auth.role === 'faculty' ? <FacultyDashboard auth={auth} /> : null)
     );
 };
 
