@@ -10,6 +10,7 @@ import Navigation from './Navigation';
 import Login from './Login';
 import Dashboard from './Dashboard';
 import Profile from './Profile';
+import CreateBatch from './CreateBatch';
 
 const ProtectedView = ({ auth, handleLogOut }) => {
     return (
@@ -18,6 +19,7 @@ const ProtectedView = ({ auth, handleLogOut }) => {
             <Routes>
                 <Route path='dashboard' element={<Dashboard />} />
                 <Route path='profile' element={<Profile />} />
+                <Route path='/createbatch' element={<CreateBatch/>}/>
                 <Route path='*' element={<Dashboard />} />
             </Routes>
         </>

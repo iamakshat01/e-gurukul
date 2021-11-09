@@ -4,6 +4,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import ContactIcon from '@mui/icons-material/ContactPage';
 import { NavLink } from 'react-router-dom';
 import { Box } from '@mui/system';
+import AddBoxIcon from '@mui/icons-material/AddBox';
 
 const InitialItemsList = () => {
     return (
@@ -36,7 +37,14 @@ const AdminItemsList = () => {
         <>
             <Divider />
             <List>
-
+                <NavLink end to="/createbatch">
+                    <ListItem key='batch'>
+                        <ListItemIcon>
+                            <AddBoxIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Create Batch" />
+                    </ListItem>
+                </NavLink>
             </List>
         </>
     );
