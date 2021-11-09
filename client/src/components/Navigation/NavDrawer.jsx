@@ -1,28 +1,46 @@
 import React from 'react';
 import { Divider, ListItem, ListItemIcon, ListItemText, List } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import HomeIcon from '@mui/icons-material/Home';
 import ContactIcon from '@mui/icons-material/ContactPage';
 import { NavLink } from 'react-router-dom';
 import { Box } from '@mui/system';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 
+const useNavLinkStyles = makeStyles(theme => ({
+    navlink: {
+        textDecoration: 'none',
+        color: 'black',
+        "&.active, &:hover": {
+            color: theme.palette.primary.main + '!important',
+            "& .navIcon": {
+                color: theme.palette.primary.main
+            }
+        },
+        "& .navIcon": {
+            color: 'black'
+        }
+    }
+}));
+
 const InitialItemsList = () => {
+    const navLinkClasses = useNavLinkStyles();
     return (
         <>
             <Divider />
             <List>
-                <NavLink end to="/home">
+                <NavLink className={navLinkClasses.navlink} to="/home">
                     <ListItem key='home'>
                         <ListItemIcon>
-                            <HomeIcon />
+                            <HomeIcon className={'navIcon'}/>
                         </ListItemIcon>
                         <ListItemText primary="Home" />
                     </ListItem>
                 </NavLink>
-                <NavLink end to="/contact">
+                <NavLink className={navLinkClasses.navlink} end to="/contact">
                     <ListItem key='contact us'>
                         <ListItemIcon>
-                            <ContactIcon />
+                            <ContactIcon className='navIcon' />
                         </ListItemIcon>
                         <ListItemText primary="Contact Us" />
                     </ListItem>
@@ -33,6 +51,7 @@ const InitialItemsList = () => {
 };
 
 const AdminItemsList = () => {
+    const navLinkClasses = useNavLinkStyles();
     return (
         <>
             <Divider />
@@ -51,6 +70,7 @@ const AdminItemsList = () => {
 }
 
 const StudentItemsList = () => {
+    const navLinkClasses = useNavLinkStyles();
     return (
         <>
             <Divider />
@@ -62,14 +82,15 @@ const StudentItemsList = () => {
 };
 
 const FacultyItemsList = () => {
+    const navLinkClasses = useNavLinkStyles();
     return (
         <>
             <Divider />
             <List>
-                <NavLink end to="/dashboard">
-                    <ListItem key='dashboard'>
+                <NavLink className={navLinkClasses.navlink} end to="/dashboard">
+                    <ListItem  key='dashboard'>
                         <ListItemIcon>
-                            <HomeIcon />
+                            <HomeIcon className='navIcon' />
                         </ListItemIcon>
                         <ListItemText primary="Dashboard" />
                     </ListItem>
@@ -81,7 +102,7 @@ const FacultyItemsList = () => {
 
 const NavDrawer = ({ auth }) => {
     return (
-        <Box sx={{minWidth: '300px'}}>
+        <Box sx={{ minWidth: '270px' }}>
             <InitialItemsList />
             {(auth && auth.role === 'admin' ? <AdminItemsList /> : null)}
             {(auth && auth.role === 'student' ? <StudentItemsList /> : null)}

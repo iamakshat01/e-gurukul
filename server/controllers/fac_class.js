@@ -13,7 +13,7 @@ exports.getAllClassrooms = (req, res, next) => {
 
     let fac_id = req.fac._id;
     
-    Classroom.find({fac_id: fac_id}).then(classrooms => {
+    Classroom.find({fac_id: fac_id}).populate('batch').populate('faculty').then(classrooms => {
 
         // send response for the request
         
@@ -34,7 +34,7 @@ exports.getClassroomsByStatus = (req, res, next) => {
     let fac_id = req.fac._id;
     let status = req.params.status;
 
-    Classroom.find({fac_id: fac_id, status: status}).then(classrooms => {
+    Classroom.find({fac_id: fac_id, status: status}).populate('batch').populate('faculty').then(classrooms => {
 
         // send response for the request
         
