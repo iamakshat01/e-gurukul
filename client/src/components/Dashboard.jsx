@@ -3,18 +3,15 @@ import {call,setToken} from '../services/api';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import Circle from './Loading'
 import Grid from '@mui/material/Grid';
 import ClassIcon from '@mui/icons-material/Class';
-import TodayIcon from '@mui/icons-material/Today';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { DataGrid } from '@mui/x-data-grid';
 import { Container, Avatar, CardHeader } from '@material-ui/core';
-import { deepOrange, deepPurple } from '@mui/material/colors';
+import { deepOrange } from '@mui/material/colors';
 
 // taken from docs
 function TabPanel(props) {
@@ -59,18 +56,6 @@ function SingleCard(props) {
                         title={info.batch_code}
                         subheader={info.start_year + "-" + info.end_year}
                 />
-                    {/* <Grid container direction="row" alignItems="center">
-                        <Typography variant="h5">
-                        {info.batch_code}
-                        </Typography>
-                    </Grid>
-
-                    <Grid container direction="row" alignItems="center" mt={2}>
-                        <TodayIcon fontSize="small"/> 
-                        <Typography variant="p">
-                        {info.start_year} - {info.end_year}
-                        </Typography>
-                    </Grid> */}
 
                 <CardActions>
                     <Button>Manage Batch</Button>
@@ -175,10 +160,8 @@ function BatchesList(props) {
 
 export default function Dashboard(props) {
 
-    const [batches, setBatches] = useState([]);
-    const [faculties, setFaculty] = useState([]);
+    
     const [tabvalue, setValue] = React.useState(0);
-    const [isLoading, setLoading] = useState(true);
 
     const handleTabChange = (event, newValue) => {
         setValue(newValue);
