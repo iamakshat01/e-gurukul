@@ -13,7 +13,8 @@ import TodayIcon from '@mui/icons-material/Today';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { DataGrid } from '@mui/x-data-grid';
-
+import { Container, Avatar, CardHeader } from '@material-ui/core';
+import { deepOrange, deepPurple } from '@mui/material/colors';
 
 // taken from docs
 function TabPanel(props) {
@@ -29,7 +30,7 @@ function TabPanel(props) {
       >
         {value === index && (
           <Box sx={{ p: 3 }}>
-            <Typography>{children}</Typography>
+            {children}
           </Box>
         )}
       </div>
@@ -49,26 +50,127 @@ function SingleCard(props) {
     return (
         <Grid item xs={11} sm={3} xl={2}>
             <Card variant="outlined">
-                <CardContent>
-                    <Grid container direction="row" alignItems="center">
-                        <ClassIcon /> 
+                <CardHeader
+                        avatar = {
+                            <Avatar  sx={{ bgcolor: deepOrange[500] }} >
+                                <ClassIcon />
+                            </Avatar>
+                        }
+                        title={info.batch_code}
+                        subheader={info.start_year + "-" + info.end_year}
+                />
+                    {/* <Grid container direction="row" alignItems="center">
                         <Typography variant="h5">
                         {info.batch_code}
                         </Typography>
                     </Grid>
+
                     <Grid container direction="row" alignItems="center" mt={2}>
                         <TodayIcon fontSize="small"/> 
                         <Typography variant="p">
                         {info.start_year} - {info.end_year}
                         </Typography>
-                    </Grid>
-                </CardContent>
+                    </Grid> */}
+
                 <CardActions>
-                    <Button size="small">Manage Batch</Button>
+                    <Button>Manage Batch</Button>
                 </CardActions>
             </Card>
         </Grid>
     )
+}
+
+function FacultyList(props) {
+
+    const [faculties, setFaculty] = useState([]);
+    const [isLoading, setLoading] = useState(true);
+
+    useEffect(() => {
+        setToken(localStorage.getItem('jwtToken'));
+        call('get','admin/faculty').then((data) => {
+            setFaculty(data);
+            setLoading(false);
+        }).catch((err) => {
+            console.log(err);
+        })
+    }, [])
+
+    const columns = [
+        { field: 'faculty_code', headerName: 'Faculty Code', width: 160 },
+        {
+          field: 'first_name',
+          headerName: 'Name',
+          width: 130,
+          valueFormatter: (params) => params.row?.personal_info?.first_name
+        },
+        {
+          field: 'mobile',
+          headerName: 'Mobile',
+          width: 130,
+          valueFormatter: (params) => params.row?.personal_info?.mobile
+        },
+        {
+            field: 'email',
+            headerName: 'Email',
+            width: 130,
+            valueFormatter: (params) => params.row?.personal_info?.email
+        }
+    ];
+
+    if(isLoading) {
+        return (
+            <Circle/>
+        )
+    }
+    return (
+        <Grid container justifyContent="center" sx={{height: "65vh"}}>
+            <Grid item xs={12} sm={12} lg={5} xl={4}>
+                <DataGrid
+                    rows={faculties}
+                    columns={columns}
+                    pageSize={10}
+                    rowsPerPageOptions={[10]}
+                    getRowId={(row) => row._id}
+                />
+            </Grid>
+        </Grid>
+    )
+
+}
+
+function BatchesList(props) {
+
+    const [batches, setBatches] = useState('');
+    const [isLoading, setLoading] = useState(true);
+
+    useEffect(() => {
+        setToken(localStorage.getItem('jwtToken'));
+        call('get','admin/batch').then((data) => {
+            setBatches(data);
+            setLoading(false);
+        }).catch((err) => {
+            console.log(err);
+        })
+
+    }, [])
+
+    if(isLoading) {
+        return (
+            <Circle/>
+        )
+    }
+    else {
+        const cardList = batches.map( (batch) => <SingleCard info={batch} key={batch._id}/> )
+        return (
+            <Container maxWidth="lg" sx={{ flexGrow: 1 }}>
+                        <Grid container direction="row" spacing={1} m={2}>
+                            {cardList}
+                        </Grid>
+            </Container>
+            
+        )
+    }
+    
 }
 
 export default function Dashboard(props) {
@@ -81,91 +183,22 @@ export default function Dashboard(props) {
     const handleTabChange = (event, newValue) => {
         setValue(newValue);
     };
-
-    useEffect(() => {
-
-        try {
-            async function fetchData() {
-                setToken(localStorage.getItem('jwtToken'));
-                const batch = await call('get','admin/batch');
-                const faculty = await call('get','admin/faculty');
-                console.log(faculty);
-                setBatches(batch);
-                setFaculty(faculty);
-                setLoading(false);
-            }
-            
-            fetchData()
-        } 
-        catch(err) {
-            console.log(err);
-        }
-
-    }, [])
-
-    if(isLoading) {
-        return (
-            <Circle/>
-        )
-    }
-    else {
-
-        const cardList = batches.map( (batch) => <SingleCard info={batch} key={batch.batch_code}/> )
         
         
-        const columns = [
-            { field: 'faculty_code', headerName: 'Faculty Code', width: 160 },
-            {
-              field: 'first_name',
-              headerName: 'Name',
-              width: 130,
-              valueFormatter: (params) => params.row?.personal_info?.first_name
-            },
-            {
-              field: 'mobile',
-              headerName: 'Mobile',
-              width: 130,
-              valueFormatter: (params) => params.row?.personal_info?.mobile
-            },
-            {
-                field: 'email',
-                headerName: 'Email',
-                width: 130,
-                valueFormatter: (params) => params.row?.personal_info?.email
-            }
-        ];
-          
-        
-        return (
-            <Box sx={{ width: '100%',marginTop:'10px' }}>
-                <Box sx={{display: 'flex',justifyContent: 'center', borderBottom: 1, borderColor: 'divider' }}>
-                    <Tabs value={tabvalue} onChange={handleTabChange} aria-label="basic tabs example">
-                    <Tab label="Batches" {...a11yProps(0)} />
-                    <Tab label="Faculty" {...a11yProps(1)} />
-                    </Tabs>
-                </Box>
-                <TabPanel value={tabvalue} index={0}>
-                    <Box sx={{ flexGrow: 1 }}>
-                        <Grid container direction="row" spacing={1} m={2}>
-                            {cardList}
-                        </Grid>
-                    </Box>
-                </TabPanel>
-                <TabPanel value={tabvalue} index={1}>
-                    <Grid container justifyContent="center" sx={{height: "65vh"}}>
-                        <Grid item xs={12} sm={12} lg={5} xl={4}>
-                            <DataGrid
-                                rows={faculties}
-                                columns={columns}
-                                pageSize={10}
-                                rowsPerPageOptions={[10]}
-                                getRowId={(row) => row._id}
-                            />
-                        </Grid>
-                    </Grid>
-                </TabPanel>
+    return (
+        <Box sx={{ width: '100%',marginTop:'10px' }}>
+            <Box sx={{display: 'flex',justifyContent: 'center', borderBottom: 1, borderColor: 'divider' }}>
+                <Tabs value={tabvalue} onChange={handleTabChange} aria-label="basic tabs example">
+                <Tab label="Batches" {...a11yProps(0)} />
+                <Tab label="Faculty" {...a11yProps(1)} />
+                </Tabs>
             </Box>
-        )
-    }
-    
+            <TabPanel value={tabvalue} index={0}>
+                <BatchesList/>
+            </TabPanel>
+            <TabPanel value={tabvalue} index={1}>
+                <FacultyList/> 
+            </TabPanel>
+        </Box>
+    )
 }
