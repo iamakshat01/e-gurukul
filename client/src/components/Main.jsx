@@ -4,14 +4,14 @@ import {
     Route,
     Outlet
 } from "react-router-dom";
-
+import {useNavigate} from 'react-router';
 import { isAuthenticated, removeToken, setToken } from '../services/api';
 import Home from './Home';
 import Navigation from './Navigation/Navigation';
 import Login from './Login';
 import Dashboard from './Dashboard';
 import Profile from './Profile';
-import PageNotFound from './PageNotFound';
+import PageNotFound from './Utility/PageNotFound';
 
 const ProtectedView = ({ auth, handleLogOut }) => {
     return (
@@ -53,20 +53,22 @@ const UnprotectedView = ({ auth, handleLogin }) => {
 const Main = () => {
 
     let [auth, setAuth] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         setAuth(isAuthenticated());
         setToken(localStorage.getItem('jwtToken'));
     }, []);
 
-    const handleLogIn = useCallback((auth) => {
+    const handleLogIn = (auth) => {
         setAuth(auth);
-    }, [setAuth]);
+    };
 
-    const handleLogOut = useCallback(() => {
+    const handleLogOut = () => {
         removeToken();
         setAuth(false);
-    }, [setAuth]);
+        navigate('/')
+    };
     return (auth ? <ProtectedView auth={auth} handleLogOut={handleLogOut} /> : <UnprotectedView auth={auth} handleLogin={handleLogIn} />);
 };
 

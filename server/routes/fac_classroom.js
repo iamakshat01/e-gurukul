@@ -10,7 +10,7 @@ const router = express.Router();
 // for creating new classroom for the user
 
 router.route('/')
-.post(classroomController.createClassroom);
+.post(multer().none(), classroomController.createClassroom);
 
 // to fetch the list of all the user's classrooms
 

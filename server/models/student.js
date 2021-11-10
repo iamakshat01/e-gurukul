@@ -4,11 +4,13 @@ const InfoSchema = require('./schemas/info');
 const StudentSchema = new mongoose.Schema({
     user_id: {
         type: mongoose.SchemaTypes.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        required: true
     },
     roll_no: {
         type: String,
         required: true,
+        unique: true,
     },
     batch: {
         type: mongoose.SchemaTypes.ObjectId,
