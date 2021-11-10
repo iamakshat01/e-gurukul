@@ -24,7 +24,7 @@ const ProtectedView = ({ auth, handleLogOut }) => {
                     </>
                 }>
                     <Route path='home' element={<Home />} />
-                    <Route path='profile' element={<Profile />} />
+                    <Route path='profile' element={<Profile auth={auth}/>} />
                     <Route path='dashboard/*' element={<Dashboard auth={auth} />} />
                 </Route>
                 <Route path='*' element={<PageNotFound />} />
