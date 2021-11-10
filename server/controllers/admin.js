@@ -101,14 +101,14 @@ exports.getbatchDetails = async (req,res,next) => {
             batch: batch_id
         })
 
-        const facultyDetails = await Classroom.find({
-            batch: batch_id
-        }).select('faculty').populate('faculty')
+        // const facultyDetails = await Classroom.find({
+        //     batch: batch_id
+        // }).select('faculty').populate('faculty')
 
         return res.status(200).json({
             batch: batchDetails,
             students: studentDetails,
-            faculties: facultyDetails
+            // faculties: facultyDetails
         });
     } catch (err) {
         

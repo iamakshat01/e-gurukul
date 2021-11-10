@@ -58,6 +58,14 @@ const AdminItemsList = () => {
         <>
             <Divider />
             <List>
+                <NavLink key='dashboard' className={navLinkClasses.navlink} end to="/dashboard">
+                    <ListItem>
+                        <ListItemIcon>
+                            <DashboardIcon className='navIcon' />
+                        </ListItemIcon>
+                        <ListItemText primary="Dashboard" />
+                    </ListItem>
+                </NavLink>
                 <NavLink key='batch' className={navLinkClasses.navlink} to="/dashboard/createbatch">
                     <ListItem>
                         <ListItemIcon>
