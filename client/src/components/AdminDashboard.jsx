@@ -174,7 +174,19 @@ export default function Admin(props) {
         setValue(newValue);
     };
         
-        
+    const getVisibilityStyle = (hiddenCondition) => {
+        if (hiddenCondition) {
+            return {
+                visibility: 'hidden',
+                height: 0,
+            };
+        }
+        return {
+            visibility: 'visible',
+            height: 'inherit',
+        };
+    };
+
     return (
         <Box sx={{ width: '100%',marginTop:'10px' }}>
             <Box sx={{display: 'flex',justifyContent: 'center', borderBottom: 1, borderColor: 'divider' }}>
@@ -183,12 +195,21 @@ export default function Admin(props) {
                 <Tab label="Faculty" {...a11yProps(1)} />
                 </Tabs>
             </Box>
-            <TabPanel value={tabvalue} index={0}>
+
+            <div style={getVisibilityStyle(tabvalue !== 0)}>
+                <BatchesList />
+            </div>
+
+            <div style={getVisibilityStyle(tabvalue !== 1)}>
+                <FacultyList />
+            </div>
+
+            {/* <TabPanel value={tabvalue} index={0}>
                 <BatchesList/>
             </TabPanel>
             <TabPanel value={tabvalue} index={1}>
                 <FacultyList/> 
-            </TabPanel>
+            </TabPanel> */}
         </Box>
     )
 }
