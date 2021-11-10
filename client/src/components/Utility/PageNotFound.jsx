@@ -1,4 +1,4 @@
-import { Card, Container, Grid, Typography, Box, CircularProgress, Paper } from '@mui/material';
+import { Card, Container, Grid, Typography, Box, CircularProgress } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 

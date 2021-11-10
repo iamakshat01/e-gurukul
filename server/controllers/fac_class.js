@@ -13,7 +13,7 @@ exports.getAllClassrooms = (req, res, next) => {
 
     let fac_id = req.fac._id;
     
-    Classroom.find({fac_id: fac_id}).populate('batch').populate('faculty').then(classrooms => {
+    Classroom.find({faculty: fac_id}).populate('batch').populate('faculty').then(classrooms => {
 
         // send response for the request
         
@@ -34,7 +34,7 @@ exports.getClassroomsByStatus = (req, res, next) => {
     let fac_id = req.fac._id;
     let status = req.params.status;
 
-    Classroom.find({fac_id: fac_id, status: status}).populate('batch').populate('faculty').then(classrooms => {
+    Classroom.find({faculty: fac_id, status: status}).populate('batch').populate('faculty').then(classrooms => {
 
         // send response for the request
         
@@ -77,9 +77,8 @@ exports.createClassroom = (req, res, next) => {
             
             res.status(200).json({message: 'Classroom created successfully!'});
         }).catch(err => {
-            let error = new Error('Could not create classroom!')
-            error.status = 500;
-            throw error;
+            console.log(err);
+            throw err;
         });
     }
     catch(err){
@@ -163,6 +162,7 @@ exports.deleteClassroomById = (req, res, next) => {
         // check if the currently logged in user created the classroom
 
         else if(classroom.faculty.toString() !== fac_id.toString()){
+            console.log(classroom.faculty.toString(),fac_id)
             let error = new Error('Unauthorized access.');
             error.status = 401;
             throw error;

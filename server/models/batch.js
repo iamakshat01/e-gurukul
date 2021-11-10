@@ -5,6 +5,7 @@ const BatchSchema = new mongoose.Schema({
     batch_code: {
         type: String,
         required: true,
+        unique: true
     },
     start_year: {
         type: String,

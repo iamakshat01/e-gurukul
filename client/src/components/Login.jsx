@@ -7,7 +7,7 @@ import { Avatar, Typography, Grid, TextField, Button, InputAdornment, autocomple
 import LockIcon from '@mui/icons-material/Lock';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
-import Notification from './Notifications'
+import Notification from './Utility/Notifications'
 
 const initialValues = {
     'username':'',
