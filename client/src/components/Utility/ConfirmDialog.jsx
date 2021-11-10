@@ -20,7 +20,7 @@ const ConfirmDialog = ({ onConfirm, onCancel, message, open, type }) => {
             aria-describedby="alert-dialog-description"
         >
             <DialogTitle id="alert-dialog-title">
-                {`Are your sure you want to deactivate this classroom?`}
+                {message}
             </DialogTitle>
             <DialogActions>
                 <Button color='info' ref={confirm} onClick={onCancel}>Cancel</Button>

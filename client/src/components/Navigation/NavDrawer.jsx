@@ -3,6 +3,8 @@ import { Divider, ListItem, ListItemIcon, ListItemText, List } from '@mui/materi
 import { makeStyles } from '@mui/styles';
 import HomeIcon from '@mui/icons-material/Home';
 import ContactIcon from '@mui/icons-material/ContactPage';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import ManageIcon from '@mui/icons-material/DashboardCustomize';
 import { NavLink } from 'react-router-dom';
 import { Box } from '@mui/system';
 import AddBoxIcon from '@mui/icons-material/AddBox';
@@ -29,16 +31,16 @@ const InitialItemsList = () => {
         <>
             <Divider />
             <List>
-                <NavLink className={navLinkClasses.navlink} to="/home">
-                    <ListItem key='home'>
+                <NavLink key='home' className={navLinkClasses.navlink} to="/home">
+                    <ListItem >
                         <ListItemIcon>
-                            <HomeIcon className={'navIcon'}/>
+                            <HomeIcon className='navIcon' />
                         </ListItemIcon>
                         <ListItemText primary="Home" />
                     </ListItem>
                 </NavLink>
-                <NavLink className={navLinkClasses.navlink} end to="/contact">
-                    <ListItem key='contact us'>
+                <NavLink key='contact_us' className={navLinkClasses.navlink} end to="/contact">
+                    <ListItem>
                         <ListItemIcon>
                             <ContactIcon className='navIcon' />
                         </ListItemIcon>
@@ -56,10 +58,10 @@ const AdminItemsList = () => {
         <>
             <Divider />
             <List>
-                <NavLink className={navLinkClasses.navlink} to="/dashboard/createbatch">
-                    <ListItem key='batch'>
+                <NavLink key='batch' className={navLinkClasses.navlink} to="/dashboard/createbatch">
+                    <ListItem>
                         <ListItemIcon>
-                            <AddBoxIcon />
+                            <AddBoxIcon className='navIcon' />
                         </ListItemIcon>
                         <ListItemText primary="Create Batch" />
                     </ListItem>
@@ -87,12 +89,20 @@ const FacultyItemsList = () => {
         <>
             <Divider />
             <List>
-                <NavLink className={navLinkClasses.navlink} end to="/dashboard">
-                    <ListItem  key='dashboard'>
+                <NavLink key='dashboard' className={navLinkClasses.navlink} end to="/dashboard">
+                    <ListItem >
                         <ListItemIcon>
-                            <HomeIcon className='navIcon' />
+                            <DashboardIcon className='navIcon' />
                         </ListItemIcon>
                         <ListItemText primary="Dashboard" />
+                    </ListItem>
+                </NavLink>
+                <NavLink key='manage_classrooms' className={navLinkClasses.navlink} end to="/dashboard/classrooms/manage">
+                    <ListItem >
+                        <ListItemIcon>
+                            <ManageIcon className='navIcon' />
+                        </ListItemIcon>
+                        <ListItemText primary="Manage Classrooms" />
                     </ListItem>
                 </NavLink>
             </List>
