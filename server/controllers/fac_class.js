@@ -114,7 +114,7 @@ exports.getClassroomInfoById = (req, res, next) => {
 
         // check if the currently logged in user created the classroom
 
-        else if(classroom.faculty.toString() !== fac_id.toString()){
+        else if(classroom.faculty._id.toString() !== fac_id.toString()){
             let error = new Error('Unauthorized access.');
             error.status = 401;
             throw error;
@@ -171,8 +171,7 @@ exports.deleteClassroomById = (req, res, next) => {
         // if above checks pass then deactivate the classroom
 
         else{
-            classroom.status = 'inactive';
-            classroom.save().then(result => {
+            Classroom.findByIdAndDelete(class_id).then(result => {
 
                 // send response for the request
         
@@ -184,6 +183,112 @@ exports.deleteClassroomById = (req, res, next) => {
     }).catch(err => {
         if(!err.status){
             let error = new Error('Could not remove the classroom!');
+            error.status = 500;
+            return next(error);
+        }
+        next(err);
+    });
+};
+
+// deactivate a classroom created by the user
+
+exports.deactivateClassroomById = (req, res, next) => {
+    
+    // extract relevant data from the request object
+
+    let fac_id = req.fac._id;
+    let class_id = req.params.class_id;
+
+    // query the database for the classroom with given id
+
+    Classroom.findById(class_id).then(classroom => {
+
+        // check if the classroom with given id exists or not
+
+        if(!classroom){
+            let error = new Error('Classroom does not exist.');
+            error.status = 404;
+            throw error;
+        }
+
+        // check if the currently logged in user created the classroom
+
+        else if(classroom.faculty.toString() !== fac_id.toString()){
+            console.log(classroom.faculty.toString(),fac_id)
+            let error = new Error('Unauthorized access.');
+            error.status = 401;
+            throw error;
+        }
+
+        // if above checks pass then deactivate the classroom
+
+        else{
+            classroom.status = 'inactive';
+            classroom.save().then(result => {
+
+                // send response for the request
+        
+                res.status(200).json({message: 'Classroom deactivated successfully!'});
+            }).catch(err => {
+                throw err;
+            });
+        }
+    }).catch(err => {
+        if(!err.status){
+            let error = new Error('Could not deactivate the classroom!');
+            error.status = 500;
+            return next(error);
+        }
+        next(err);
+    });
+};
+
+// activate a classroom created by the user
+
+exports.activateClassroomById = (req, res, next) => {
+    
+    // extract relevant data from the request object
+
+    let fac_id = req.fac._id;
+    let class_id = req.params.class_id;
+
+    // query the database for the classroom with given id
+
+    Classroom.findById(class_id).then(classroom => {
+
+        // check if the classroom with given id exists or not
+
+        if(!classroom){
+            let error = new Error('Classroom does not exist.');
+            error.status = 404;
+            throw error;
+        }
+
+        // check if the currently logged in user created the classroom
+
+        else if(classroom.faculty.toString() !== fac_id.toString()){
+            console.log(classroom.faculty.toString(),fac_id)
+            let error = new Error('Unauthorized access.');
+            error.status = 401;
+            throw error;
+        }
+
+        // if above checks pass then activate the classroom
+
+        else{
+            classroom.status = 'active';
+            classroom.save().then(result => {
+
+                // send response for the request
+        
+                res.status(200).json({message: 'Classroom activated successfully!'});
+            }).catch(err => {
+                throw err;
+            });
+        }
+    }).catch(err => {
+        if(!err.status){
+            let error = new Error('Could not activate the classroom!');
             error.status = 500;
             return next(error);
         }

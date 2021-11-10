@@ -29,6 +29,16 @@ get(classroomController.getClassroomInfoById)
 .delete(classroomController.deleteClassroomById)
 .put(multer().none(), classroomController.updateClassroomInfoById);
 
+// for activating user's classroom
+
+router.route('/:class_id/activate').
+post(classroomController.activateClassroomById);
+
+// for deactivating user's classroom
+
+router.route('/:class_id/deactivate').
+post(classroomController.deactivateClassroomById);
+
 // for creating or fetching posts of of the user's classroom
 
 router.route('/:class_id/posts').
