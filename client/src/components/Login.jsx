@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { call, setToken } from '../services/api';
+import { call, isAuthenticated, setToken } from '../services/api';
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
 import { makeStyles } from '@mui/styles';
@@ -7,6 +7,7 @@ import { Avatar, Typography, Grid, TextField, Button, InputAdornment, autocomple
 import LockIcon from '@mui/icons-material/Lock';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
+import { useNavigate } from 'react-router';
 import Notification from './Utility/Notifications'
 
 const initialValues = {
@@ -30,7 +31,6 @@ const useStyles = makeStyles((theme) => ({
         right: '0', 
         marginLeft: 'auto', 
         marginRight: 'auto', 
-        width: '100px',
     },
     formwrap: {
         marginTop: theme.spacing(8),
@@ -52,6 +52,8 @@ export default function Login(props) {
     const [values,setValues] = useState(initialValues);
     const [notify, setNotify] = useState({ isOpen:false, message:'', type:''});
 
+    const navigate = useNavigate();
+
     const handleInputChange = e => {
         const { name, value } = e.target
         setValues({...values,[name]: value})
@@ -63,11 +65,20 @@ export default function Login(props) {
         call('post','auth/login',values).then((data) => {
             setValues(initialValues);
             setToken(data.token);
+            
+            const authenticated = isAuthenticated();
+            props.handleLogin(authenticated);
+
             setNotify({
                 isOpen: true,
                 message: 'Signed In Successfully',
                 type: 'success'
             })
+
+
+            navigate.push('/');
+
+            
         }).catch((err)=>{   
             console.log(err);
             setNotify({
@@ -90,7 +101,7 @@ export default function Login(props) {
 
                 <div className={classes.formwrap}>
 
-                    <Avatar sx={{ bgcolor: 'red' }} >
+                    <Avatar style={{color: 'white', backgroundColor: '#e91e63'}} >
                         <LockIcon />
                     </Avatar>
 
