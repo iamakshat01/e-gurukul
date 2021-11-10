@@ -3,6 +3,9 @@ import {Container,TextField,Grid,InputAdornment,Typography, Button, Card} from '
 import ClassIcon from '@mui/icons-material/Class';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import { makeStyles } from '@mui/styles';
+import Notification from './Utility/Notifications';
+import { call } from '../services/api';
+
 const initialValues = {
     'start_year':'',
     'end_year':'',
@@ -21,15 +24,33 @@ const useStyles = makeStyles((theme) => ({
 export default function CreateBatch(props) {
     
     const [values,setValues] = useState(initialValues);
-    
+    const [notify, setNotify] = useState({ isOpen:false, message:'', type:''});
+
     const handleInputChange = e => {
         const { name, value } = e.target
         setValues({...values,[name]: value})
     }
 
     const handleSubmit = e => {
+
         e.preventDefault();
-        alert(values);
+        call('post','admin/batch/register',values).then((data) => {
+            setValues(initialValues);
+
+            setNotify({
+                isOpen: true,
+                message: 'Batch Created Successfully',
+                type: 'success'
+            })
+            
+        }).catch((err)=>{   
+            console.log(err);
+            setNotify({
+                isOpen: true,
+                message: 'Batch Creation Failed',
+                type: 'error'
+            })
+        })
     }
 
     const classes = useStyles();
@@ -38,12 +59,16 @@ export default function CreateBatch(props) {
         <Container maxWidth="xl" >
             
             <Grid container alignItems="center" justifyContent="center" mt={4} className={classes.root} >
-                
+
                 <Card variant="outlined" >
                     
+                    <Notification
+                        notify={notify}
+                        setNotify={setNotify}
+                    />
+
                     <form className={classes.form} onSubmit={handleSubmit} >
 
-                        
                         <Typography align="center" component="h1" variant="h5" mt={2}>
                         Create Batch
                         </Typography>
