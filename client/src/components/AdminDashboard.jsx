@@ -41,7 +41,7 @@ function a11yProps(index) {
 function SingleCard({info}) {
     const navigate = useNavigate();
     return (
-        <Grid item xs={11} sm={3} xl={2}>
+        <Grid item xs={11} sm={6} lg={3} xl={3}>
             <Card variant="outlined">
                 <CardHeader
                         avatar={
