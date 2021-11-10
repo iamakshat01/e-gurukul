@@ -76,7 +76,7 @@ export default function Login(props) {
             })
 
 
-            navigate.push("/");
+            navigate.push('/');
 
             
         }).catch((err)=>{   
@@ -101,7 +101,7 @@ export default function Login(props) {
 
                 <div className={classes.formwrap}>
 
-                    <Avatar sx={{ bgcolor: 'red' }} >
+                    <Avatar style={{color: 'white', backgroundColor: '#e91e63'}} >
                         <LockIcon />
                     </Avatar>
 

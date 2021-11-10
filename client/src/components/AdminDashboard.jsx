@@ -12,6 +12,8 @@ import Tab from '@mui/material/Tab';
 import { DataGrid } from '@mui/x-data-grid';
 import { Container, Avatar, CardHeader } from '@material-ui/core';
 import { deepOrange } from '@mui/material/colors';
+import pickColor from '../services/colorPicker';
+import { makeStyles } from '@mui/styles';
 
 // taken from docs
 function TabPanel(props) {
@@ -42,23 +44,24 @@ function a11yProps(index) {
 }
 
 
-function SingleCard(props) {
-    const {info}=props;
+function SingleCard({info}) {
     return (
         <Grid item xs={11} sm={3} xl={2}>
             <Card variant="outlined">
                 <CardHeader
-                        avatar = {
-                            <Avatar  sx={{ bgcolor: deepOrange[500] }} >
-                                <ClassIcon />
+                        avatar={
+                            <Avatar sx={{bgcolor: 'primary.main' }} >
+                                <ClassIcon/>
                             </Avatar>
                         }
                         title={info.batch_code}
                         subheader={info.start_year + "-" + info.end_year}
+                        titleTypographyProps={{ variant: 'h6', fontWeight: 'bold' }}
+                        subheaderTypographyProps={{ variant: 'p' }}
                 />
 
                 <CardActions>
-                    <Button>Manage Batch</Button>
+                    <Button variant="text" color="primary" >Manage Batch</Button>
                 </CardActions>
             </Card>
         </Grid>
@@ -145,12 +148,12 @@ function BatchesList(props) {
         )
     }
     else {
-        const cardList = batches.map( (batch) => <SingleCard info={batch} key={batch._id}/> )
+        const cardList = batches.map( batch => <SingleCard info={batch} key={batch._id}/> )
         return (
             <Container maxWidth="lg" sx={{ flexGrow: 1 }}>
-                        <Grid container direction="row" spacing={1} m={2}>
-                            {cardList}
-                        </Grid>
+                <Grid container direction="row" spacing={1} m={2}>
+                    {cardList}
+                </Grid>
             </Container>
             
         )
@@ -158,10 +161,10 @@ function BatchesList(props) {
     
 }
 
-export default function AdminDashboard(props) {
+export default function Admin(props) {
 
     
-    const [tabvalue, setValue] = React.useState(0);
+    const [tabvalue, setValue] = useState(0);
 
     const handleTabChange = (event, newValue) => {
         setValue(newValue);
