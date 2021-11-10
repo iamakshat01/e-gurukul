@@ -76,7 +76,7 @@ export default function Login(props) {
             })
 
 
-            navigate.push('/');
+            navigate('/');
 
             
         }).catch((err)=>{   
