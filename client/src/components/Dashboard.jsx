@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import FacultyDashboard from './Fac_Dashboard';
+import FacultyDashboard from './FacultyDashboard';
 
 const Dashboard = ({auth}) => {
     return (
