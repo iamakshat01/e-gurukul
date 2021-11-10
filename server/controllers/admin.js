@@ -239,3 +239,49 @@ exports.deleteUser = async (req,res,next) => {
     }
 }
 
+exports.getBatches = async (req,res,next) => {
+    try {
+
+        if(req.user.role!='admin') {
+            let error = new Error('Unauthorised');
+            error.status = 401;
+            throw error;
+        }
+
+        const batches = await Batch.find().select('-shedule');
+
+        return res.status(200).json(batches);
+
+    } catch (err) {
+
+        return next({
+            status: 400,
+            message: err.message,
+        });
+    }
+}
+
+exports.getFaculty = async (req,res,next) => {
+    try {
+
+        if(req.user.role!='admin') {
+            let error = new Error('Unauthorised');
+            error.status = 401;
+            throw error;
+        }
+
+        const users = await Faculty.find().select('-shedule');
+
+        return res.status(200).json(users);
+
+    } catch (err) {
+
+        return next({
+            status: 400,
+            message: err.message,
+        });
+    }
+}
+
+
+
