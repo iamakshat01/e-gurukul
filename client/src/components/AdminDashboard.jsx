@@ -10,7 +10,7 @@ import ClassIcon from '@mui/icons-material/Class';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { DataGrid } from '@mui/x-data-grid';
-import { Container, Avatar, CardHeader } from '@material-ui/core';
+import { Container, Avatar, CardHeader } from '@mui/material';
 import { deepOrange } from '@mui/material/colors';
 import pickColor from '../services/colorPicker';
 import { makeStyles } from '@mui/styles';
