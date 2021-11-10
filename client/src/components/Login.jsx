@@ -8,7 +8,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import { useNavigate } from 'react-router';
-import Notification from './Utility/Notifications'
+import Notification from './Utility/Notifications';
 
 const initialValues = {
     'username':'',
@@ -48,7 +48,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Login(props) {
-
     const [values,setValues] = useState(initialValues);
     const [notify, setNotify] = useState({ isOpen:false, message:'', type:''});
 

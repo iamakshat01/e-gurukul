@@ -5,33 +5,70 @@ import Notification from './Utility/Notifications';
 import ClassroomsList from './ClassroomsList';
 import ConfirmDialog from './Utility/ConfirmDialog';
 
-const Classrooms = ({ auth, status }) => {
+const initialAction = { action: '', type: '', message: '', id: '' }
+
+const Classrooms = ({ auth, status, edit_access }) => {
     const [classrooms, setClassrooms] = useState({ loading: false, data: [] });
     const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
-    const [current, setCurrent] = useState(null);
-    const edit_access = auth.role === 'faculty';
-    const onDelete = (classroom) => {
-        setCurrent(classroom);
+    const [action, setAction] = useState(initialAction);
+
+    const onAction = ({action, type, id, message}) => {
+        setAction({action, type, id, message});
     }
 
     const handleClose = () => {
-        setCurrent(null);
+        setAction({ ...initialAction });
     }
 
-    const handleDelete = useCallback(() => {
-        call('delete', `faculty/classrooms/${current._id}`).then(res => {
-            setNotify({ isOpen: true, message: 'Classroom deleted successfully', type: 'success' });
-            setCurrent(null);
-            fetchClassrooms();
-        }).catch(err => {
-            setCurrent(null);
-            if (err.response) {
-                setNotify({ isOpen: true, message: err.response.data.message, type: 'error' });
-            }
-            else {
-                setNotify({ isOpen: true, message: 'Could not delete the classroom!', type: 'error' });
-            }
-        })
+    const handleAction = useCallback(() => {
+        switch (action.action) {
+            case 'delete':
+                call('delete', `faculty/classrooms/${action.id}`).then(res => {
+                    setNotify({ isOpen: true, message: 'Classroom deleted successfully', type: 'success' });
+                    handleClose();
+                    fetchClassrooms();
+                }).catch(err => {
+                    handleClose();
+                    if (err.response) {
+                        setNotify({ isOpen: true, message: err.response.data.error, type: 'error' });
+                    }
+                    else {
+                        setNotify({ isOpen: true, message: 'Could not delete the classroom!', type: 'error' });
+                    }
+                });
+                break;
+            case 'deactivate':
+                call('post', `faculty/classrooms/${action.id}/deactivate`).then(res => {
+                    setNotify({ isOpen: true, message: 'Classroom deactivated successfully', type: 'success' });
+                    handleClose();
+                    fetchClassrooms();
+                }).catch(err => {
+                    handleClose();
+                    if (err.response) {
+                        setNotify({ isOpen: true, message: err.response.data.error, type: 'error' });
+                    }
+                    else {
+                        setNotify({ isOpen: true, message: 'Could not deactivate the classroom!', type: 'error' });
+                    }
+                });
+                break;
+            case 'activate':
+                call('post', `faculty/classrooms/${action.id}/activate`).then(res => {
+                    setNotify({ isOpen: true, message: 'Classroom activated successfully', type: 'success' });
+                    handleClose();
+                    fetchClassrooms();
+                }).catch(err => {
+                    handleClose();
+                    if (err.response) {
+                        setNotify({ isOpen: true, message: err.response.data.error, type: 'error' });
+                    }
+                    else {
+                        setNotify({ isOpen: true, message: 'Could not activate the classroom!', type: 'error' });
+                    }
+                });
+                break;
+            default:
+        }
     });
 
     const fetchClassrooms = useCallback(() => {
@@ -46,30 +83,29 @@ const Classrooms = ({ auth, status }) => {
         }).catch(err => {
             setClassrooms({ loading: false, data: [] })
             if (err.response) {
-                setNotify({ isOpen: true, message: err.response.data.message, type: 'error' });
+                setNotify({ isOpen: true, message: err.response.data.error, type: 'error' });
             }
             else {
                 setNotify({ isOpen: true, message: 'Could not load classrooms!', type: 'error' });
             }
         });
     });
+
     useEffect(() => {
         fetchClassrooms();
     }, []);
 
     return (
         <Container maxWidth='lg' sx={{ padding: 2 }}>
-            <Grid container>
-                <Grid item xs={12} >
-                    <Typography align='center' color='gray' fontWeight='bold' variant='h4' component='h1'>
-                        Classrooms
-                    </Typography>
-                    <Divider />
-                </Grid>
-            </Grid>
-            <ClassroomsList classrooms={classrooms} onDelete={onDelete} edit_access={true} />
+            <ClassroomsList classrooms={classrooms} onAction={onAction} edit_access={edit_access} />
             <Notification notify={notify} setNotify={setNotify} />
-            {edit_access ? (<ConfirmDialog onConfirm={handleDelete} onCancel={handleClose} open={Boolean(current)} />) : null}
+            {edit_access ? (<ConfirmDialog
+                onConfirm={handleAction}
+                onCancel={handleClose}
+                message={action.message}
+                type={action.type}
+                open={Boolean(action.id)}
+            />) : null}
         </Container>
     );
 };

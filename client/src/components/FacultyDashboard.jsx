@@ -7,7 +7,7 @@ const Fac_Dashboard = ({ auth }) => {
     return (
         <Routes>
             <Route path='/' element={<Outlet/>}>
-                <Route index element={<Classrooms auth={auth} status='active' />} />
+                <Route index element={<Classrooms auth={auth} status='active' edit_access={false}/>} />
                 <Route path='/classrooms/:classroom_id' element={<Classrooms auth={auth} />} />
             </Route>
         </Routes>

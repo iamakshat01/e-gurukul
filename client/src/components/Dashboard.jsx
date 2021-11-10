@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import AdminDashboard from './Admin_Dash';
-import FacultyDashboard from './Fac_Dashboard';
+import FacultyDashboard from './FacultyDashboard';
 
 
 const Dashboard = ({auth}) => {
