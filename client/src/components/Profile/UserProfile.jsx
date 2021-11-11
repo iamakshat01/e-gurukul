@@ -160,7 +160,7 @@ const UserProfile = ({ auth }) => (
     </CardContent>
     <Divider />
     <CardActions>
-      <ChangePasswordModal auth={auth}/>
+      <ChangePasswordModal auth={auth} />
     </CardActions>
   </Card>
 );

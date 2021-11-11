@@ -7,12 +7,13 @@ import Notification from "../Utility/Notifications";
 import validator from "validator";
 
 // { id, username, role } auth have this here id is user id.
+const defaultPersonalInfo = {
+  dob: new Date(),
+};
 
 const Profile = ({ auth }) => {
   const [userInfo, setUserInfo] = useState({
-    personal_info: {
-      dob: new Date(),
-    },
+    personal_info: defaultPersonalInfo,
   });
 
   const [notify, setNotify] = useState({
@@ -25,6 +26,12 @@ const Profile = ({ auth }) => {
     call("get", "users/info")
       .then((res) => {
         // console.log(res);
+        if (typeof res === "string") {
+          res = {};
+        }
+        if (!res.personal_info) {
+          res.personal_info = defaultPersonalInfo;
+        }
         setUserInfo(res);
       })
       .catch((err) => {
@@ -101,7 +108,7 @@ const Profile = ({ auth }) => {
         </Typography>
         <Grid container spacing={3}>
           <Grid item lg={4} md={6} xs={12}>
-            <UserProfile auth={auth}/>
+            <UserProfile auth={auth} />
           </Grid>
           <Grid item lg={8} md={6} xs={12}>
             <UserInfoCardDisplay

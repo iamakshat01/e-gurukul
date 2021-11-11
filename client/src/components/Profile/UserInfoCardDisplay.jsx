@@ -5,7 +5,7 @@ import {
   Divider,
   Grid,
   TextField,
-} from "@material-ui/core";
+} from "@mui/material";
 import { Card } from "@mui/material";
 import { Box } from "@mui/system";
 
