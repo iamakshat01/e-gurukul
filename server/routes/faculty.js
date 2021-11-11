@@ -16,4 +16,8 @@ router.use('/',auth.auth, facultyController.verifyFacultyAccount);
 
 router.use('/classrooms', classroomRouter);
 
+// for findind currently active batches
+
+router.use('/activeBatches', facultyController.findActiveBatches)
+
 module.exports = router;

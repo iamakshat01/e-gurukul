@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const student = require("../controllers/student");
-const {auth} = require("../utility/auth");
+const { auth } = require("../utility/auth");
 
 // add auth middleware
 

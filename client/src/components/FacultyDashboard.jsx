@@ -1,17 +1,14 @@
-import React from 'react';
-import { Route, Routes, Outlet } from 'react-router-dom';
+import { Container} from '@mui/material';
+import React  from 'react';
 import Classrooms from './Classrooms';
 
-const Fac_Dashboard = ({ auth }) => {
-    console.log('Dashboard');
+
+const FacultyDashboard = ({ auth }) => {
     return (
-        <Routes>
-            <Route path='/' element={<Outlet/>}>
-                <Route index element={<Classrooms auth={auth} status='active' edit_access={false}/>} />
-                <Route path='/classrooms/:classroom_id' element={<Classrooms auth={auth} />} />
-            </Route>
-        </Routes>
+        <Container maxWidth='lg' sx={{ padding: 2 }}>
+            <Classrooms auth={auth} status={'active'} edit_access={false} />
+        </Container>
     );
 };
 
-export default Fac_Dashboard;
+export default FacultyDashboard;

@@ -381,8 +381,8 @@ exports.getClassroomPosts = (req, res, next) => {
     let class_id = req.params.class_id;
 
     // query the database for the classroom with given id
-    
-    Classroom.findById(class_id).then(classroom => {
+    var currentClassroom;
+    Classroom.findById(class_id).populate('batch').populate('faculty').then(classroom => {
 
         // check if the classroom with given id exists or not
 
@@ -394,7 +394,7 @@ exports.getClassroomPosts = (req, res, next) => {
 
         // check if the currently logged in user created the classroom
 
-        else if(classroom.faculty.toString() !== fac_id.toString()){
+        else if(classroom.faculty._id.toString() !== fac_id.toString()){
             let error = new Error('Unauthorized access.');
             error.status = 401;
             throw error;
@@ -403,7 +403,8 @@ exports.getClassroomPosts = (req, res, next) => {
         // if above checks pass then fetch the posts
 
         else{
-
+            
+            currentClassroom = classroom;
             // query database for the posts
 
             return Post.aggregate([
@@ -421,7 +422,8 @@ exports.getClassroomPosts = (req, res, next) => {
                 },
                 {
                     $project: {
-                        comments: 0
+                        comments: 0,
+                        classroom: 0
                     }
                 }
             ]);
@@ -430,8 +432,9 @@ exports.getClassroomPosts = (req, res, next) => {
 
         // send response for the request
 
-        res.status(200).json(posts);
+        res.status(200).json({classroom: currentClassroom, posts: posts});
     }).catch(err => {
+        console.log(err);
         if(!err.status){
             let error = new Error('Could not fetch the posts!');
             error.status = 500;
