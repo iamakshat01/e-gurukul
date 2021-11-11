@@ -72,13 +72,13 @@ const Classrooms = ({ auth, status, edit_access }) => {
     });
 
     const fetchClassrooms = useCallback(() => {
-        let path = `faculty/classrooms/list/${status}`;
+        let st = (status === 'any' ? '' : status);
+        let path = `faculty/classrooms/list/${st}`;
         if (auth.role === 'student') {
-            path = `student/classrooms/list/${status}`
+            path = `student/classrooms/list/${st}`
         }
         setClassrooms({ data: [], loading: true });
         call('get', path).then(res => {
-            console.log(res);
             setClassrooms({ loading: false, data: res });
         }).catch(err => {
             setClassrooms({ loading: false, data: [] })
@@ -93,7 +93,7 @@ const Classrooms = ({ auth, status, edit_access }) => {
 
     useEffect(() => {
         fetchClassrooms();
-    }, []);
+    }, [status]);
 
     return (
         <Container maxWidth='lg' sx={{ padding: 2 }}>

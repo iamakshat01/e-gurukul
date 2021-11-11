@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import AdminDashboard from './Admin_Dash';
-import FacultyDashboard from './FacultyDashboard';
+import Faculty_Routes from './Faculty_Routes';
 
 
 const Dashboard = ({auth}) => {
 
     if(auth.role==='faculty'){
-        return <FacultyDashboard auth={auth}/>
+        return <Faculty_Routes auth={auth}/>
     }
     else if(auth.role==='admin'){
         return  <AdminDashboard auth={auth} />

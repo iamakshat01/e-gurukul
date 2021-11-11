@@ -1,19 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import {call,setToken} from '../services/api';
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import Button from '@mui/material/Button';
-import Circle from './Loading'
-import Grid from '@mui/material/Grid';
+import {Box,Card,CardActions,Button,Tabs,Tab, Grid,Container, Avatar, CardHeader,IconButton} from '@mui/material';
 import ClassIcon from '@mui/icons-material/Class';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
 import { DataGrid } from '@mui/x-data-grid';
-import { Container, Avatar, CardHeader } from '@mui/material';
-import { deepOrange } from '@mui/material/colors';
 import pickColor from '../services/colorPicker';
-import { makeStyles } from '@mui/styles';
+import DeleteIcon from '@mui/icons-material/Delete';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import Circle from './Loading';
+import { useNavigate } from 'react-router';
+import {call,setToken} from '../services/api';
 
 // taken from docs
 function TabPanel(props) {
@@ -45,12 +39,13 @@ function a11yProps(index) {
 
 
 function SingleCard({info}) {
+    const navigate = useNavigate();
     return (
-        <Grid item xs={11} sm={3} xl={2}>
+        <Grid item xs={11} sm={6} lg={3} xl={3}>
             <Card variant="outlined">
                 <CardHeader
                         avatar={
-                            <Avatar sx={{bgcolor: 'primary.main' }} >
+                            <Avatar sx={{bgcolor: pickColor(info.batch_code) }} >
                                 <ClassIcon/>
                             </Avatar>
                         }
@@ -60,8 +55,17 @@ function SingleCard({info}) {
                         subheaderTypographyProps={{ variant: 'p' }}
                 />
 
-                <CardActions>
-                    <Button variant="text" color="primary" >Manage Batch</Button>
+                <CardActions sx={{ paddingX: 2 }} disableSpacing>
+                    <IconButton>
+                        <DeleteIcon fontSize="small"/>
+                    </IconButton>
+
+                    <IconButton
+                        sx={{ marginLeft: 'auto' }}
+                        onClick={()=>navigate('/dashboard/batch/'+info._id)}
+                    >
+                        <NavigateNextIcon />
+                    </IconButton>
                 </CardActions>
             </Card>
         </Grid>
@@ -170,7 +174,19 @@ export default function Admin(props) {
         setValue(newValue);
     };
         
-        
+    const getVisibilityStyle = (hiddenCondition) => {
+        if (hiddenCondition) {
+            return {
+                visibility: 'hidden',
+                height: 0,
+            };
+        }
+        return {
+            visibility: 'visible',
+            height: 'inherit',
+        };
+    };
+
     return (
         <Box sx={{ width: '100%',marginTop:'10px' }}>
             <Box sx={{display: 'flex',justifyContent: 'center', borderBottom: 1, borderColor: 'divider' }}>
@@ -179,12 +195,21 @@ export default function Admin(props) {
                 <Tab label="Faculty" {...a11yProps(1)} />
                 </Tabs>
             </Box>
-            <TabPanel value={tabvalue} index={0}>
+
+            <div style={getVisibilityStyle(tabvalue !== 0)}>
+                <BatchesList />
+            </div>
+
+            <div style={getVisibilityStyle(tabvalue !== 1)}>
+                <FacultyList />
+            </div>
+
+            {/* <TabPanel value={tabvalue} index={0}>
                 <BatchesList/>
             </TabPanel>
             <TabPanel value={tabvalue} index={1}>
                 <FacultyList/> 
-            </TabPanel>
+            </TabPanel> */}
         </Box>
     )
 }
