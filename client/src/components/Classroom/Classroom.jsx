@@ -9,7 +9,7 @@ const Classroom = ({auth}) => {
     useEffect(() => {
         setClassroom({loading: true, classroomInfo: null});
         // call()
-    });
+    },[]);
 
 
     return (<h1>Classroom</h1>)

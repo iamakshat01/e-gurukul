@@ -65,7 +65,7 @@ exports.updateUserInfo = (req, res, next) => {
                 Student.find({user_id: mongoose.Types.ObjectId(user_id)}).then(student => {
                     student = student[0];
                     for(let k in updated_info){
-                        student.personal_info[k] = updated_info[k] || student.personal_info[k];
+                        student.personal_info[k] = updated_info[k];
                     }
                     student.save();
                 }).then(result => {
