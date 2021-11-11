@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogInIcon from '@mui/icons-material/Login';
 import LogOutIcon from '@mui/icons-material/Logout';
+import pickColor from '../../services/colorPicker';
 
 const useStyles = makeStyles(theme => ({
     menuBtn: {
@@ -36,7 +37,7 @@ const UserMenu = ({ auth, handleLogOut }) => {
         <>
             <Tooltip title="Account settings">
                 <IconButton className={classes.navItem} onClick={handleMenuOpen} size="small" sx={{ ml: 2 }}>
-                    <Avatar sx={{ width: 32, height: 32 }}>{String(auth.username).toUpperCase()[0]}</Avatar>
+                    <Avatar sx={{ width: 32, height: 32, bgcolor: pickColor(auth.id) }} >{String(auth.username).toUpperCase()[0]}</Avatar>
                 </IconButton>
             </Tooltip>
             <Menu
