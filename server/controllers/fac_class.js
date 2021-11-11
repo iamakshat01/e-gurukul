@@ -309,12 +309,11 @@ exports.updateClassroomInfoById = (req, res, next) => {
 
         // parsing updated information about the classroom into an object
 
-        const info = ['batch','subject', 'meet_link', 'alternate_link'];
+        const info = ['batch','subject', 'meet_link', 'alternate_link', 'status'];
         const updated_info = {};
         for(let k of info){
             updated_info[k] = classroom_info[k];
         }
-
 
         // query the database for the classroom with given id
 
@@ -343,7 +342,7 @@ exports.updateClassroomInfoById = (req, res, next) => {
                 // update classroom information to the model
 
                 for(let k in updated_info){
-                    classroom[k] = updated_info[k] || classroom[k];
+                    classroom[k] = updated_info[k];
                 }
 
                 // save the updated classroom
@@ -362,6 +361,7 @@ exports.updateClassroomInfoById = (req, res, next) => {
         });
     }
     catch(err){
+        console.log(err);
         if(!err.status){
             let error = new Error('Could not update the classroom!');
             error.status = 500;

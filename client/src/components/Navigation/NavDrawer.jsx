@@ -8,6 +8,7 @@ import ManageIcon from '@mui/icons-material/DashboardCustomize';
 import { NavLink } from 'react-router-dom';
 import { Box } from '@mui/system';
 import AddBoxIcon from '@mui/icons-material/AddBox';
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
 
 const useNavLinkStyles = makeStyles(theme => ({
     navlink: {
@@ -39,7 +40,7 @@ const InitialItemsList = () => {
                         <ListItemText primary="Home" />
                     </ListItem>
                 </NavLink>
-                <NavLink key='contact_us' className={navLinkClasses.navlink} end to="/contact">
+                <NavLink key='contact_us' className={navLinkClasses.navlink} end to="/contact_us">
                     <ListItem>
                         <ListItemIcon>
                             <ContactIcon className='navIcon' />
@@ -72,6 +73,14 @@ const AdminItemsList = () => {
                             <AddBoxIcon className='navIcon' />
                         </ListItemIcon>
                         <ListItemText primary="Create Batch" />
+                    </ListItem>
+                </NavLink>
+                <NavLink key='user' className={navLinkClasses.navlink} to="/dashboard/addusers">
+                    <ListItem>
+                        <ListItemIcon>
+                            <GroupAddIcon className='navIcon' />
+                        </ListItemIcon>
+                        <ListItemText primary="Add Users" />
                     </ListItem>
                 </NavLink>
             </List>
