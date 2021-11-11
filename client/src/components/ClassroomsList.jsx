@@ -34,14 +34,14 @@ const ActionButton = ({ classroom, onAction }) => {
     if (classroom.status === 'active') {
         return (
             <IconButton title='Deactivate' onClick={() => onAction({ ...actions.deactivate, id: classroom._id })} aria-label="deactivate">
-                <DeactivateIcon />
+                <DeactivateIcon color='warning'/>
             </IconButton>
         );
     }
     else {
         return (
             <IconButton title='Activate' onClick={() => onAction({ ...actions.activate, id: classroom._id })} aria-label="activate">
-                <ActivateIcon />
+                <ActivateIcon color='success' />
             </IconButton>
         );
     }
@@ -77,7 +77,7 @@ const Classroom_Card = ({ classroom, edit_access, onAction }) => {
                     </Box>
                     <Box >
                         <Typography variant='subtitle2'>
-                            <EventIcon sx={{ verticalAlign: 'middle' }} /> Created on: {new Date(classroom.createdAt).toDateString()}
+                            <EventIcon fontSize='small' sx={{ verticalAlign: 'middle' }} /> Created on: {new Date(classroom.createdAt).toDateString()}
                         </Typography>
                     </Box>
                 </CardContent>
@@ -87,15 +87,15 @@ const Classroom_Card = ({ classroom, edit_access, onAction }) => {
                         onClick={() => onAction({ ...actions.delete, id: classroom._id })}
                         aria-label="delete"
                     >
-                        <DeleteIcon />
+                        <DeleteIcon color='error' />
                     </IconButton> : null}
                     <IconButton
                         sx={{ marginLeft: 'auto' }}
-                        onClick={() => navigate(`/dashboard/classrooms/:classroom_id`)}
+                        onClick={() => navigate(`/dashboard/classrooms/${classroom._id}`)}
                         title='View'
                         aria-label="open"
                     >
-                        <ReviewsIcon />
+                        <ReviewsIcon color='info' />
                     </IconButton>
                 </CardActions>
             </Card>

@@ -40,7 +40,7 @@ const InitialItemsList = () => {
                         <ListItemText primary="Home" />
                     </ListItem>
                 </NavLink>
-                <NavLink key='contact_us' className={navLinkClasses.navlink} end to="/contact">
+                <NavLink key='contact_us' className={navLinkClasses.navlink} end to="/contact_us">
                     <ListItem>
                         <ListItemIcon>
                             <ContactIcon className='navIcon' />

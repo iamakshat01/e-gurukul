@@ -11,7 +11,7 @@ const style = {
     bgColor: 'background.paper'
 };
 
-const FormModal = ({ open, onClose, edit, data}) => {
+const FormModal = ({ open, onClose, auth, handleUpdate }) => {
     return (
         <Modal
             open={open}
@@ -23,7 +23,7 @@ const FormModal = ({ open, onClose, edit, data}) => {
                 <Paper elevation={4} sx={style}>
                     <Grid container>
                         <Grid item>
-                            <ClassroomForm edit={edit} data={data} />
+                            <ClassroomForm auth={auth} handleUpdate={handleUpdate} />
                         </Grid>
                     </Grid>
                 </Paper>

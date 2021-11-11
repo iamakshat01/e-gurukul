@@ -7,47 +7,81 @@ import {
     CardHeader,
     Divider,
     Grid,
+    Switch,
     TextField
 } from '@mui/material';
 import { call } from '../../services/api';
 import Notification from '../Utility/Notifications';
+import { useParams } from 'react-router';
 
 const initialDetails = {
     batch: '',
     subject: '',
     meet_link: '',
-    alternate_link: ''
+    alternate_link: '',
+    status: true
 }
 
-const ClassroomForm = ({ edit, data }) => {
-    const initialState = (edit ? data : initialDetails);
-    const [values, setValues] = useState(initialState);
+const ClassroomForm = ({ auth , handleUpdate}) => {
+    handleUpdate = handleUpdate || (() => {});
+    const { class_id } = useParams();
+
+    const edit = Boolean(class_id);
+
+    const disabled = (auth.role !== 'faculty');
+
+    const [init, setInit] = useState(initialDetails)
+    const [values, setValues] = useState(init);
     const [batches, setBatches] = useState([]);
     const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
+    const [info, setInfo] = useState({ loading: false, classroom: null });
 
     const handleChange = (event) => {
-        setValues((values) => ({
-            ...values,
-            [event.target.name]: event.target.value
-        }));
+        if (event.target.name === 'status') {
+            setValues((values) => ({
+                ...values,
+                [event.target.name]: event.target.checked
+            }));
+        }
+        else {
+            setValues((values) => ({
+                ...values,
+                [event.target.name]: event.target.value
+            }));
+        }
     };
 
     const handleReset = () => {
-        setValues((values) => ({
-            ...values,
-            subject: '',
-            meet_link: '',
-            alternate_link: ''
-        }));
+        setValues({ ...init });
     }
 
-    const handleSubmit = (evt) => {
-        evt.preventDefault();
+    const handleEdit = () => {
         const form = new FormData();
-        form.append('batch',values.batch);
-        form.append('subject',values.subject);
-        form.append('meet_link',values.meet_link);
-        form.append('alternate_link',values.alternate_link);
+        form.append('batch', values.batch);
+        form.append('subject', values.subject);
+        form.append('meet_link', values.meet_link);
+        form.append('alternate_link', values.alternate_link);
+        form.append('status', (values.status ? 'active' : 'inactive'));
+        call('put', `faculty/classrooms/${class_id}`, form).then(data => {
+            setNotify({ isOpen: true, message: 'Classroom updated successfully!', type: 'success' });
+            fetchInfo();
+        }).catch(err => {
+            if (err.response) {
+                setNotify({ isOpen: true, message: err.response.data.error, type: 'error' });
+            }
+            else {
+                setNotify({ isOpen: true, message: 'Could not update the classroom!', type: 'error' });
+            }
+        });
+        handleUpdate();
+    }
+
+    const handleCreate = () => {
+        const form = new FormData();
+        form.append('batch', values.batch);
+        form.append('subject', values.subject);
+        form.append('meet_link', values.meet_link);
+        form.append('alternate_link', values.alternate_link);
 
         call('post', 'faculty/classrooms/', form).then(data => {
             setNotify({ isOpen: true, message: 'Classroom created successfully!', type: 'success' });
@@ -60,16 +94,59 @@ const ClassroomForm = ({ edit, data }) => {
                 setNotify({ isOpen: true, message: 'Could not fetch the batches!', type: 'error' });
             }
         });
-    }
+        handleUpdate();
+    };
 
+    const handleSubmit = (evt) => {
+        evt.preventDefault();
+        if (edit) {
+            handleEdit();
+        }
+        else {
+            handleCreate();
+        }
+    };
     const fetchBatches = () => {
         call('get', 'faculty/activeBatches').then(data => {
             setBatches(data);
-            setValues((values) => ({
-                ...values,
-                batch: data[0]._id
-            }));
+            setValues((values) => {
+                return {
+                    ...values,
+                    batch: values.batch || data[0]._id
+                }
+            });
+            setInit((values) => {
+                return {
+                    ...values,
+                    batch: values.batch || data[0]._id
+                }
+            });
         }).catch(err => {
+            setBatches([]);
+            if (err.response) {
+                setNotify({ isOpen: true, message: err.response.data.error, type: 'error' });
+            }
+            else {
+                setNotify({ isOpen: true, message: 'Could not fetch the batches!', type: 'error' });
+            }
+        });
+    };
+
+    const fetchInfo = () => {
+        setInfo({ loading: true, classroom: null });
+        call('get', `faculty/classrooms/${class_id}`).then(data => {
+            setInfo({ loading: false, classroom: data });
+            let newState = {
+                batch: data.batch._id,
+                subject: data.subject,
+                meet_link: data.meet_link,
+                alternate_link: data.alternate_link,
+                status: (data.status === 'active')
+            };
+            setValues(newState);
+            setInit(newState);
+        }).catch(err => {
+            setInfo({ loading: false, classroom: null });
             if (err.response) {
                 setNotify({ isOpen: true, message: err.response.data.error, type: 'error' });
             }
@@ -81,17 +158,19 @@ const ClassroomForm = ({ edit, data }) => {
 
     useEffect(() => {
         fetchBatches();
+        if (edit) {
+            fetchInfo();
+        }
     }, []);
 
     return (
         <>
             <form
-                noValidate
                 onSubmit={handleSubmit}
             >
                 <Card>
                     <CardHeader
-                        title={(edit ? "Edit": "Create") + " Classroom"}
+                        title={"Classroom Details"}
                     />
                     <Divider />
                     <CardContent>
@@ -109,6 +188,7 @@ const ClassroomForm = ({ edit, data }) => {
                                     helperText="Please specify the subject"
                                     label="Subject"
                                     name="subject"
+                                    disabled={disabled}
                                     onChange={handleChange}
                                     required
                                     value={values.subject}
@@ -125,6 +205,7 @@ const ClassroomForm = ({ edit, data }) => {
                                     label="Batch"
                                     name="batch"
                                     onChange={handleChange}
+                                    disabled={disabled}
                                     required
                                     select
                                     SelectProps={{ native: true }}
@@ -149,8 +230,9 @@ const ClassroomForm = ({ edit, data }) => {
                                 <TextField
                                     fullWidth
                                     label="Meet Link"
-                                    name="Meet Link"
+                                    name="meet_link"
                                     onChange={handleChange}
+                                    disabled={disabled}
                                     value={values.meet_link}
                                     variant="outlined"
                                 />
@@ -164,11 +246,26 @@ const ClassroomForm = ({ edit, data }) => {
                                     fullWidth
                                     label="alternate_link"
                                     name="alternate_link"
+                                    disabled={disabled}
                                     onChange={handleChange}
                                     value={values.alternate_link}
                                     variant="outlined"
                                 />
                             </Grid>
+                            {edit ? (
+                                <Grid
+                                    item
+                                    md={6}
+                                    xs={12}
+                                >
+                                    <Switch
+                                        checked={values.status}
+                                        onChange={handleChange}
+                                        disabled={disabled}
+                                        inputProps={{ name: 'status' }}
+                                    />
+                                </Grid>
+                            ) : null}
                         </Grid>
                     </CardContent>
                     <Divider />
@@ -179,21 +276,48 @@ const ClassroomForm = ({ edit, data }) => {
                             p: 2
                         }}
                     >
-                        <Button
-                            color="primary"
-                            variant="contained"
-                            onClick={handleReset}
+                        <Grid
+                            container
+                            spacing={3}
                         >
-                            Reset
-                        </Button>
-                        <Button
-                            color="primary"
-                            variant="contained"
-                            color="success"
-                            type='submit'
-                        >
-                            Save details
-                        </Button>
+                            <Grid
+                                item
+                                md={6}
+                                xs={12}
+                                sx={{
+                                    display: 'flex',
+                                    justifyContent: 'space-evenly',
+                                    p: 2
+                                }}
+                            >
+                                <Button
+                                    color="primary"
+                                    variant="contained"
+                                    onClick={handleReset}
+                                >
+                                    Reset
+                                </Button>
+                            </Grid>
+                            <Grid
+                                item
+                                md={6}
+                                xs={12}
+                                sx={{
+                                    display: 'flex',
+                                    justifyContent: 'space-evenly',
+                                    p: 2
+                                }}
+                            >
+                                <Button
+                                    color="primary"
+                                    variant="contained"
+                                    color="success"
+                                    type='submit'
+                                >
+                                    {edit ? 'Save' : 'Create'}
+                                </Button>
+                            </Grid>
+                        </Grid>
                     </Box>
                 </Card>
             </form>
