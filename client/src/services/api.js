@@ -22,6 +22,18 @@ export const call = async (method, path, data) => {
   return response.data;
 };
 
+export const formcall = async (method, path, data) => {
+  const response = await axios({
+    method: method,
+    url: `${host}/${path}`,
+    data: data,
+    headers: {
+      "Content-Type": "multipart/form-data",
+    }
+  })
+  return response.data;
+};
+
 // check authentication
 export const isAuthenticated = () => {
 
@@ -36,4 +48,4 @@ export const removeToken = () => {
 }
 
 
-export default { setToken, call, isAuthenticated, removeToken };
+export default { setToken, call, isAuthenticated, removeToken,formcall };
