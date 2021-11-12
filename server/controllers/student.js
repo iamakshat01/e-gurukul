@@ -19,7 +19,7 @@ exports.getAllClassroom = async (req, res, next) => {
 
     const classrooms = await Classroom.find({
       batch: student.batch,
-    });
+    }).populate('faculty').populate('batch');
 
     res.send(classrooms);
   } catch (err) {
@@ -45,7 +45,7 @@ exports.getClassroomByStatus = async (req, res, next) => {
     const classrooms = await Classroom.find({
       batch: student.batch,
       status,
-    });
+    }).populate('batch').populate('faculty');
 
     res.send(classrooms);
   } catch (err) {
@@ -126,6 +126,11 @@ exports.getPostsOfClassroom = async (req, res, next) => {
         },
       },
       {
+        $sort: {
+          createdAt: -1
+        }
+      },
+      {
         $project: {
           classroom: 0,
         },
@@ -195,9 +200,9 @@ exports.postComment = async (req, res, next) => {
 
     post.comments.push(comment);
 
-    post.save();
+    const updatedPost = await post.save();
 
-    res.send(post);
+    res.send(updatedPost.comments[updatedPost.comments.length - 1]);
   } catch (error) {
     return next({
       status: 400,

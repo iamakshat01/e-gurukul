@@ -103,7 +103,7 @@ const Profile = ({ auth }) => {
       }}
     >
       <Container maxWidth="lg">
-        <Typography sx={{ mb: 3 }} variant="h4" color="primary">
+        <Typography sx={{ mb: 3 }} textAlign='center' variant="h4" color="textSecondary">
           Profile
         </Typography>
         <Grid container spacing={3}>

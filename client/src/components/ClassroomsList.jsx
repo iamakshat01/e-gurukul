@@ -11,6 +11,7 @@ import CardsSkeleton from './Utility/CardsSkeleton';
 import pickColor from '../services/colorPicker';
 import Notification from './Utility/Notifications';
 import PropTypes from 'prop-types';
+import parseDate from '../services/dateParser';
 
 const actions = {
     delete: {
@@ -34,7 +35,7 @@ const ActionButton = ({ classroom, onAction }) => {
     if (classroom.status === 'active') {
         return (
             <IconButton title='Deactivate' onClick={() => onAction({ ...actions.deactivate, id: classroom._id })} aria-label="deactivate">
-                <DeactivateIcon color='warning'/>
+                <DeactivateIcon color='warning' />
             </IconButton>
         );
     }
@@ -76,8 +77,8 @@ const Classroom_Card = ({ classroom, edit_access, onAction }) => {
                         </Typography>
                     </Box>
                     <Box >
-                        <Typography variant='subtitle2'>
-                            <EventIcon fontSize='small' sx={{ verticalAlign: 'middle' }} /> Created on: {new Date(classroom.createdAt).toDateString()}
+                        <Typography color='textSecondary' variant='subtitle2'>
+                            <EventIcon fontSize='small' sx={{ verticalAlign: 'middle' }} /> Created on: {parseDate(classroom.createdAt)}
                         </Typography>
                     </Box>
                 </CardContent>
@@ -136,7 +137,11 @@ const ClassroomList = ({ classrooms, edit_access, onAction }) => {
             );
         }
         else {
-            return (<h1>No Classrooms</h1>);
+            return (
+                <Typography variant='h1' textAlign='center'>
+                    No Classrooms
+                </Typography>
+            );
         }
     }
 };

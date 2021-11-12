@@ -1,7 +1,7 @@
 import React from 'react';
 import AdminDashboard from './Admin_Dash';
 import Faculty_Routes from './Faculty_Routes';
-
+import Student_Routes from './Student_Routes';
 
 const Dashboard = ({auth}) => {
 
@@ -10,6 +10,9 @@ const Dashboard = ({auth}) => {
     }
     else if(auth.role==='admin'){
         return  <AdminDashboard auth={auth} />
+    }
+    else if(auth.role==='student'){
+        return <Student_Routes auth={auth}/>
     }
 };
 

@@ -16,7 +16,7 @@ const ClassroomInfo = ({ auth }) => {
     const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
 
     const fetchInfo = useCallback(() => {
-        setInfo({loading: true, classroom: null});
+        setInfo({ loading: true, classroom: null });
         let path = `${auth.role}/classrooms/${class_id}`;
         call('get', path).then(res => {
             setInfo({ loading: false, classroom: res });
@@ -49,6 +49,7 @@ const ClassroomInfo = ({ auth }) => {
                 <Grid
                     container
                     spacing={3}
+                    justifyContent='center'
                     alignItems='center'
                 >
                     <Grid
@@ -59,14 +60,19 @@ const ClassroomInfo = ({ auth }) => {
                     >
                         <ClassroomProfile info={info} />
                     </Grid>
-                    <Grid
-                        item
-                        lg={8}
-                        md={6}
-                        xs={12}
-                    >
-                        <ClassroomDetails info={info} auth={auth} handleUpdate={fetchInfo} />
-                    </Grid>
+                    {
+                        auth.role === 'faculty' ?
+                            (
+                                <Grid
+                                    item
+                                    lg={8}
+                                    md={6}
+                                    xs={12}
+                                >
+                                    <ClassroomDetails info={info} auth={auth} handleUpdate={fetchInfo} />
+                                </Grid>
+                            ) : null
+                    }
                 </Grid>
             </Container>
             <Notification notify={notify} setNotify={setNotify} />

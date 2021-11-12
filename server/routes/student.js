@@ -17,6 +17,6 @@ router.get("/classrooms/:classroom_id", auth, student.getClassroom);
 router.get("/classrooms/:classroom_id/posts", auth, student.getPostsOfClassroom);
 
 //post and get comment on a classroom post of a student 
-router.route("/classrooms/:classroom_id/posts/:post_id/comment").post(auth, multer().none(), student.postComment);
+router.route("/classrooms/:classroom_id/posts/:post_id/comments").post(auth, multer().none(), student.postComment);
 
 module.exports = router;

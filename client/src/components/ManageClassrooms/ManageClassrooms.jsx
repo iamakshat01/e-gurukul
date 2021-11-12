@@ -122,7 +122,11 @@ const ManageClassrooms = ({ auth }) => {
                     </Grid>
                 </Grid>
             </Container>
-            {faculty.faculty ? <Classrooms auth={auth} edit_access={true} status={status} /> : null}
+            {faculty.faculty ?
+                (
+                    <Classrooms auth={auth} edit_access={true} status={status} />
+                )
+                : null}
             <Notification notify={notify} setNotify={setNotify} />
             <CreateClassroom open={isOpen} auth={auth} onClose={handleClose} handleUpdate={fetchInfo} />
         </>
