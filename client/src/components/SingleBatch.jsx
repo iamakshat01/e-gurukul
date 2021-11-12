@@ -35,6 +35,11 @@ export default function SingleBatch(props) {
                 type: 'success'
             })
         }).catch((err)=>{
+            setNotify({
+                isOpen: true,
+                message: 'User Deletion Failed',
+                type: 'error'
+            })
             console.log(err);
         })
 

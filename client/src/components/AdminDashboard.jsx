@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {Box,Card,CardActions,Button,Tabs,Tab, Grid,Container, Avatar, CardHeader,IconButton,FormControlLabel} from '@mui/material';
+import {Box,Card,CardActions,Tabs,Tab, Grid,Container, Avatar, CardHeader,IconButton} from '@mui/material';
 import ClassIcon from '@mui/icons-material/Class';
 import { DataGrid } from '@mui/x-data-grid';
 import pickColor from '../services/colorPicker';
@@ -39,8 +39,10 @@ function a11yProps(index) {
 }
 
 
-function SingleCard({info}) {
+function SingleCard({info,handleDeleteClick}) {
+
     const navigate = useNavigate();
+    console.log(info._id);
     return (
         <Grid item xs={11} sm={6} lg={3} xl={3}>
             <Card variant="outlined">
@@ -57,7 +59,7 @@ function SingleCard({info}) {
                 />
 
                 <CardActions sx={{ paddingX: 2 }} disableSpacing>
-                    <IconButton>
+                    <IconButton onClick={() => handleDeleteClick(info._id)}>
                         <DeleteIcon fontSize="small"/>
                     </IconButton>
 
@@ -100,6 +102,12 @@ function FacultyList(props) {
                 type: 'success'
             })
         }).catch((err)=>{
+            
+            setNotify({
+                isOpen: true,
+                message: 'User Deletion Failed',
+                type: 'error'
+            })
             console.log(err);
         })
 
@@ -187,6 +195,41 @@ function BatchesList(props) {
 
     const [batches, setBatches] = useState('');
     const [isLoading, setLoading] = useState(true);
+    const [open, setOpen] = useState(false);
+    const [batchId, setbatchId] = useState('');
+    const [notify, setNotify] = useState({ isOpen:false, message:'', type:''});
+
+    const handleDeleteClick = (Id) => {
+        setOpen(true);
+        setbatchId(Id);
+    }
+    
+    const onConfirm = () => {
+        
+        setOpen(false);
+
+        // server call
+
+        call('delete','admin/batch/'+batchId).then((data)=>{
+            console.log(data);
+            setNotify({
+                isOpen: true,
+                message: 'Batch Deleted Successfully',
+                type: 'success'
+            })
+        }).catch((err)=>{
+            setNotify({
+                isOpen: true,
+                message: 'Batch Deletion Failed',
+                type: 'error'
+            })
+        })
+
+    }
+
+    const onCancel = () => {
+        setOpen(false);
+    }
 
     useEffect(() => {
         setToken(localStorage.getItem('jwtToken'));
@@ -197,7 +240,7 @@ function BatchesList(props) {
             console.log(err);
         })
 
-    }, [])
+    }, [notify])
 
     if(isLoading) {
         return (
@@ -205,9 +248,14 @@ function BatchesList(props) {
         )
     }
     else {
-        const cardList = batches.map( batch => <SingleCard info={batch} key={batch._id}/> )
+        const cardList = batches.map( batch => <SingleCard handleDeleteClick={handleDeleteClick} info={batch} key={batch._id}/> )
         return (
             <Container maxWidth="lg" sx={{ flexGrow: 1 }}>
+                <Notification
+                notify={notify}
+                setNotify={setNotify}
+                />
+                <ConfirmDialog open={open} onConfirm={onConfirm} onCancel={onCancel} message={"Delete Batch"} type={"warning"}/>
                 <Grid container direction="row" spacing={1} m={2}>
                     {cardList}
                 </Grid>

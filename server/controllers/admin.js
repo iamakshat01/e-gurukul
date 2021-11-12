@@ -177,9 +177,13 @@ exports.deleteBatch = async (req,res,next) => {
                 batch: batch_id
             })
 
+            if(students.length>0)
             await students.remove();
 
+            if(classrooms.length>0)
             await classrooms.remove();
+
+            await batch.remove();
         } 
         else {
             throw new Error('No batch found');
