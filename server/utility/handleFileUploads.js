@@ -9,7 +9,7 @@ const storage = multer.diskStorage({
     }
 });
 
-module.exports = (fieldName, maxCount = undefined) => {
+module.exports = (fieldName, maxCount = 1) => {
     return multer({
         storage: storage,
         fileFilter: (req, file, cb) => {

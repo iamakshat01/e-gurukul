@@ -85,7 +85,14 @@ const StudentItemsList = () => {
         <>
             <Divider />
             <List>
-
+                <NavLink key='dashboard' className={navLinkClasses.navlink} end to="/dashboard">
+                    <ListItem >
+                        <ListItemIcon>
+                            <DashboardIcon className='navIcon' />
+                        </ListItemIcon>
+                        <ListItemText primary="Dashboard" />
+                    </ListItem>
+                </NavLink>
             </List>
         </>
     );

@@ -47,8 +47,9 @@ get(classroomController.getClassroomPosts)
 
 // for updating or deleting a post of the user's classroom
 
-router.route('/:class_id/posts/:post_id').
-put(multer().none(), classroomController.updatePostById)
+router.route('/:class_id/posts/:post_id')
+.get(classroomController.getPostById)
+.put(multer().none(), classroomController.updatePostById)
 .delete(classroomController.deletePostById);
 
 // for fetching and creating comments on a post in user's classroom

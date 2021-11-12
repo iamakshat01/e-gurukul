@@ -91,7 +91,7 @@ const ClassroomForm = ({ auth , handleUpdate}) => {
                 setNotify({ isOpen: true, message: err.response.data.error, type: 'error' });
             }
             else {
-                setNotify({ isOpen: true, message: 'Could not fetch the batches!', type: 'error' });
+                setNotify({ isOpen: true, message: 'Could not create the classroom!', type: 'error' });
             }
         });
         handleUpdate();

@@ -61,7 +61,7 @@ exports.createClassroom = (req, res, next) => {
         const fields = ['batch', 'faculty', 'subject', 'meet_link', 'alternate_link', 'status'];
         const classroom_info = {};
         for(let k of fields){
-            classroom_info[k] = info[k];
+            classroom_info[k] = info[k].trim();
         }
         classroom_info.faculty = fac_id;
 
@@ -77,8 +77,12 @@ exports.createClassroom = (req, res, next) => {
             
             res.status(200).json({message: 'Classroom created successfully!'});
         }).catch(err => {
-            console.log(err);
-            throw err;
+            if(!err.status){
+                let error = new Error('Could not create the classroom!');
+                error.status = 500;
+                return next(error);
+            }
+            next(err);
         });
     }
     catch(err){
@@ -177,7 +181,12 @@ exports.deleteClassroomById = (req, res, next) => {
         
                 res.status(200).json({message: 'Classroom removed successfully!'});
             }).catch(err => {
-                throw err;
+                if(!err.status){
+                    let error = new Error('Could not remove the classroom!');
+                    error.status = 500;
+                    return next(error);
+                }
+                next(err);
             });
         }
     }).catch(err => {
@@ -230,7 +239,12 @@ exports.deactivateClassroomById = (req, res, next) => {
         
                 res.status(200).json({message: 'Classroom deactivated successfully!'});
             }).catch(err => {
-                throw err;
+                if(!err.status){
+                    let error = new Error('Could not deactivate the classroom!');
+                    error.status = 500;
+                    return next(error);
+                }
+                next(err);
             });
         }
     }).catch(err => {
@@ -283,7 +297,12 @@ exports.activateClassroomById = (req, res, next) => {
         
                 res.status(200).json({message: 'Classroom activated successfully!'});
             }).catch(err => {
-                throw err;
+                if(!err.status){
+                    let error = new Error('Could not activate the classroom!');
+                    error.status = 500;
+                    return next(error);
+                }
+                next(err);
             });
         }
     }).catch(err => {
@@ -300,7 +319,7 @@ exports.activateClassroomById = (req, res, next) => {
 
 exports.updateClassroomInfoById = (req, res, next) => {
     try{
-    
+    console.log('upate');
         // extract relevant data from the request object
 
         let fac_id = req.fac._id;
@@ -312,7 +331,7 @@ exports.updateClassroomInfoById = (req, res, next) => {
         const info = ['batch','subject', 'meet_link', 'alternate_link', 'status'];
         const updated_info = {};
         for(let k of info){
-            updated_info[k] = classroom_info[k];
+            updated_info[k] = classroom_info[k].trim();
         }
 
         // query the database for the classroom with given id
@@ -353,15 +372,24 @@ exports.updateClassroomInfoById = (req, res, next) => {
         
                     res.status(200).json({message: 'Classroom updated successfully!'});
                 }).catch(err => {
-                    throw error;
+                    if(!err.status){
+                        let error = new Error('Could not update the classroom!');
+                        error.status = 500;
+                        return next(error);
+                    }
+                    next(err);
                 });
             }
         }).catch(err => {
-            throw error;
+            if(!err.status){
+                let error = new Error('Could not update the classroom!');
+                error.status = 500;
+                return next(error);
+            }
+            next(err);
         });
     }
     catch(err){
-        console.log(err);
         if(!err.status){
             let error = new Error('Could not update the classroom!');
             error.status = 500;
@@ -421,8 +449,12 @@ exports.getClassroomPosts = (req, res, next) => {
                     }
                 },
                 {
+                    $sort: {
+                        createdAt: -1
+                    }
+                },
+                {
                     $project: {
-                        comments: 0,
                         classroom: 0
                     }
                 }
@@ -434,7 +466,6 @@ exports.getClassroomPosts = (req, res, next) => {
 
         res.status(200).json({classroom: currentClassroom, posts: posts});
     }).catch(err => {
-        console.log(err);
         if(!err.status){
             let error = new Error('Could not fetch the posts!');
             error.status = 500;
@@ -448,7 +479,6 @@ exports.getClassroomPosts = (req, res, next) => {
 
 exports.createClassroomPost = (req, res, next) => {
     try{
-
         // extract relevant data from the request object
     
         let fac_id = req.fac._id;
@@ -460,7 +490,7 @@ exports.createClassroomPost = (req, res, next) => {
         const content_fields = ['title','subtitle', 'info'];
         const content = {};
         for(let k of content_fields){
-            content[k] = post_info[k];
+            content[k] = post_info[k].trim();
         }
 
         // parsing file data for the post
@@ -469,7 +499,7 @@ exports.createClassroomPost = (req, res, next) => {
         for(let f of req.files){
             files.push({
                 filename: f.originalname,
-                url: f.path
+                url: `uploads/${f.filename}`
             });
         };
 
@@ -517,11 +547,22 @@ exports.createClassroomPost = (req, res, next) => {
         
                     res.status(200).json({message: "Post created successfully!"});
                 }).catch(err => {
-                    throw err;
+    
+                    if(!err.status){
+                        let error = new Error('Could not create the post!');
+                        error.status = 500;
+                        return next(error);
+                    }
+                    next(err);
                 });
             }
         }).catch(err => {
-            throw err;
+            if(!err.status){
+                let error = new Error('Could not create the post!');
+                error.status = 500;
+                return next(error);
+            }
+            next(err);
         });
     }
     catch(err){
@@ -551,7 +592,7 @@ exports.updatePostById = (req, res, next) => {
         const content_fields = ['title','subtitle', 'info'];
         const updated_content = {};
         for(let k of content_fields){
-            updated_content[k] = post_info[k];
+            updated_content[k] = post_info[k].trim();
         }
 
         // query the database for the classroom with given id
@@ -598,7 +639,7 @@ exports.updatePostById = (req, res, next) => {
                         // update the content on the post based on the parsed data from body
 
                         for(let field in updated_content){
-                            post.content[field] = updated_content[field] || post.content[field];
+                            post.content[field] = updated_content[field] ;
                         }
 
                         // save the updated post
@@ -609,15 +650,114 @@ exports.updatePostById = (req, res, next) => {
                 
                             res.status(200).json({message: "Post updated successfully!"});
                         }).catch(err => {
-                            throw err;
+                            if(!err.status){
+                                let error = new Error('Could not update the post!');
+                                error.status = 500;
+                                return next(error);
+                            }
+                            next(err);
                         });
                     }
                 }).catch(err => {
-                    throw err;
-                })
+                    if(!err.status){
+                        let error = new Error('Could not update the post!');
+                        error.status = 500;
+                        return next(error);
+                    }
+                    next(err);
+                });
             }
         }).catch(err => {
-            throw err;
+            if(!err.status){
+                let error = new Error('Could not update the post!');
+                error.status = 500;
+                return next(error);
+            }
+            next(err);
+        });
+    }
+    catch(err){
+        if(!err.status){
+            let error = new Error('Could not update the post!');
+            error.status = 500;
+            return next(error);
+        }
+        next(err);
+    }
+};
+
+// get post from a classroom created by the user
+
+exports.getPostById = (req, res, next) => {
+    try{
+
+        // extract relevant data from the request object
+
+        let fac_id = req.fac._id;
+        let class_id = req.params.class_id;
+        let post_id = req.params.post_id;
+
+        // query the database for the classroom with given id
+        
+
+        Classroom.findById(class_id).then(classroom => {
+
+            // check if the classroom with given id exists or not
+    
+            if(!classroom){
+                let error = new Error('Classroom does not exist.');
+                error.status = 404;
+                throw error;
+            }
+    
+            // check if the currently logged in user created the classroom
+    
+            else if(classroom.faculty.toString() !== fac_id.toString()){
+                let error = new Error('Unauthorized access.');
+                error.status = 401;
+                throw error;
+            }
+    
+            // if above checks pass then proceed to update the post
+    
+            else{
+
+                // query database for the post with given id
+
+                Post.findById(post_id).then(post => {
+
+                    // check if the post with given id exists
+
+                    if(!post){
+                        let error = new Error('Post does not exist.');
+                        error.status = 404;
+                        throw error;
+                    }
+
+                    // if the post exists update the post
+
+                    else{
+
+                        // send the response for request
+
+                            res.status(200).json(post);
+                    }
+                }).catch(err => {
+                    if(!err.status){
+                        let error = new Error('Could not update the post!');
+                        error.status = 500;
+                        return next(error);
+                    }
+                    next(err);
+                });
+            }
+        }).catch(err => {
+            if(!err.status){
+                let error = new Error('Could not update the post!');
+                error.status = 500;
+                return next(error);
+            }
+            next(err);
         });
     }
     catch(err){
@@ -697,15 +837,30 @@ exports.deletePostById = (req, res, next) => {
 
                             res.status(200).json({message: "Post deleted successfully!"});
                         }).catch(err => {
-                            throw err;
+                            if(!err.status){
+                                let error = new Error('Could not delete the post!');
+                                error.status = 500;
+                                return next(error);
+                            }
+                            next(err);
                         });
                     }
                 }).catch(err => {
-                    throw err;
+                    if(!err.status){
+                        let error = new Error('Could not delete the post!');
+                        error.status = 500;
+                        return next(error);
+                    }
+                    next(err);
                 });
             }
         }).catch(err => {
-            throw err;
+            if(!err.status){
+                let error = new Error('Could not delete the post!');
+                error.status = 500;
+                return next(error);
+            }
+            next(err);
         });
     }
     catch(err){
@@ -729,7 +884,6 @@ exports.postComment = (req, res, next) => {
         let class_id = req.params.class_id;
         let post_id = req.params.post_id;
         let comment_info = req.body;
-        
 
         const fac_info = req.fac.personal_info;
 
@@ -741,7 +895,7 @@ exports.postComment = (req, res, next) => {
             comment: comment_info.comment,
             author: author
         };
-
+        console.log(comment_data)
         Classroom.findById(class_id).then(classroom => {
 
             // check if the classroom with given id exists or not
@@ -788,18 +942,33 @@ exports.postComment = (req, res, next) => {
                         post.save().then(result => {
 
                             // send response for the request
-                
-                            res.status(200).json({message: "Comment posted successfully!"});
+                            res.status(200).json(result.comments[result.comments.length -1]);
                         }).catch(err => {
-                            throw err;
+                            console.log(err);
+                            if(!err.status){
+                                let error = new Error('Could not post the comment!');
+                                error.status = 500;
+                                return next(error);
+                            }
+                            next(err);
                         });
                     }
                 }).catch(err => {
-                    throw err;
+                    if(!err.status){
+                        let error = new Error('Could not post the comment!');
+                        error.status = 500;
+                        return next(error);
+                    }
+                    next(err);
                 });
             }
         }).catch(err => {
-            throw err;
+            if(!err.status){
+                let error = new Error('Could not post the comment!');
+                error.status = 500;
+                return next(error);
+            }
+            next(err);
         });
     }
     catch(err){
@@ -877,16 +1046,26 @@ exports.getComments = (req, res, next) => {
                         res.status(200).json(post.comments.reverse());                        
                     }
                 }).catch(err => {
-                    throw err;
+                    if(!err.status){
+                        let error = new Error('Could not fetch the comment!');
+                        error.status = 500;
+                        return next(error);
+                    }
+                    next(err);
                 });
             }
         }).catch(err => {
-            throw err;
+            if(!err.status){
+                let error = new Error('Could not fetch the comment!');
+                error.status = 500;
+                return next(error);
+            }
+            next(err);
         });
     }
     catch(err){
         if(!err.status){
-            let error = new Error('Could not post the comment!');
+            let error = new Error('Could not fetch the comment!');
             error.status = 500;
             return next(error);
         }
