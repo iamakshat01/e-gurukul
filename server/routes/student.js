@@ -1,9 +1,8 @@
 const express = require("express");
+const multer = require("multer");
 const router = express.Router();
 const student = require("../controllers/student");
 const { auth } = require("../utility/auth");
-
-// add auth middleware
 
 // get all classrooms of a student
 router.get("/classrooms/list", auth, student.getAllClassroom);
@@ -17,7 +16,7 @@ router.get("/classrooms/:classroom_id", auth, student.getClassroom);
 //get posts of a particular classroom of a student
 router.get("/classrooms/:classroom_id/posts", auth, student.getPostsOfClassroom);
 
-//post a comment on a classroom post of a student 
-router.post("/classrooms/:classroom_id/posts/:post_id/comment", auth, student.postComment);
+//post and get comment on a classroom post of a student 
+router.route("/classrooms/:classroom_id/posts/:post_id/comment").post(auth, multer().none(), student.postComment);
 
 module.exports = router;
