@@ -69,7 +69,9 @@ exports.getClassroom = async (req, res, next) => {
     const classroom = await Classroom.findOne({
       _id: classroom_id,
       batch,
-    }).populate('batch').populate('faculty');
+    })
+      .populate("batch")
+      .populate("faculty");
 
     res.send(classroom);
   } catch (error) {
@@ -90,11 +92,53 @@ exports.getPostsOfClassroom = async (req, res, next) => {
       user_id,
     });
 
-    const posts = await Post.find({
-      classroom_id,
-    });
+    const classroom = await Classroom.findById(classroom_id)
+      .populate("batch")
+      .populate("faculty");
 
-    res.send(posts);
+    // whether the classroom exists?
+    if (!classroom) {
+      let error = new Error("Classroom does not exist.");
+      error.status = 404;
+      throw error;
+    }
+
+    // The class is of the the same batch as student?
+    // as they both are objects, so we can't compare them directly.
+
+    if (classroom.batch._id.toString() !== batch.toString()) {
+      let error = new Error("Unauthorized access.");
+      error.status = 401;
+      throw error;
+    }
+
+    const posts = await Post.aggregate([
+      {
+        $match: {
+          classroom: classroom._id,
+        },
+      },
+      {
+        $addFields: {
+          totalComments: {
+            $size: "$comments",
+          },
+        },
+      },
+      {
+        $project: {
+          classroom: 0,
+        },
+      },
+    ]);
+
+    // processing the res according to the needs
+    const processedPost = {
+      classroom,
+      posts,
+    };
+
+    res.send(processedPost);
   } catch (error) {
     return next({
       status: 400,
@@ -110,14 +154,39 @@ exports.postComment = async (req, res, next) => {
     const user_id = req.user.id;
     const { classroom_id, post_id } = req.params;
 
-    const comment = {
-      comment: req.body.comment,
-      author: req.user.username,
-    };
-
-    const { batch } = await Student.findOne({
+    const student = await Student.findOne({
       user_id,
     });
+
+    const { batch } = student;
+
+    const comment = {
+      comment: req.body.comment,
+      author:
+        student.personal_info.first_name +
+        " " +
+        student.personal_info.last_name,
+    };
+
+    const classroom = await Classroom.findById(classroom_id)
+      .populate("batch")
+      .populate("faculty");
+
+    // whether the classroom exists?
+    if (!classroom) {
+      let error = new Error("Classroom does not exist.");
+      error.status = 404;
+      throw error;
+    }
+
+    // The class is of the the same batch as student?
+    // as they both are objects, so we can't compare them directly.
+
+    if (classroom.batch._id.toString() !== batch.toString()) {
+      let error = new Error("Unauthorized access.");
+      error.status = 401;
+      throw error;
+    }
 
     const post = await Post.findOne({
       post_id,
