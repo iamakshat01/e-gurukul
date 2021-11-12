@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {Box,Card,CardActions,Button,Tabs,Tab, Grid,Container, Avatar, CardHeader,IconButton} from '@mui/material';
+import {Box,Card,CardActions,Button,Tabs,Tab, Grid,Container, Avatar, CardHeader,IconButton,FormControlLabel} from '@mui/material';
 import ClassIcon from '@mui/icons-material/Class';
 import { DataGrid } from '@mui/x-data-grid';
 import pickColor from '../services/colorPicker';
@@ -8,7 +8,8 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import Circle from './Loading';
 import { useNavigate } from 'react-router';
 import {call,setToken} from '../services/api';
-
+import ConfirmDialog from './Utility/ConfirmDialog';
+import Notification from './Utility/Notifications';
 // taken from docs
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -72,10 +73,41 @@ function SingleCard({info}) {
     )
 }
 
+
 function FacultyList(props) {
 
     const [faculties, setFaculty] = useState([]);
     const [isLoading, setLoading] = useState(true);
+    const [open, setOpen] = useState(false);
+    const [userId, setuserId] = useState('');
+    const [notify, setNotify] = useState({ isOpen:false, message:'', type:''});
+
+    const handleDeleteClick = (Id) => {
+        setOpen(true);
+        setuserId(Id)
+    }
+    
+    const onConfirm = () => {
+        
+        setOpen(false);
+
+        // server call
+
+        call('delete','admin/'+userId).then((data)=>{
+            setNotify({
+                isOpen: true,
+                message: 'User Deleted Successfully',
+                type: 'success'
+            })
+        }).catch((err)=>{
+            console.log(err);
+        })
+
+    }
+
+    const onCancel = () => {
+        setOpen(false);
+    }
 
     useEffect(() => {
         setToken(localStorage.getItem('jwtToken'));
@@ -85,7 +117,7 @@ function FacultyList(props) {
         }).catch((err) => {
             console.log(err);
         })
-    }, [])
+    }, [notify])
 
     const columns = [
         { field: 'faculty_code', headerName: 'Faculty Code', width: 160 },
@@ -106,6 +138,22 @@ function FacultyList(props) {
             headerName: 'Email',
             width: 130,
             valueFormatter: (params) => params.row?.personal_info?.email
+        },
+        {
+            field: "actions",
+            headerName: "Actions",
+            sortable: false,
+            width: 130,
+            disableClickEventBubbling: true,
+            renderCell: (params) => {
+                return (
+                    <div>
+                        <IconButton onClick={() => handleDeleteClick(params.row.user_id)} >
+                            <DeleteIcon fontSize="small" />
+                        </IconButton>
+                     </div>
+                );
+             }
         }
     ];
 
@@ -116,7 +164,12 @@ function FacultyList(props) {
     }
     return (
         <Grid container justifyContent="center" sx={{height: "65vh"}}>
+            <Notification
+                notify={notify}
+                setNotify={setNotify}
+            />
             <Grid item xs={12} sm={12} lg={5} xl={4}>
+                <ConfirmDialog open={open} onConfirm={onConfirm} onCancel={onCancel} message={"Delete User"} type={"warning"}/>
                 <DataGrid
                     rows={faculties}
                     columns={columns}

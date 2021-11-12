@@ -3,7 +3,23 @@ import { useParams } from "react-router-dom";
 import {call,setToken} from '../services/api';
 import Circle from './Loading';
 import { DataGrid } from '@mui/x-data-grid';
-import {Grid,Container,Typography,Divider} from '@mui/material';
+import {Grid,Container,Typography,Divider,IconButton} from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+
+const MatDelete = ({ index }) => {
+
+    const handleDeleteClick = () => {
+        console.log(index);
+    }
+
+    return (
+
+        <IconButton onClick={handleDeleteClick} >
+            <DeleteIcon fontSize="small" />
+        </IconButton>
+    )
+           
+};
 
 export default function SingleBatch(props) {
     let { batch_id } = useParams();
@@ -38,6 +54,20 @@ export default function SingleBatch(props) {
             headerName: 'Email',
             width: 160,
             valueFormatter: (params) => params.row?.personal_info?.email
+        },
+        {
+            field: "actions",
+            headerName: "Actions",
+            sortable: false,
+            width: 130,
+            disableClickEventBubbling: true,
+            renderCell: (params) => {
+                return (
+                    <div>
+                        <MatDelete index={params.row._id} />
+                     </div>
+                );
+             }
         }
     ];
     if(isLoading) {
@@ -56,7 +86,7 @@ export default function SingleBatch(props) {
                 </Grid>
             </Grid>
             <Grid container justifyContent="center" sx={{height: "65vh"}} mt={4}>
-                <Grid item xs={12} sm={12} lg={5} xl={5} >
+                <Grid item xs={12} sm={12} lg={6} xl={6} >
                     <DataGrid
                         rows={batchdetails.students}
                         columns={columns}

@@ -209,7 +209,7 @@ exports.deleteUser = async (req,res,next) => {
         const {user_id} = req.params;
         const user = await User.findById(user_id);
         if(user) {
-            if(user.role=='student') {
+            if(user.role==='student') {
                 const student = Student.findOne({
                     user_id: user_id
                 })
@@ -220,8 +220,15 @@ exports.deleteUser = async (req,res,next) => {
                 }
             }
             // not tested, to be discussed
-            else if(user.role=='faculty') {
+            else if(user.role==='faculty') {
+                const faculty = Faculty.findOne({
+                    user_id: user_id
+                })
 
+                if(faculty){
+                    await faculty.remove();
+                    await user.remove();
+                }
             }
         }
         else {
