@@ -102,9 +102,9 @@ const ClassroomActions = ({ auth, stream }) => {
         let { classroom } = stream.stream
         return (
             <>
-                {
-                    auth.role === 'faculty' ? (
-                        <Grid item xs={6} sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', p: 2 }} >
+                <Grid item xs={6} sx={{ display: 'flex', justifySelf: 'flex-start', justifyContent: 'flex-start', alignItems: 'center', p: 2 }} >
+                    {
+                        auth.role === 'faculty' ? (
                             <Button
                                 variant='contained'
                                 endIcon={<AddIcon />}
@@ -112,12 +112,10 @@ const ClassroomActions = ({ auth, stream }) => {
                                 onClick={() => navigate('post')}
                             >
                                 <Typography variant='inherit' fontWeight='bold' fontFamily='Roboto'> Create Post </Typography>
-                            </Button>
-                        </Grid>
-                    ) : null
-                }
-                < Grid item xs={6} sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', p: 2 }
-                } >
+                            </Button>) : null
+                    }
+                </Grid>
+                < Grid item xs={6} sx={{ display: 'flex', justifySelf: 'flex-end', justifyContent: 'flex-end', alignItems: 'center', p: 2 }} >
                     <Button
                         variant='contained'
                         endIcon={<VideoCallIcon />}
@@ -189,11 +187,11 @@ const Classroom = ({ auth }) => {
                     </Grid>
                 </Grid>
                 <Divider sx={{ marginBottom: 2 }} />
-                <Grid container spacing={2} sx={{ justifyContent: 'flex-start', alignItems: 'center', p: 2 }} >
+                <Grid container spacing={2} sx={{ justifyContent: 'space-between', alignItems: 'center', p: 2 }} >
                     <ClassroomActions stream={stream} auth={auth} />
                 </Grid>
                 <Grid container spacing={2} sx={{ justifyContent: 'center', alignItems: 'center', p: 2 }} >
-                    <Posts stream={stream} />
+                    <Posts stream={stream} auth={auth} />
                 </Grid>
             </Container>
             <Notification notify={notify} setNotify={setNotify} />

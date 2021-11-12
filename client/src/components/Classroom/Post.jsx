@@ -78,7 +78,7 @@ const Comment = ({ comment }) => {
     );
 };
 
-const Post = ({ post }) => {
+const Post = ({ post, auth }) => {
     const [expanded, setExpanded] = React.useState(false);
     const navigate = useNavigate();
     const { class_id } = useParams();
@@ -97,7 +97,7 @@ const Post = ({ post }) => {
     const handleComment = () => {
         const form = new FormData();
         form.append('comment', comment);
-        call('post', `faculty/classrooms/${class_id}/posts/${post._id}/comments`, form).then(data => {
+        call('post', `${auth.role}/classrooms/${class_id}/posts/${post._id}/comments`, form).then(data => {
             setNotify({ isOpen: true, message: 'Comment created successfully!', type: 'success' });
             setComments((cur) => [data, ...cur]);
             setComment('');
@@ -121,9 +121,11 @@ const Post = ({ post }) => {
                         </Avatar>
                     }
                     action={
-                        <IconButton aria-label="edit" onClick={() => navigate(`post/${post._id}`)}>
-                            <EditIcon />
-                        </IconButton>
+                        (auth.role === 'facult' ? (
+                            <IconButton aria-label="edit" onClick={() => navigate(`post/${post._id}`)}>
+                                <EditIcon />
+                            </IconButton>
+                        ) : null)
                     }
                     title={post.content.title}
                     subheader={parseDate(post.createdAt)}

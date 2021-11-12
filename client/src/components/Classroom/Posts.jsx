@@ -12,7 +12,7 @@ const Posts = ({ stream, auth }) => {
     else {
         let { posts } = stream.stream;
         if (posts.length !== 0) {
-            const postList = posts.map(post => <Post post={post} key={post._id} />
+            const postList = posts.map(post => <Post post={post} auth={auth} key={post._id} />
             );
             console.log(posts);
             return (
