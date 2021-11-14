@@ -1,9 +1,9 @@
 import React from 'react';
 import { Route, Routes, Outlet } from 'react-router-dom';
-import AddUsers from './AddUsers';
-import Admin from './AdminDashboard';
-import CreateBatch from './CreateBatch';
-import SingleBatch from './SingleBatch'
+import AddUsers from '../Batch/AddUsers';
+import Admin from '../Dashboard/AdminDashboard';
+import CreateBatch from '../Batch/CreateBatch';
+import SingleBatch from '../Batch/SingleBatch'
 
 const AdminDashboard = ({ auth }) => {
     console.log('Dashboard');

@@ -1,8 +1,8 @@
 import { Card, Container, Grid,Typography,TextField,FormControl,FormControlLabel,FormLabel,Radio,RadioGroup,Button,Box,LinearProgress } from "@mui/material";
 import React, {useEffect, useState} from "react";
-import Notification from './Utility/Notifications';
+import Notification from '../Utility/Notifications';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
-import { formcall,call } from "../services/api";
+import { formcall,call } from "../../services/api";
 
 const initialValues = {
     'batch_code':'',
