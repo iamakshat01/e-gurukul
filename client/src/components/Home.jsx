@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.down('md')]: {
             marginTop: '10vh',
         },
-        
+
     },
     image: {
         width: '32vw',
@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
         cursor: 'pointer',
         transition: 'all .3s linear',
         borderColor: '#ff3399',
-        "&:hover":{
+        "&:hover": {
             transform: 'scale(1.1)'
         }
     },
@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Home = (props) => {
 
-    const classes=useStyles();
+    const classes = useStyles();
 
     const navigate = useNavigate();
 
@@ -72,19 +72,19 @@ const Home = (props) => {
 
     return (
         <div className={classes.home}>
-            
-            <div className={classes.content}> 
+
+            <div className={classes.content}>
                 <h3 className={classes.head}>Simplifying online learning with <span className={classes.name}>E-Gurukul</span></h3>
                 <p className={classes.para}>A complete learning management portal for students and educational institutions</p>
                 <div className={classes.btnwrap}>
                     <button onClick={handleClick} className={classes.btn}>Sign In</button>
-                 </div>
+                </div>
             </div>
 
             <div className={classes.img}>
-                <img className={classes.image} src={Front} alt="front page"/>
-            </div>   
-            
+                <img className={classes.image} src={Front} alt="front page" />
+            </div>
+
         </div>
     );
 };

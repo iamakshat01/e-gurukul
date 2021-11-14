@@ -1,14 +1,19 @@
 import React from 'react';
-import { Divider, ListItem, ListItemIcon, ListItemText, List } from '@mui/material';
+import { Divider, ListItem, Avatar, ListItemIcon, ListItemText, List, ListItemButton, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import HomeIcon from '@mui/icons-material/Home';
-import ContactIcon from '@mui/icons-material/ContactPage';
+// import ContactIcon from '@mui/icons-material/ContactPage';
+import { useNavigate } from 'react-router';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ManageIcon from '@mui/icons-material/DashboardCustomize';
 import { NavLink } from 'react-router-dom';
 import { Box } from '@mui/system';
 import AddBoxIcon from '@mui/icons-material/AddBox';
+import LogOutIcon from '@mui/icons-material/Logout';
+import LogInIcon from '@mui/icons-material/Login';
+import ProfileIcon from '@mui/icons-material/AccountCircle';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
+import pickColor from '../../services/colorPicker';
 
 const useNavLinkStyles = makeStyles(theme => ({
     navlink: {
@@ -26,28 +31,90 @@ const useNavLinkStyles = makeStyles(theme => ({
     }
 }));
 
-const InitialItemsList = () => {
+const DrawerHeader = ({ auth }) => {
+    const navigate = useNavigate();
+    return (
+        <List>
+            <ListItem>
+                <ListItemButton onClick={() => navigate('/home')}>
+                    <ListItemText primary="e-gurukul" primaryTypographyProps={{ fontWeight: 'bold', fontSize: 32, textAlign: 'center' }} />
+                </ListItemButton>
+            </ListItem>
+            {auth ? (
+                <>
+                    <Divider />
+                    <ListItem sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        flexDirection: 'column',
+                        padding: 2
+                    }}>
+                        <Avatar sx={{ height: 130, width: 130, bgcolor: pickColor(auth.id) }} >
+                            <Typography variant='h2'>
+                                {String(auth.username).toUpperCase()[0]}
+                            </Typography>
+                        </Avatar>
+                        <Typography variant='h5' fontWeight='bold'>
+                            {auth.username}
+                        </Typography>
+                        <Typography color='textSecondary' fontStyle='italic' variant='subtitle'>
+                            {auth.role}
+                        </Typography>
+                    </ListItem>
+                </>
+            ) : null}
+        </List>
+    );
+}
+
+const AuthItemsList = ({ auth, handleLogOut }) => {
     const navLinkClasses = useNavLinkStyles();
+    const navigate = useNavigate();
     return (
         <>
             <Divider />
             <List>
-                <NavLink key='home' className={navLinkClasses.navlink} to="/home">
-                    <ListItem >
-                        <ListItemIcon>
-                            <HomeIcon className='navIcon' />
-                        </ListItemIcon>
-                        <ListItemText primary="Home" />
-                    </ListItem>
-                </NavLink>
-                <NavLink key='contact_us' className={navLinkClasses.navlink} end to="/contact_us">
+                {(
+                    auth ? (
+                        <>
+                            <NavLink key='profile' className={navLinkClasses.navlink} end to="/profile">
+                                <ListItem>
+                                    <ListItemButton>
+                                        <ListItemIcon>
+                                            <ProfileIcon className='navIcon' />
+                                        </ListItemIcon>
+                                        <ListItemText primary="Profile" />
+                                    </ListItemButton>
+                                </ListItem>
+                            </NavLink>
+                            <ListItem className={navLinkClasses.navlink}>
+                                <ListItemButton onClick={handleLogOut}>
+                                    <ListItemIcon>
+                                        <LogOutIcon className='navIcon' />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Sign Out" />
+                                </ListItemButton>
+                            </ListItem>
+                        </>
+                    ) : (
+                        <ListItem className={navLinkClasses.navlink}>
+                            <ListItemButton onClick={() => navigate('/login')}>
+                                <ListItemIcon>
+                                    <LogInIcon className='navIcon' />
+                                </ListItemIcon>
+                                <ListItemText primary="Sign In" />
+                            </ListItemButton>
+                        </ListItem>
+                    )
+                )}
+                {/* <NavLink key='contact_us' className={navLinkClasses.navlink} end to="/contact_us">
                     <ListItem>
                         <ListItemIcon>
                             <ContactIcon className='navIcon' />
                         </ListItemIcon>
                         <ListItemText primary="Contact Us" />
                     </ListItem>
-                </NavLink>
+                </NavLink> */}
             </List>
         </>
     );
@@ -61,26 +128,32 @@ const AdminItemsList = () => {
             <List>
                 <NavLink key='dashboard' className={navLinkClasses.navlink} end to="/dashboard">
                     <ListItem>
-                        <ListItemIcon>
-                            <DashboardIcon className='navIcon' />
-                        </ListItemIcon>
-                        <ListItemText primary="Dashboard" />
+                        <ListItemButton>
+                            <ListItemIcon>
+                                <DashboardIcon className='navIcon' />
+                            </ListItemIcon>
+                            <ListItemText primary="Dashboard" />
+                        </ListItemButton>
                     </ListItem>
                 </NavLink>
                 <NavLink key='batch' className={navLinkClasses.navlink} to="/dashboard/createbatch">
                     <ListItem>
-                        <ListItemIcon>
-                            <AddBoxIcon className='navIcon' />
-                        </ListItemIcon>
-                        <ListItemText primary="Create Batch" />
+                        <ListItemButton>
+                            <ListItemIcon>
+                                <AddBoxIcon className='navIcon' />
+                            </ListItemIcon>
+                            <ListItemText primary="Create Batch" />
+                        </ListItemButton>
                     </ListItem>
                 </NavLink>
                 <NavLink key='user' className={navLinkClasses.navlink} to="/dashboard/addusers">
                     <ListItem>
-                        <ListItemIcon>
-                            <GroupAddIcon className='navIcon' />
-                        </ListItemIcon>
-                        <ListItemText primary="Add Users" />
+                        <ListItemButton>
+                            <ListItemIcon>
+                                <GroupAddIcon className='navIcon' />
+                            </ListItemIcon>
+                            <ListItemText primary="Add Users" />
+                        </ListItemButton>
                     </ListItem>
                 </NavLink>
             </List>
@@ -96,10 +169,12 @@ const StudentItemsList = () => {
             <List>
                 <NavLink key='dashboard' className={navLinkClasses.navlink} end to="/dashboard">
                     <ListItem >
-                        <ListItemIcon>
-                            <DashboardIcon className='navIcon' />
-                        </ListItemIcon>
-                        <ListItemText primary="Dashboard" />
+                        <ListItemButton>
+                            <ListItemIcon>
+                                <DashboardIcon className='navIcon' />
+                            </ListItemIcon>
+                            <ListItemText primary="Dashboard" />
+                        </ListItemButton>
                     </ListItem>
                 </NavLink>
             </List>
@@ -115,18 +190,22 @@ const FacultyItemsList = () => {
             <List>
                 <NavLink key='dashboard' className={navLinkClasses.navlink} end to="/dashboard">
                     <ListItem >
-                        <ListItemIcon>
-                            <DashboardIcon className='navIcon' />
-                        </ListItemIcon>
-                        <ListItemText primary="Dashboard" />
+                        <ListItemButton>
+                            <ListItemIcon>
+                                <DashboardIcon className='navIcon' />
+                            </ListItemIcon>
+                            <ListItemText primary="Dashboard" />
+                        </ListItemButton>
                     </ListItem>
                 </NavLink>
                 <NavLink key='manage_classrooms' className={navLinkClasses.navlink} end to="/dashboard/classrooms/manage">
                     <ListItem >
-                        <ListItemIcon>
-                            <ManageIcon className='navIcon' />
-                        </ListItemIcon>
-                        <ListItemText primary="Manage Classrooms" />
+                        <ListItemButton>
+                            <ListItemIcon>
+                                <ManageIcon className='navIcon' />
+                            </ListItemIcon>
+                            <ListItemText primary="Manage Classrooms" />
+                        </ListItemButton>
                     </ListItem>
                 </NavLink>
             </List>
@@ -134,13 +213,14 @@ const FacultyItemsList = () => {
     );
 };
 
-const NavDrawer = ({ auth }) => {
+const NavDrawer = ({ auth, handleLogOut }) => {
     return (
         <Box sx={{ minWidth: '270px' }}>
-            <InitialItemsList />
+            <DrawerHeader auth={auth} />
             {(auth && auth.role === 'admin' ? <AdminItemsList /> : null)}
             {(auth && auth.role === 'student' ? <StudentItemsList /> : null)}
             {(auth && auth.role === 'faculty' ? <FacultyItemsList /> : null)}
+            {(auth ? <AuthItemsList auth={auth} handleLogOut={handleLogOut} /> : null)}
             <Divider />
         </Box>
     )

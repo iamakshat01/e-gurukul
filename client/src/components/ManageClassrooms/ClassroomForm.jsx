@@ -22,8 +22,8 @@ const initialDetails = {
     status: true
 }
 
-const ClassroomForm = ({ auth , handleUpdate}) => {
-    handleUpdate = handleUpdate || (() => {});
+const ClassroomForm = ({ auth, handleUpdate }) => {
+    handleUpdate = handleUpdate || (() => { });
     const { class_id } = useParams();
 
     const edit = Boolean(class_id);

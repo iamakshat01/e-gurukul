@@ -5,11 +5,10 @@ import Admin from '../Dashboard/AdminDashboard';
 import CreateBatch from '../Batch/CreateBatch';
 import SingleBatch from '../Batch/SingleBatch'
 
-const AdminDashboard = ({ auth }) => {
-    console.log('Dashboard');
+const AdminRoutes = ({ auth }) => {
     return (
         <Routes>
-            <Route path='/' element={<Outlet/>}>
+            <Route path='/' element={<Outlet />}>
                 <Route index element={<Admin auth={auth} />} />
                 <Route path='/createbatch' element={<CreateBatch />} />
                 <Route path='/batch/:batch_id' element={<SingleBatch />} />
@@ -19,4 +18,4 @@ const AdminDashboard = ({ auth }) => {
     );
 };
 
-export default AdminDashboard;
+export default AdminRoutes;

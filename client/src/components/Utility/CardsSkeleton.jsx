@@ -1,5 +1,5 @@
 import React from 'react';
-import {Grid, Skeleton} from '@mui/material';
+import { Grid, Skeleton } from '@mui/material';
 
 const CardsSkeleton = () => {
     return (

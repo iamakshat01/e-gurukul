@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Button, Menu, MenuItem, Tooltip, IconButton, Avatar } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { useNavigate } from 'react-router';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogInIcon from '@mui/icons-material/Login';
 import LogOutIcon from '@mui/icons-material/Logout';
 import pickColor from '../../services/colorPicker';
@@ -51,18 +50,6 @@ const UserMenu = ({ auth, handleLogOut }) => {
                 <MenuItem sx={{ padding: '0px' }}>
                     <Button
                         className={classes.menuBtn}
-                        startIcon={<AccountCircleIcon />}
-                        size="large"
-                        aria-label="profile"
-                        onClick={() => navigate("/profile")}
-                        sx={{ flexGrow: 1, padding: '0 2rem 0 2rem' }}
-                    >
-                        <p>Profile</p>
-                    </Button>
-                </MenuItem>
-                <MenuItem sx={{ padding: '0px' }}>
-                    <Button
-                        className={classes.menuBtn}
                         startIcon={<LogOutIcon />}
                         size="large"
                         edge="end"
@@ -93,7 +80,7 @@ const ToolbarItems = ({ auth, handleLogOut }) => {
         return (
             <>
                 <Button
-                    startIcon={<LogInIcon className={classes.navItem}/>}
+                    startIcon={<LogInIcon className={classes.navItem} />}
                     size="large"
                     aria-label="log in"
                     edge="end"

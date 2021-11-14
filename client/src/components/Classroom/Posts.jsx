@@ -14,7 +14,6 @@ const Posts = ({ stream, auth }) => {
         if (posts.length !== 0) {
             const postList = posts.map(post => <Post post={post} auth={auth} key={post._id} />
             );
-            console.log(posts);
             return (
                 <Grid container spacing={2} sx={{ justifyContent: 'space-evenly', p: 2 }} >
                     {postList}

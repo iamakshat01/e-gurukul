@@ -43,7 +43,7 @@ const Navigation = ({ auth, handleLogOut }) => {
                                 onClick={handleDrawerOpen}
                                 color="inherit"
                             >
-                                <MenuIcon className={classes.navItem}/>
+                                <MenuIcon className={classes.navItem} />
                             </IconButton>
                         </Box>
                         <Typography
@@ -68,7 +68,7 @@ const Navigation = ({ auth, handleLogOut }) => {
                 onClose={handleDrawerClose}
                 onClick={handleDrawerClose}
             >
-                <NavDrawer auth={auth} />
+                <NavDrawer auth={auth} handleLogOut={handleLogOut} />
             </Drawer>
         </Box>
     );

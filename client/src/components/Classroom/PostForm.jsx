@@ -289,7 +289,7 @@ const PostForm = ({ auth, handleUpdate }) => {
                 onConfirm={handleDelete}
                 type={'error'}
                 message={'Delete this post?'}
-                 />
+            />
         </>
     );
 };

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, CardHeader, Grid, Avatar, Box, CardActions, Typography, CardContent, IconButton } from '@mui/material';
+import { Card, CardHeader, Badge, Grid, Avatar, Box, CardActions, Typography, CardContent, IconButton } from '@mui/material';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ActivateIcon from '@mui/icons-material/BookmarkAdded';
 import DeactivateIcon from '@mui/icons-material/BookmarkRemove';
@@ -7,11 +7,11 @@ import ClassIcon from '@mui/icons-material/Class';
 import EventIcon from '@mui/icons-material/Event';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from 'react-router';
-import CardsSkeleton from './Utility/CardsSkeleton';
-import pickColor from '../services/colorPicker';
-import Notification from './Utility/Notifications';
+import CardsSkeleton from '../Utility/CardsSkeleton';
+import pickColor from '../../services/colorPicker';
+import Notification from '../Utility/Notifications';
 import PropTypes from 'prop-types';
-import parseDate from '../services/dateParser';
+import parseDate from '../../services/dateParser';
 import { makeStyles } from '@mui/styles';
 import EditIcon from '@mui/icons-material/Edit';
 
@@ -53,6 +53,20 @@ const useStyles = makeStyles(theme => ({
         '&:hover .icon': {
             color: theme.palette.info.main
         }
+    },
+    active: {
+        '& .MuiBadge-badge': {
+            backgroundColor: theme.palette.success.main,
+            color: theme.palette.success.main,
+            boxShadow: `0 0 0 2px ${theme.palette.background.paper}`
+        }
+    },
+    inactive: {
+        '& .MuiBadge-badge': {
+            backgroundColor: theme.palette.error.main,
+            color: theme.palette.error.main,
+            boxShadow: `0 0 0 2px ${theme.palette.background.paper}`
+        }
     }
 }));
 
@@ -87,9 +101,17 @@ const Classroom_Card = ({ classroom, edit_access, onAction }) => {
             <Card sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }} raised>
                 <CardHeader
                     avatar={
-                        <Avatar sx={{ bgcolor: pickColor(classroom._id) }} aria-label="recipe">
-                            {String(classroom.subject).toUpperCase()[0]}
-                        </Avatar>
+                        <Badge
+                            overlap="circular"
+                            color='error'
+                            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                            variant="dot"
+                            className={classroom.status === 'active' ? classes.active : classes.inactive}
+                        >
+                            <Avatar sx={{ bgcolor: pickColor(classroom._id) }} aria-label="recipe">
+                                {String(classroom.subject).toUpperCase()[0]}
+                            </Avatar>
+                        </Badge>
                     }
                     action={edit_access ? <ActionButton classroom={classroom} onAction={onAction} /> : null}
                     title={classroom.subject}
@@ -131,7 +153,7 @@ const Classroom_Card = ({ classroom, edit_access, onAction }) => {
                         </>
                     ) : null}
                     <IconButton
-                        sx = {(edit_access ? {} : {marginLeft: 'auto'})}
+                        sx={(edit_access ? {} : { marginLeft: 'auto' })}
                         onClick={() => navigate(`/dashboard/classrooms/${classroom._id}`)}
                         title='View'
                         className={classes.infoButton}

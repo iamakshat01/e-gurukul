@@ -25,7 +25,6 @@ const Profile = ({ auth }) => {
   useEffect(() => {
     call("get", "users/info")
       .then((res) => {
-        // console.log(res);
         if (typeof res === "string") {
           res = {};
         }
@@ -35,7 +34,6 @@ const Profile = ({ auth }) => {
         setUserInfo(res);
       })
       .catch((err) => {
-        console.log(err);
         setNotify({
           isOpen: true,
           message: "Could not fetch user details",

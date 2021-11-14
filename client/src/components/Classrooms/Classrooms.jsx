@@ -1,9 +1,9 @@
 import { Container } from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
-import { call } from '../services/api';
-import Notification from './Utility/Notifications';
+import { call } from '../../services/api';
+import Notification from '../Utility/Notifications';
 import ClassroomsList from './ClassroomsList';
-import ConfirmDialog from './Utility/ConfirmDialog';
+import ConfirmDialog from '../Utility/ConfirmDialog';
 
 const initialAction = { action: '', type: '', message: '', id: '' }
 

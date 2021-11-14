@@ -1,11 +1,10 @@
 import React from 'react';
 import { Route, Routes, Outlet } from 'react-router-dom';
-import FacultyDashboard from './FacultyDashboard';
-import Classroom from './Classroom/Classroom';
-import ManageClassrooms from './ManageClassrooms/ManageClassrooms';
-import ClassroomInfo from './ClassroomInfo/ClassroomInfo';
+import FacultyDashboard from '../Dashboard/FacultyDashboard';
+import Classroom from '../Classroom/Classroom';
+import ClassroomInfo from '../ClassroomInfo/ClassroomInfo';
 
-const Student_Routes = ({ auth }) => {
+const StudentRoutes = ({ auth }) => {
     return (
         <Routes>
             <Route path='/' element={<Outlet />}>
@@ -17,4 +16,4 @@ const Student_Routes = ({ auth }) => {
     );
 };
 
-export default Student_Routes;
+export default StudentRoutes;
