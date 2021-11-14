@@ -9,7 +9,7 @@ import { isAuthenticated, removeToken, setToken } from '../services/api';
 import Home from './Home';
 import Navigation from './Navigation/Navigation';
 import Login from './Login';
-import Dashboard from './Dashboard';
+import Dashboard from './Dashboard/Dashboard';
 import Profile from './Profile/Profile';
 import PageNotFound from './Utility/PageNotFound';
 import ContactUs from './Contact/ContactUs';

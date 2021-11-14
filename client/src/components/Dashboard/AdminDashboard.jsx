@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import {Box,Card,CardActions,Tabs,Tab, Grid,Container, Avatar, CardHeader,IconButton} from '@mui/material';
 import ClassIcon from '@mui/icons-material/Class';
 import { DataGrid } from '@mui/x-data-grid';
-import pickColor from '../services/colorPicker';
+import pickColor from '../../services/colorPicker';
 import DeleteIcon from '@mui/icons-material/Delete';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-import Circle from './Loading';
+import Circle from '../Utility/Loading';
 import { useNavigate } from 'react-router';
-import {call,setToken} from '../services/api';
-import ConfirmDialog from './Utility/ConfirmDialog';
-import Notification from './Utility/Notifications';
+import {call,setToken} from '../../services/api';
+import ConfirmDialog from '../Utility/ConfirmDialog';
+import Notification from '../Utility/Notifications';
 // taken from docs
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
