@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from 'react'
 import { useParams } from "react-router-dom";
-import {call,setToken} from '../services/api';
-import Circle from './Loading';
+import {call,setToken} from '../../services/api';
+import Circle from '../Utility/Loading';
 import { DataGrid } from '@mui/x-data-grid';
 import {Grid,Container,Typography,Divider,IconButton} from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import Notification from './Utility/Notifications';
-import ConfirmDialog from './Utility/ConfirmDialog';
+import Notification from '../Utility/Notifications';
+import ConfirmDialog from '../Utility/ConfirmDialog';
 
 export default function SingleBatch(props) {
     
@@ -55,7 +55,6 @@ export default function SingleBatch(props) {
         call('get','admin/batch/'+batch_id).then((data) => {
             setDetails(data);
             setLoading(false);
-            console.log(data);
         }).catch((err) => {
             console.log(err);
         })

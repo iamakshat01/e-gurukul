@@ -1,7 +1,7 @@
 import React from 'react';
-import AdminDashboard from './Admin_Dash';
-import Faculty_Routes from './Faculty_Routes';
-import Student_Routes from './Student_Routes';
+import AdminDashboard from '../Routes/Admin_Dash';
+import Faculty_Routes from '../Faculty_Routes';
+import Student_Routes from '../Student_Routes';
 
 const Dashboard = ({auth}) => {
 
