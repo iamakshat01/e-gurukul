@@ -9,6 +9,7 @@ import {
     Grid
 } from '@mui/material';
 import ClassroomDetails from './ClassroomDetails';
+import BreadCrumb from '../Utility/BreadCrumb';
 
 const ClassroomInfo = ({ auth }) => {
     const { class_id } = useParams();
@@ -38,6 +39,7 @@ const ClassroomInfo = ({ auth }) => {
     return (
         <>
             <Container maxWidth="lg">
+                <BreadCrumb />
                 <Typography
                     sx={{ m: 3 }}
                     textAlign='center'
@@ -50,7 +52,6 @@ const ClassroomInfo = ({ auth }) => {
                     container
                     spacing={3}
                     justifyContent='center'
-                    alignItems='center'
                 >
                     <Grid
                         item

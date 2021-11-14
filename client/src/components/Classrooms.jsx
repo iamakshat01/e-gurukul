@@ -1,4 +1,4 @@
-import { Container, Grid, Typography, Divider } from '@mui/material';
+import { Container } from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
 import { call } from '../services/api';
 import Notification from './Utility/Notifications';
@@ -12,8 +12,8 @@ const Classrooms = ({ auth, status, edit_access }) => {
     const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
     const [action, setAction] = useState(initialAction);
 
-    const onAction = ({action, type, id, message}) => {
-        setAction({action, type, id, message});
+    const onAction = ({ action, type, id, message }) => {
+        setAction({ action, type, id, message });
     }
 
     const handleClose = () => {

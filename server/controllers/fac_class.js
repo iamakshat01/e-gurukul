@@ -57,26 +57,25 @@ exports.createClassroom = (req, res, next) => {
         const info = req.body;
 
         // parsing information about the classroom into an object
-
-        const fields = ['batch', 'faculty', 'subject', 'meet_link', 'alternate_link', 'status'];
+        const fields = ['batch', 'subject', 'meet_link', 'alternate_link'];
         const classroom_info = {};
         for(let k of fields){
             classroom_info[k] = info[k].trim();
         }
         classroom_info.faculty = fac_id;
-
         // creating new classroom from parsed information
 
         let classroom = new Classroom(classroom_info);
 
         // saving the newly created classroom
 
-        classroom.save().then(classrooms => {
+        classroom.save().then(classroom => {
 
             // send response for the request
-            
+            console.log(classroom);
             res.status(200).json({message: 'Classroom created successfully!'});
         }).catch(err => {
+            console.log(err);
             if(!err.status){
                 let error = new Error('Could not create the classroom!');
                 error.status = 500;

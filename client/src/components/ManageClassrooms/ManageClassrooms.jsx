@@ -7,6 +7,7 @@ import pickColor from '../../services/colorPicker';
 import Notification from '../Utility/Notifications';
 import CreateClassroom from './ClassroomFormModal';
 import CardSkeleton from '../Utility/CardSkeleton';
+import BreadCrumb from '../Utility/BreadCrumb';
 
 const FacultyInfo = ({ faculty }) => {
     if (faculty.loading || !faculty.faculty) {

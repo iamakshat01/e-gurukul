@@ -21,6 +21,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import pickColor from '../../services/colorPicker';
 import Posts from './Posts';
 import PostFormModal from './PostFormModal';
+import BreadCrumb from '../Utility/BreadCrumb';
 
 const ClassroomInfo = ({ stream, auth }) => {
     const navigate = useNavigate()
@@ -181,6 +182,7 @@ const Classroom = ({ auth }) => {
     return (
         <>
             <Container maxWidth="md">
+                <BreadCrumb />
                 <Grid container spacing={2} sx={{ justifyContent: 'center', alignItems: 'center', p: 2 }} >
                     <Grid item xs={12}>
                         <ClassroomInfo stream={stream} auth={auth} />

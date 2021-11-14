@@ -1,6 +1,7 @@
 import React from 'react';
 import { Modal, Container, Paper, Typography, Box, Grid } from '@mui/material';
 import ClassroomForm from './ClassroomForm';
+import BreadCrumb from '../Utility/BreadCrumb';
 
 const style = {
     position: 'absolute',
@@ -22,6 +23,7 @@ const FormModal = ({ open, onClose, auth, handleUpdate }) => {
             <Container maxWidth="lg">
                 <Paper elevation={4} sx={style}>
                     <Grid container>
+                        <BreadCrumb />
                         <Grid item>
                             <ClassroomForm auth={auth} handleUpdate={handleUpdate} />
                         </Grid>
