@@ -55,7 +55,6 @@ export default function SingleBatch(props) {
         call('get','admin/batch/'+batch_id).then((data) => {
             setDetails(data);
             setLoading(false);
-            console.log(data);
         }).catch((err) => {
             console.log(err);
         })

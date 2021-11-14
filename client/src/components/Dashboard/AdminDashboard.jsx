@@ -42,7 +42,6 @@ function a11yProps(index) {
 function SingleCard({info,handleDeleteClick}) {
 
     const navigate = useNavigate();
-    console.log(info._id);
     return (
         <Grid item xs={11} sm={6} lg={3} xl={3}>
             <Card variant="outlined">
@@ -211,7 +210,6 @@ function BatchesList(props) {
         // server call
 
         call('delete','admin/batch/'+batchId).then((data)=>{
-            console.log(data);
             setNotify({
                 isOpen: true,
                 message: 'Batch Deleted Successfully',
