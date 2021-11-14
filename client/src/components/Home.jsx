@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@mui/styles';
 import Front from '../front.svg'
-const useStyles = makeStyles((theme) => console.log(theme) || ({
+import { useNavigate } from 'react-router';
+
+const useStyles = makeStyles((theme) => ({
     home: {
         display: 'flex',
         alignItems: 'center',
@@ -56,21 +58,17 @@ const useStyles = makeStyles((theme) => console.log(theme) || ({
             transform: 'scale(1.1)'
         }
     },
-    // btnwrap: {
-    //     display: 'flex',
-    //     justifyContent: 'center',
-    //     marginRight: '9vw',
-    //     [theme.breakpoints.down('md')]: {
-    //          marginRight: '0vw'
-    //     },
-    // }
-    
-    
 }));
 
 const Home = (props) => {
 
     const classes=useStyles();
+
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate('/login')
+    }
 
     return (
         <div className={classes.home}>
@@ -79,7 +77,7 @@ const Home = (props) => {
                 <h3 className={classes.head}>Simplifying online learning with <span className={classes.name}>E-Gurukul</span></h3>
                 <p className={classes.para}>A complete learning management portal for students and educational institutions</p>
                 <div className={classes.btnwrap}>
-                    <button className={classes.btn}>Sign In</button>
+                    <button onClick={handleClick} className={classes.btn}>Sign In</button>
                  </div>
             </div>
 
