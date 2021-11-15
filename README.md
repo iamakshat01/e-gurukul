@@ -1,6 +1,8 @@
 # [E-Gurukul 🔗](https://www.e-gurukul.netlify.app/)
 
 
+![Landing Page](https://i.ibb.co/ypW6pJc/Screenshot-from-2021-11-15-20-37-34.png)
+
 # Project Description
 
 E-gurukul is a online learning management portal for students and educational institutions.
