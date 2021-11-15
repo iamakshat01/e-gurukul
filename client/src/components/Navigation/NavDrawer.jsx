@@ -14,6 +14,7 @@ import LogInIcon from '@mui/icons-material/Login';
 import ProfileIcon from '@mui/icons-material/AccountCircle';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import pickColor from '../../services/colorPicker';
+import Logo from '../Utility/Logo';
 
 const useNavLinkStyles = makeStyles(theme => ({
     navlink: {
@@ -28,16 +29,20 @@ const useNavLinkStyles = makeStyles(theme => ({
         "& .navIcon": {
             color: 'black'
         }
+    },
+    logo: {
+        color: 'white'
     }
 }));
 
 const DrawerHeader = ({ auth }) => {
+    const navLinkClasses = useNavLinkStyles();
     const navigate = useNavigate();
     return (
-        <List>
-            <ListItem>
+        <List sx={{paddingTop: 0}}>
+            <ListItem sx={{ bgcolor: 'primary.main' }}>
                 <ListItemButton onClick={() => navigate('/home')}>
-                    <ListItemText primary="e-gurukul" primaryTypographyProps={{ fontWeight: 'bold', fontSize: 32, textAlign: 'center' }} />
+                    <Logo /> <Typography className={navLinkClasses.logo}  sx={{ marginLeft: 1 }} textAlign='center' variant="h5" fontWeight='bold'>e-Gurukul</Typography>
                 </ListItemButton>
             </ListItem>
             {auth ? (

@@ -1,21 +1,21 @@
 import { createTheme } from '@mui/material/styles';
 const themeOptions = {
     palette: {
-        type: 'dark',
+        type: 'light',
         primary: {
-            main: '#1cc0df',
+            main: '#0074e1',
         },
         secondary: {
-            main: '#fe0072',
+            main: '#6cdaee',
         },
         error: {
-            main: '#f50057',
+            main: '#ff1744',
         },
         warning: {
-            main: '#ff3d00',
+            main: '#e64a19',
         },
         info: {
-            main: '#00e5ff',
+            main: '#1b9ce5',
         },
         success: {
             main: '#1de9b6',

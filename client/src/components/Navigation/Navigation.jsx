@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import Typography from '@mui/material/Typography';
 import MenuIcon from '@mui/icons-material/Menu';
-import { Container, Drawer, AppBar, Toolbar, Box, IconButton } from '@mui/material';
+import { Container, Button, Drawer, AppBar, Toolbar, Box, IconButton, Typography } from '@mui/material';
 import ToolbarItems from './ToolbarItems';
 import NavDrawer from './NavDrawer';
 import { makeStyles } from '@mui/styles';
+import Logo from '../Utility/Logo';
+import { useNavigate } from 'react-router';
 
 const useStyles = makeStyles(theme => ({
     navItem: {
@@ -18,7 +19,7 @@ const Navigation = ({ auth, handleLogOut }) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const isDrawerOpen = Boolean(anchorEl);
     const classes = useStyles();
-
+    const navigate = useNavigate();
     const handleDrawerClose = () => {
         setAnchorEl(null);
     };
@@ -46,14 +47,16 @@ const Navigation = ({ auth, handleLogOut }) => {
                                 <MenuIcon className={classes.navItem} />
                             </IconButton>
                         </Box>
-                        <Typography
-                            variant="h6"
-                            noWrap
-                            component="div"
-                            className={classes.navItem}
-                        >
-                            e-gurukul
-                        </Typography>
+                        <Box>
+                            <Button
+                                size="large"
+                                aria-label="home"
+                                onClick={() => navigate('/home')}
+                                color="inherit"
+                            >
+                                <Logo /> <Typography sx={{marginLeft: 1}} textAlign='center' variant="body" fontWeight='bold'>e-Gurukul</Typography>
+                            </Button>
+                        </Box>
                         <Box sx={{ flexGrow: 1 }} />
                         <Box>
                             <ToolbarItems auth={auth} handleLogOut={handleLogOut} />
@@ -70,7 +73,7 @@ const Navigation = ({ auth, handleLogOut }) => {
             >
                 <NavDrawer auth={auth} handleLogOut={handleLogOut} />
             </Drawer>
-        </Box>
+        </Box >
     );
 }
 
