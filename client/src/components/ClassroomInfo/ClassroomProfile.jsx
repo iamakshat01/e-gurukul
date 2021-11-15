@@ -1,9 +1,8 @@
 import {
     Avatar,
     Box,
-    Button,
+    Badge,
     Card,
-    CardActions,
     CardContent,
     Divider,
     Typography
@@ -12,18 +11,27 @@ import CircleIcon from '@mui/icons-material/Circle';
 import React from 'react';
 import CardSkeleton from '../Utility/CardSkeleton';
 import pickColor from '../../services/colorPicker';
+import { makeStyles } from '@mui/styles';
 
-const user = {
-    avatar: '/static/images/avatars/avatar_6.png',
-    city: 'Los Angeles',
-    country: 'USA',
-    jobTitle: 'Senior Developer',
-    name: 'Katarina Smith',
-    timezone: 'GTM-7'
-};
+const useStyles = makeStyles((theme) => ({
+    active: {
+        '& .MuiBadge-badge': {
+            backgroundColor: theme.palette.success.main,
+            color: theme.palette.success.main,
+            boxShadow: `0 0 0 2px ${theme.palette.background.paper}`
+        }
+    },
+    inactive: {
+        '& .MuiBadge-badge': {
+            backgroundColor: theme.palette.error.main,
+            color: theme.palette.error.main,
+            boxShadow: `0 0 0 2px ${theme.palette.background.paper}`
+        }
+    }
+}));
 
 export const ClassroomProfile = ({ info }) => {
-
+    const classes = useStyles();
     if (info.loading || !info.classroom) {
         return (
             <CardSkeleton />
@@ -41,16 +49,23 @@ export const ClassroomProfile = ({ info }) => {
                             flexDirection: 'column'
                         }}
                     >
-                        <Avatar
-                            sx={{
-                                height: 64,
-                                mb: 2,
-                                width: 64,
-                                bgcolor: pickColor(classroom._id)
-                            }}
+                        <Badge
+                            overlap="circular"
+                            color='error'
+                            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                            variant="dot"
+                            className={classroom.status === 'active' ? classes.active : classes.inactive}
                         >
-                            {(String(classroom.subject).toUpperCase())[0]}
-                        </Avatar>
+                            <Avatar
+                                sx={{
+                                    height: 64,
+                                    width: 64,
+                                    bgcolor: pickColor(classroom._id)
+                                }}
+                            >
+                                {(String(classroom.subject).toUpperCase())[0]}
+                            </Avatar>
+                        </Badge>
                         <Typography
                             color="textPrimary"
                             gutterBottom

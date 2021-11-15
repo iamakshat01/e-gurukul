@@ -62,7 +62,7 @@ export default function AddUsers() {
         call('get','admin/batch').then((data)=>{
 
             setBatches(data);
-            setValues({...values,batch_code:data[0].batch_code})
+            setValues(values => ({...values,batch_code:data[0].batch_code}))
 
         }).catch((err) => {
             console.log(err);
@@ -114,7 +114,7 @@ export default function AddUsers() {
                                         InputLabelProps={{ required: false }}
                                     >
 
-                                    {batches.length!=0 && batches.map((option) => (
+                                    {batches.length!==0 && batches.map((option) => (
                                         <option
                                             key={option.batch_code}
                                             value={option.batch_code}
@@ -185,7 +185,7 @@ export default function AddUsers() {
                             </Grid>
 
 
-                            <Grid item xs={10} md={5} mb={4} xs={{align:"center"}}>
+                            <Grid item xs={10} md={5} mb={4} sx={{align:"center"}}>
                                 
                                 <Button variant="contained" type="submit" sx={{color:'white'}}>
                                     Submit

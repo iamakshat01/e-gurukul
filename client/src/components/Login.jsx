@@ -11,12 +11,12 @@ import { useNavigate } from 'react-router';
 import Notification from './Utility/Notifications';
 
 const initialValues = {
-    'username':'',
-    'password':''
+    'username': '',
+    'password': ''
 }
 
 const useStyles = makeStyles((theme) => ({
-    
+
     root: {
         height: '100vh',
         width: '100%',
@@ -24,13 +24,13 @@ const useStyles = makeStyles((theme) => ({
     container: {
         position: 'absolute',
         marginTop: theme.spacing(8),
-        backgroundColor:'#F8F8FF',
+        backgroundColor: '#F8F8FF',
         border: '2px solid white',
         boxShadow: '1px 2px 2px #f0f0f0',
-        left: '0', 
-        right: '0', 
-        marginLeft: 'auto', 
-        marginRight: 'auto', 
+        left: '0',
+        right: '0',
+        marginLeft: 'auto',
+        marginRight: 'auto',
     },
     formwrap: {
         marginTop: theme.spacing(8),
@@ -40,31 +40,31 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
     },
     form: {
-       display: 'flex',
-       flexDirection: 'column',
-       alignItems: 'center',
-       width: '100%'
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        width: '100%'
     },
 }));
 
 export default function Login(props) {
-    const [values,setValues] = useState(initialValues);
-    const [notify, setNotify] = useState({ isOpen:false, message:'', type:''});
+    const [values, setValues] = useState(initialValues);
+    const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
 
     const navigate = useNavigate();
 
     const handleInputChange = e => {
         const { name, value } = e.target
-        setValues({...values,[name]: value})
+        setValues({ ...values, [name]: value })
     }
 
     const handleSubmit = e => {
 
         e.preventDefault();
-        call('post','auth/login',values).then((data) => {
+        call('post', 'auth/login', values).then((data) => {
             setValues(initialValues);
             setToken(data.token);
-            
+
             const authenticated = isAuthenticated();
             props.handleLogin(authenticated);
 
@@ -77,9 +77,8 @@ export default function Login(props) {
 
             navigate('/');
 
-            
-        }).catch((err)=>{   
-            console.log(err);
+
+        }).catch((err) => {
             setNotify({
                 isOpen: true,
                 message: 'Sign In Failed',
@@ -100,7 +99,7 @@ export default function Login(props) {
 
                 <div className={classes.formwrap}>
 
-                    <Avatar style={{color: 'white', backgroundColor: '#e91e63'}} >
+                    <Avatar style={{ color: 'white', backgroundColor: '#e91e63' }} >
                         <LockIcon />
                     </Avatar>
 
@@ -112,56 +111,56 @@ export default function Login(props) {
                     <form className={classes.form} onSubmit={handleSubmit}>
 
 
-                                <TextField
-                                    required
-                                    placeholder="Username"
-                                    margin="normal"
-                                    fullWidth
-                                    variant="outlined"
-                                    name="username"
-                                    value={values.username}
-                                    onChange={handleInputChange}
-                                    InputProps={{
-                                        startAdornment: (
-                                        <InputAdornment position="start">
-                                            <AccountCircleIcon/>
-                                        </InputAdornment>
-                                        ),
-                                    }}
-                                    InputLabelProps={{ required: false }}
-                                />
+                        <TextField
+                            required
+                            placeholder="Username"
+                            margin="normal"
+                            fullWidth
+                            variant="outlined"
+                            name="username"
+                            value={values.username}
+                            onChange={handleInputChange}
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <AccountCircleIcon />
+                                    </InputAdornment>
+                                ),
+                            }}
+                            InputLabelProps={{ required: false }}
+                        />
 
-                                <TextField
-                                    required
-                                    placeholder="Password"
-                                    margin="normal"
-                                    fullWidth
-                                    variant="outlined"
-                                    name="password"
-                                    type="password"
-                                    value={values.password}
-                                    onChange={handleInputChange}
-                                    InputProps={{
-                                        startAdornment: (
-                                        <InputAdornment position="start">
-                                            <VpnKeyIcon/>
-                                        </InputAdornment>
-                                        ),
-                                    }}
-                                    InputLabelProps={{ required: false }}
-                                />
-                                
-                                <Button
-                                    variant="contained"
-                                    size="large"
-                                    margin="normal"
-                                    color="primary"
-                                    type="submit"
-                                    text="Submit"
-                                    style={{marginTop: '20px'}}
-                                >
-                                    Submit
-                                </Button>
+                        <TextField
+                            required
+                            placeholder="Password"
+                            margin="normal"
+                            fullWidth
+                            variant="outlined"
+                            name="password"
+                            type="password"
+                            value={values.password}
+                            onChange={handleInputChange}
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <VpnKeyIcon />
+                                    </InputAdornment>
+                                ),
+                            }}
+                            InputLabelProps={{ required: false }}
+                        />
+
+                        <Button
+                            variant="contained"
+                            size="large"
+                            margin="normal"
+                            color="primary"
+                            type="submit"
+                            text="Submit"
+                            style={{ marginTop: '20px' }}
+                        >
+                            Submit
+                        </Button>
                     </form>
 
                 </div>
@@ -169,10 +168,10 @@ export default function Login(props) {
             </Container>
 
             <Notification
-                    notify={notify}
-                    setNotify={setNotify}
+                notify={notify}
+                setNotify={setNotify}
             />
-            
+
         </div>
     )
 

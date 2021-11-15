@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Routes,
     Route,
@@ -9,44 +9,44 @@ import { isAuthenticated, removeToken, setToken } from '../services/api';
 import Home from './Home';
 import Navigation from './Navigation/Navigation';
 import Login from './Login';
-import Dashboard from './Dashboard/Dashboard';
+import UserRoutes from './Routes/UserRoutes';
 import Profile from './Profile/Profile';
 import PageNotFound from './Utility/PageNotFound';
-import ContactUs from './Contact/ContactUs';
+// import ContactUs from './Contact/ContactUs';
 
 const ProtectedView = ({ auth, handleLogOut }) => {
     return (
         <>
             <Routes>
-                <Route path='/' element={
+                <Route element={
                     <>
                         <Navigation auth={auth} handleLogOut={handleLogOut} />
                         <Outlet />
                     </>
                 }>
-                    <Route path='home' element={<Home />} />
-                    <Route path='contact_us' element={<ContactUs />} />
-                    <Route path='profile' element={<Profile auth={auth}/>} />
-                    <Route path='dashboard/*' element={<Dashboard auth={auth} />} />
+                    <Route path='/home' element={<Home auth={auth} />} />
+                    {/* <Route path='contact_us' element={<ContactUs />} /> */}
+                    <Route path='/profile' element={<Profile auth={auth} />} />
                 </Route>
-                <Route path='*' element={<PageNotFound />} />
+                <Route path='*' element={<UserRoutes auth={auth} handleLogOut={handleLogOut} />} />
             </Routes>
         </>
     );
 };
 
-const UnprotectedView = ({ auth, handleLogin }) => {
+const UnprotectedView = ({ handleLogin }) => {
     return (
         <Routes>
             <Route path='/login' exact element={<Login handleLogin={handleLogin} />} />
-            <Route path='/' element={
+            <Route element={
                 <>
-                    <Navigation auth={auth} />
+                    <Navigation />
                     <Outlet />
                 </>
             }>
+                <Route index element={<Home />} />
                 <Route path='home' element={<Home />} />
-                <Route path='contact_us' element={<ContactUs />} />
+                {/* <Route path='contact_us' element={<ContactUs />} /> */}
             </Route>
             <Route path='*' element={<PageNotFound />} />
         </Routes>
@@ -72,7 +72,7 @@ const Main = () => {
         setAuth(false);
         navigate('/')
     };
-    return (auth ? <ProtectedView auth={auth} handleLogOut={handleLogOut} /> : <UnprotectedView auth={auth} handleLogin={handleLogIn} />);
+    return (auth ? <ProtectedView auth={auth} handleLogOut={handleLogOut} /> : <UnprotectedView handleLogin={handleLogIn} />);
 };
 
 export default Main;

@@ -1,6 +1,6 @@
 import { Container, Typography } from '@mui/material';
 import React from 'react';
-import Classrooms from './Classrooms';
+import Classrooms from '../Classrooms/Classrooms';
 
 
 const FacultyDashboard = ({ auth }) => {

@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { Button, Menu, MenuItem, Tooltip, IconButton, Avatar } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { useNavigate } from 'react-router';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogInIcon from '@mui/icons-material/Login';
 import LogOutIcon from '@mui/icons-material/Logout';
+import DropDownIcon from '@mui/icons-material/ArrowDropDown';
 import pickColor from '../../services/colorPicker';
 
 const useStyles = makeStyles(theme => ({
@@ -21,7 +21,6 @@ const useStyles = makeStyles(theme => ({
 
 const UserMenu = ({ auth, handleLogOut }) => {
     const [menuAnchor, setMenuAnchor] = useState(null);
-    const navigate = useNavigate();
     const isMenuOpen = Boolean(menuAnchor);
     const classes = useStyles();
 
@@ -36,9 +35,10 @@ const UserMenu = ({ auth, handleLogOut }) => {
     return (
         <>
             <Tooltip title="Account settings">
-                <IconButton className={classes.navItem} onClick={handleMenuOpen} size="small" sx={{ ml: 2 }}>
+                <Button className={classes.navItem} onClick={handleMenuOpen} size="small" sx={{ ml: 2 }}>
                     <Avatar sx={{ width: 32, height: 32, bgcolor: pickColor(auth.id) }} >{String(auth.username).toUpperCase()[0]}</Avatar>
-                </IconButton>
+                    <DropDownIcon sx={{color: 'white'}} />
+                </Button>
             </Tooltip>
             <Menu
                 anchorEl={menuAnchor}
@@ -48,18 +48,6 @@ const UserMenu = ({ auth, handleLogOut }) => {
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
-                <MenuItem sx={{ padding: '0px' }}>
-                    <Button
-                        className={classes.menuBtn}
-                        startIcon={<AccountCircleIcon />}
-                        size="large"
-                        aria-label="profile"
-                        onClick={() => navigate("/profile")}
-                        sx={{ flexGrow: 1, padding: '0 2rem 0 2rem' }}
-                    >
-                        <p>Profile</p>
-                    </Button>
-                </MenuItem>
                 <MenuItem sx={{ padding: '0px' }}>
                     <Button
                         className={classes.menuBtn}
@@ -93,7 +81,7 @@ const ToolbarItems = ({ auth, handleLogOut }) => {
         return (
             <>
                 <Button
-                    startIcon={<LogInIcon className={classes.navItem}/>}
+                    startIcon={<LogInIcon className={classes.navItem} />}
                     size="large"
                     aria-label="log in"
                     edge="end"
