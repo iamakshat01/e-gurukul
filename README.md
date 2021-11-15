@@ -45,3 +45,5 @@ Clone the frontend and backend repositories, cd into them individually, and then
 	- DATABASE = ' '
 	- PORT = ' '
 3. Run `npm start` in the Backend repo first and then in Frontend .
+
+## Don't copy code without permission. All rights reserved
