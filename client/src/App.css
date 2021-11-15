@@ -1,0 +1,35 @@
+*{
+  box-sizing: border-box;
+}
+
+body{
+  min-height: 100vh;
+  background-image: url(./waveD2.svg);
+  background-repeat: no-repeat;
+  background-size: 100% 60vh;
+  background-position: center bottom;
+  background-attachment: fixed;
+}
+
+@media (min-height: 768px) {
+  body{
+    background-size: 100% 50vh;
+  }
+}
+
+@media (min-height: 1024px) {
+  body{
+    background-size: 100% 40vh;
+  }
+}
+
+.MuiBackdrop-root{
+  overflow-y: scroll;
+}
+
+.root_logo{
+  background-image: url(./TreeLogo.svg);
+  background-size: auto 5rem;
+  background-repeat: no-repeat;
+  background-position: center center;
+}

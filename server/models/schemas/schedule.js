@@ -1,15 +1,13 @@
 const mongoose = require('mongoose');
-
-const defaultSchedule = [
-    [null ,null, null, null, null, null, null, null],
-    [null ,null, null, null, null, null, null, null],
-    [null ,null, null, null, null, null, null, null],
-    [null ,null, null, null, null, null, null, null],
-    [null ,null, null, null, null, null, null, null]
-]
+// 9-10, 10-11, 11-12, 12-1, 2-3, 3-4, 4-5
+const defaultSchedule = [null ,null, null, null, null, null];
 
 const ScheduleSchema = new mongoose.Schema({
-    default: defaultSchedule
+    monday: defaultSchedule,
+    tuesday: defaultSchedule,
+    wednesday: defaultSchedule,
+    thursday: defaultSchedule,
+    friday: defaultSchedule,
 }, {timestamps: true});
 
 module.exports = ScheduleSchema;
