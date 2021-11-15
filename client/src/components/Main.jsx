@@ -18,33 +18,33 @@ const ProtectedView = ({ auth, handleLogOut }) => {
     return (
         <>
             <Routes>
-                <Route path='/' element={
+                <Route element={
                     <>
                         <Navigation auth={auth} handleLogOut={handleLogOut} />
                         <Outlet />
                     </>
                 }>
-                    <Route path='home' element={<Home />} />
+                    <Route path='/home' element={<Home auth={auth} />} />
                     {/* <Route path='contact_us' element={<ContactUs />} /> */}
-                    <Route path='profile' element={<Profile auth={auth} />} />
-                    <Route path='dashboard/*' element={<UserRoutes auth={auth} />} />
+                    <Route path='/profile' element={<Profile auth={auth} />} />
                 </Route>
-                <Route path='*' element={<PageNotFound />} />
+                <Route path='*' element={<UserRoutes auth={auth} handleLogOut={handleLogOut} />} />
             </Routes>
         </>
     );
 };
 
-const UnprotectedView = ({ auth, handleLogin }) => {
+const UnprotectedView = ({ handleLogin }) => {
     return (
         <Routes>
             <Route path='/login' exact element={<Login handleLogin={handleLogin} />} />
-            <Route path='/' element={
+            <Route element={
                 <>
                     <Navigation />
                     <Outlet />
                 </>
             }>
+                <Route index element={<Home />} />
                 <Route path='home' element={<Home />} />
                 {/* <Route path='contact_us' element={<ContactUs />} /> */}
             </Route>

@@ -39,10 +39,10 @@ const DrawerHeader = ({ auth }) => {
     const navLinkClasses = useNavLinkStyles();
     const navigate = useNavigate();
     return (
-        <List sx={{paddingTop: 0}}>
+        <List sx={{ paddingTop: 0 }}>
             <ListItem sx={{ bgcolor: 'primary.main' }}>
-                <ListItemButton onClick={() => navigate('/home')}>
-                    <Logo /> <Typography className={navLinkClasses.logo}  sx={{ marginLeft: 1 }} textAlign='center' variant="h5" fontWeight='bold'>e-Gurukul</Typography>
+                <ListItemButton onClick={() => navigate('/')}>
+                    <Logo /> <Typography className={navLinkClasses.logo} sx={{ marginLeft: 1 }} textAlign='center' variant="h5" fontWeight='bold'>e-Gurukul</Typography>
                 </ListItemButton>
             </ListItem>
             {auth ? (
@@ -68,6 +68,17 @@ const DrawerHeader = ({ auth }) => {
                     </ListItem>
                 </>
             ) : null}
+            <Divider />
+            <NavLink key='home' className={navLinkClasses.navlink} end to="/home">
+                <ListItem>
+                    <ListItemButton>
+                        <ListItemIcon>
+                            <HomeIcon className='navIcon' />
+                        </ListItemIcon>
+                        <ListItemText primary="Home" />
+                    </ListItemButton>
+                </ListItem>
+            </NavLink>
         </List>
     );
 }
@@ -131,7 +142,7 @@ const AdminItemsList = () => {
         <>
             <Divider />
             <List>
-                <NavLink key='dashboard' className={navLinkClasses.navlink} end to="/dashboard">
+                <NavLink key='dashboard' className={navLinkClasses.navlink} end to="/">
                     <ListItem>
                         <ListItemButton>
                             <ListItemIcon>
@@ -141,7 +152,7 @@ const AdminItemsList = () => {
                         </ListItemButton>
                     </ListItem>
                 </NavLink>
-                <NavLink key='batch' className={navLinkClasses.navlink} to="/dashboard/createbatch">
+                <NavLink key='batch' className={navLinkClasses.navlink} to="/createbatch">
                     <ListItem>
                         <ListItemButton>
                             <ListItemIcon>
@@ -151,7 +162,7 @@ const AdminItemsList = () => {
                         </ListItemButton>
                     </ListItem>
                 </NavLink>
-                <NavLink key='user' className={navLinkClasses.navlink} to="/dashboard/addusers">
+                <NavLink key='user' className={navLinkClasses.navlink} to="/addusers">
                     <ListItem>
                         <ListItemButton>
                             <ListItemIcon>
@@ -172,7 +183,7 @@ const StudentItemsList = () => {
         <>
             <Divider />
             <List>
-                <NavLink key='dashboard' className={navLinkClasses.navlink} end to="/dashboard">
+                <NavLink key='dashboard' className={navLinkClasses.navlink} end to="/">
                     <ListItem >
                         <ListItemButton>
                             <ListItemIcon>
@@ -193,7 +204,7 @@ const FacultyItemsList = () => {
         <>
             <Divider />
             <List>
-                <NavLink key='dashboard' className={navLinkClasses.navlink} end to="/dashboard">
+                <NavLink key='dashboard' className={navLinkClasses.navlink} end to="/">
                     <ListItem >
                         <ListItemButton>
                             <ListItemIcon>
@@ -203,7 +214,7 @@ const FacultyItemsList = () => {
                         </ListItemButton>
                     </ListItem>
                 </NavLink>
-                <NavLink key='manage_classrooms' className={navLinkClasses.navlink} end to="/dashboard/classrooms/manage">
+                <NavLink key='manage_classrooms' className={navLinkClasses.navlink} end to="/manage_classrooms">
                     <ListItem >
                         <ListItemButton>
                             <ListItemIcon>

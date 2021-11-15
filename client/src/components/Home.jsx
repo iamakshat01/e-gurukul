@@ -77,7 +77,7 @@ const Home = (props) => {
                 <h3 className={classes.head}>Simplifying online learning with <span className={classes.name}>E-Gurukul</span></h3>
                 <p className={classes.para}>A complete learning management portal for students and educational institutions</p>
                 <div className={classes.btnwrap}>
-                    <button onClick={handleClick} className={classes.btn}>Sign In</button>
+                    {!props.auth ? <button onClick={handleClick} className={classes.btn}>Sign In</button> : null}
                 </div>
             </div>
 

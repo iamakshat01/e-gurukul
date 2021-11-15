@@ -74,7 +74,7 @@ const PostForm = ({ auth, handleUpdate }) => {
         call('delete', `faculty/classrooms/${class_id}/posts/${post_id}`).then(data => {
             setNotify({ isOpen: true, message: 'Post deleted successfully!', type: 'success' });
             handleUpdate();
-            navigate(`/dashboard/classrooms/${class_id}`);
+            navigate(`/classrooms/${class_id}`);
         }).catch(err => {
             if (err.response) {
                 setNotify({ isOpen: true, message: err.response.data.error, type: 'error' });

@@ -51,7 +51,7 @@ const Navigation = ({ auth, handleLogOut }) => {
                             <Button
                                 size="large"
                                 aria-label="home"
-                                onClick={() => navigate('/home')}
+                                onClick={() => navigate('/')}
                                 color="inherit"
                             >
                                 <Logo /> <Typography sx={{marginLeft: 1}} textAlign='center' variant="body" fontWeight='bold'>e-Gurukul</Typography>

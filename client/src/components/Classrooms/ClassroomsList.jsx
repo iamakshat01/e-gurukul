@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, CardHeader, Badge, Grid, Avatar, Box, CardActions, Typography, CardContent, IconButton } from '@mui/material';
+import { Card, CardHeader, Badge, Grid, Avatar, Box, CardActions, Typography, CardContent, IconButton, Divider } from '@mui/material';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ActivateIcon from '@mui/icons-material/BookmarkAdded';
 import DeactivateIcon from '@mui/icons-material/BookmarkRemove';
@@ -119,6 +119,7 @@ const Classroom_Card = ({ classroom, edit_access, onAction }) => {
                     subheader={classroom.faculty.faculty_code}
                     subheaderTypographyProps={{ variant: 'h6' }}
                 />
+                <Divider />
                 <CardContent>
                     <Box >
                         <Typography variant='h6'>
@@ -144,7 +145,7 @@ const Classroom_Card = ({ classroom, edit_access, onAction }) => {
                             </IconButton>
                             <IconButton
                                 title='Edit'
-                                onClick={() => navigate(`/dashboard/classrooms/${classroom._id}/info`)}
+                                onClick={() => navigate(`/classrooms/${classroom._id}/info`)}
                                 className={classes.editButton}
                                 aria-label="edit"
                             >
@@ -154,7 +155,7 @@ const Classroom_Card = ({ classroom, edit_access, onAction }) => {
                     ) : null}
                     <IconButton
                         sx={(edit_access ? {} : { marginLeft: 'auto' })}
-                        onClick={() => navigate(`/dashboard/classrooms/${classroom._id}`)}
+                        onClick={() => navigate(`/classrooms/${classroom._id}`)}
                         title='View'
                         className={classes.infoButton}
                         aria-label="open"

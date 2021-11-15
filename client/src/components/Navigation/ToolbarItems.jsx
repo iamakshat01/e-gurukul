@@ -21,7 +21,6 @@ const useStyles = makeStyles(theme => ({
 
 const UserMenu = ({ auth, handleLogOut }) => {
     const [menuAnchor, setMenuAnchor] = useState(null);
-    const navigate = useNavigate();
     const isMenuOpen = Boolean(menuAnchor);
     const classes = useStyles();
 
@@ -38,7 +37,7 @@ const UserMenu = ({ auth, handleLogOut }) => {
             <Tooltip title="Account settings">
                 <Button className={classes.navItem} onClick={handleMenuOpen} size="small" sx={{ ml: 2 }}>
                     <Avatar sx={{ width: 32, height: 32, bgcolor: pickColor(auth.id) }} >{String(auth.username).toUpperCase()[0]}</Avatar>
-                    <DropDownIcon />
+                    <DropDownIcon sx={{color: 'white'}} />
                 </Button>
             </Tooltip>
             <Menu
