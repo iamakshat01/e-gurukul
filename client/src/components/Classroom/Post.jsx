@@ -121,7 +121,7 @@ const Post = ({ post, auth }) => {
                         </Avatar>
                     }
                     action={
-                        (auth.role === 'facult' ? (
+                        (auth.role === 'faculty' ? (
                             <IconButton aria-label="edit" onClick={() => navigate(`post/${post._id}`)}>
                                 <EditIcon />
                             </IconButton>

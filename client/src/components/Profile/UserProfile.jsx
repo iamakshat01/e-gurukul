@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { call } from "../../services/api";
+import pickColor from "../../services/colorPicker";
 import Notification from "../Utility/Notifications";
 
 const ChangePasswordModal = ({ auth }) => {
@@ -83,7 +84,7 @@ const ChangePasswordModal = ({ auth }) => {
       <Button
         color="primary"
         fullWidth
-        variant="contained"
+        variant="text"
         onClick={handleClickOpen}
       >
         Change Password
@@ -148,8 +149,11 @@ const UserProfile = ({ auth }) => (
             height: 64,
             mb: 2,
             width: 64,
+            bgcolor: pickColor(auth.id)
           }}
-        />
+        >
+          <Typography variant='h4'>{String(auth.username).toUpperCase()[0]}</Typography>
+        </Avatar>
         <Typography color="textPrimary" gutterBottom variant="h5">
           {auth.username}
         </Typography>

@@ -10,6 +10,7 @@ import {
     Divider,
     Menu,
     MenuItem,
+    Badge,
     Link,
     IconButton
 } from '@mui/material';
@@ -21,8 +22,28 @@ import InfoIcon from '@mui/icons-material/Info';
 import pickColor from '../../services/colorPicker';
 import Posts from './Posts';
 import PostFormModal from './PostFormModal';
+import BreadCrumb from '../Utility/BreadCrumb';
+import { makeStyles } from '@mui/styles';
 
-const ClassroomInfo = ({ stream, auth }) => {
+const useStyles = makeStyles((theme) => ({
+    active: {
+        '& .MuiBadge-badge': {
+            backgroundColor: theme.palette.success.main,
+            color: theme.palette.success.main,
+            boxShadow: `0 0 0 2px ${theme.palette.background.paper}`
+        }
+    },
+    inactive: {
+        '& .MuiBadge-badge': {
+            backgroundColor: theme.palette.error.main,
+            color: theme.palette.error.main,
+            boxShadow: `0 0 0 2px ${theme.palette.background.paper}`
+        }
+    }
+}));
+
+const ClassroomHeader = ({ stream, auth }) => {
+    const classes = useStyles();
     const navigate = useNavigate()
     if (stream.loading || !stream.stream) {
         return (
@@ -36,9 +57,17 @@ const ClassroomInfo = ({ stream, auth }) => {
                 <Grid item sx={{ display: 'flex', flexDirection: 'row' }} xs={12} sm={6}>
                     <Grid container spacing={2} sx={{ alignItems: 'center' }}>
                         <Grid item >
-                            <Avatar sx={{ bgcolor: pickColor(classroom._id) }} aria-label="recipe">
-                                {String(classroom.subject).toUpperCase()[0]}
-                            </Avatar>
+                            <Badge
+                                overlap="circular"
+                                color='error'
+                                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                                variant="dot"
+                                className={classroom.status === 'active' ? classes.active : classes.inactive}
+                            >
+                                <Avatar sx={{ bgcolor: pickColor(classroom._id) }} aria-label="recipe">
+                                    {String(classroom.subject).toUpperCase()[0]}
+                                </Avatar>
+                            </Badge>
                         </Grid>
                         <Grid item>
                             <Typography variant='h6'>
@@ -181,9 +210,10 @@ const Classroom = ({ auth }) => {
     return (
         <>
             <Container maxWidth="md">
+                <BreadCrumb />
                 <Grid container spacing={2} sx={{ justifyContent: 'center', alignItems: 'center', p: 2 }} >
                     <Grid item xs={12}>
-                        <ClassroomInfo stream={stream} auth={auth} />
+                        <ClassroomHeader stream={stream} auth={auth} />
                     </Grid>
                 </Grid>
                 <Divider sx={{ marginBottom: 2 }} />
