@@ -64,7 +64,7 @@ function SingleCard({info,handleDeleteClick}) {
 
                     <IconButton
                         sx={{ marginLeft: 'auto' }}
-                        onClick={()=>navigate('/dashboard/batch/'+info._id)}
+                        onClick={()=>navigate('/batch/'+info._id)}
                     >
                         <NavigateNextIcon />
                     </IconButton>
