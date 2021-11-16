@@ -187,8 +187,8 @@ const Classroom = ({ auth }) => {
     const { class_id } = useParams();
     const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
 
-    const fetchStream = useCallback(() => {
-        let path = `${auth.role}/classrooms/${class_id}/posts`
+    const fetchStream = () => {
+        let path = `${auth.role}/classrooms/${class_id}/posts`;
         setStream({ loading: true, stream: null });
         call('get', path).then(res => {
             setStream({ loading: false, stream: res });
@@ -201,7 +201,7 @@ const Classroom = ({ auth }) => {
                 setNotify({ isOpen: true, message: 'Could not load fetch classroom stream!', type: 'error' });
             }
         });
-    }, []);
+    };
 
     useEffect(() => {
         fetchStream();

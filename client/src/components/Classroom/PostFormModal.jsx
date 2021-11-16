@@ -17,7 +17,7 @@ const PostFormModal = ({ auth, handleUpdate }) => {
     return (
         <Modal
             open={true}
-            onClose={() => navigate(-1, { replace: true, state: { refresh: true } })}
+            onClose={() => navigate(-1, { replace: true })}
             aria-labelledby="Post form modal"
             aria-describedby="Post form modal"
         >

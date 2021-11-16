@@ -49,7 +49,6 @@ const PostForm = ({ auth, handleUpdate }) => {
         // }
         setValues(values => {
             let updateValues = { ...values, attachments: e.target.files };
-            console.log(updateValues);
             return updateValues;
         });
     }
@@ -89,7 +88,7 @@ const PostForm = ({ auth, handleUpdate }) => {
         call('delete', `faculty/classrooms/${class_id}/posts/${post_id}`).then(data => {
             setNotify({ isOpen: true, message: 'Post deleted successfully!', type: 'success' });
             handleUpdate();
-            navigate(`/classrooms/${class_id}`);
+            navigate(-1);
         }).catch(err => {
             if (err.response) {
                 setNotify({ isOpen: true, message: err.response.data.error, type: 'error' });
@@ -108,7 +107,6 @@ const PostForm = ({ auth, handleUpdate }) => {
         for (let f of values.attachments) {
             form.append('attachments', f);
         }
-        console.log(form.getAll('attachments'));
         call('post', `faculty/classrooms/${class_id}/posts`, form).then(data => {
             setNotify({ isOpen: true, message: 'Post created successfully!', type: 'success' });
             handleReset();
