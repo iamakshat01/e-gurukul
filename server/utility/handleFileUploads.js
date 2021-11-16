@@ -14,7 +14,7 @@ module.exports = (fieldName, maxCount = 1) => {
         storage: storage,
         fileFilter: (req, file, cb) => {
             let ext = path.extname(file.originalname);
-            var validExts = ['.pdf', '.doc', '.docx', '.txt', '.xls', '.xlsx'];
+            var validExts = ['.pdf', '.doc', '.docx', '.txt', '.xls', '.xlsx', '.jpg', '.jpeg', '.png'];
 
             if(validExts.indexOf(ext) !== -1){
                 cb(null, true);

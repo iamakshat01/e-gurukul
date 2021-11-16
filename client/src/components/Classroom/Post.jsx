@@ -10,17 +10,21 @@ import {
     Paper,
     InputBase,
     Typography,
-    Collapse
+    Link,
+    Collapse,
+    Divider
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import EditIcon from '@mui/icons-material/Edit';
-import CreateIcon from '@mui/icons-material/PostAdd';
+import CreateIcon from '@mui/icons-material/Send';
 import pickColor from '../../services/colorPicker';
 import parseDate from '../../services/dateParser';
 import { useNavigate, useParams } from 'react-router';
 import Notification from '../Utility/Notifications';
-import { call } from '../../services/api';
+import { call, getHost } from '../../services/api';
+import { ClassNames } from '@emotion/react';
+import { makeStyles } from '@mui/styles';
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -32,6 +36,34 @@ const ExpandMore = styled((props) => {
         duration: theme.transitions.duration.shortest,
     }),
 }));
+
+const Files = ({ files }) => {
+    let fileList = files.map(file => {
+        return (
+            <Grid key={file._id} item xs={12} md={6} lg={4}>
+                <Card raised>
+                    <CardContent>
+                        <Link target="_blank" rel="noopener" rel="noreferrer" href={`${getHost()}/${file.url}`} underline="hover">
+                            <Typography variant='subtitle1' color='info' textOverflow='clip' noWrap={true}>
+                                {file.filename}
+                            </Typography>
+                        </Link>
+                    </CardContent>
+                </Card>
+            </Grid>
+        );
+    });
+    return (
+        <CardContent>
+            <Typography marginBottom={1} variant='h6'>
+                Attachments
+            </Typography>
+            <Grid container spacing={2}>
+                {fileList}
+            </Grid>
+        </CardContent>
+    )
+}
 
 const Comments = ({ comments, totalComments }) => {
     if (comments.lengt !== 0) {
@@ -47,9 +79,11 @@ const Comments = ({ comments, totalComments }) => {
     }
     else {
         return (
-            <Typography variant='h1' textAlign='center'>
-                No Comments
-            </Typography>
+            <>
+                <Typography variant='h1' textAlign='center'>
+                    No Comments
+                </Typography>
+            </>
         );
     }
 
@@ -59,7 +93,7 @@ const Comment = ({ comment }) => {
     return (
         <Grid item xs={12} >
             <Grid item xs={12} lg={6}>
-                <Card>
+                <Card raised>
                     <CardHeader
                         sx={{ paddingBottom: 0 }}
                         title={comment.author}
@@ -78,7 +112,21 @@ const Comment = ({ comment }) => {
     );
 };
 
+const useStyles = makeStyles(theme => ({
+    createBtn: {
+        '&:hover':{
+            color: theme.palette.primary.main
+        }
+    },
+    btn: {
+        '&:hover':{
+            color: theme.palette.info.main
+        }
+    }
+}));
+
 const Post = ({ post, auth }) => {
+    const classes = useStyles();
     const [expanded, setExpanded] = React.useState(false);
     const navigate = useNavigate();
     const { class_id } = useParams();
@@ -113,7 +161,7 @@ const Post = ({ post, auth }) => {
 
     return (
         <Grid item xs={12}>
-            <Card>
+            <Card raised>
                 <CardHeader
                     avatar={
                         <Avatar sx={{ bgcolor: pickColor(post._id) }} >
@@ -122,7 +170,7 @@ const Post = ({ post, auth }) => {
                     }
                     action={
                         (auth.role === 'faculty' ? (
-                            <IconButton aria-label="edit" onClick={() => navigate(`post/${post._id}`)}>
+                            <IconButton className={classes.btn} aria-label="edit" onClick={() => navigate(`post/${post._id}`)}>
                                 <EditIcon />
                             </IconButton>
                         ) : null)
@@ -132,25 +180,44 @@ const Post = ({ post, auth }) => {
                     titleTypographyProps={{ variant: 'h6', fontWeight: 'bold' }}
                     subheaderTypographyProps={{ variant: 'caption' }}
                 />
-                <CardContent>
-                    <Typography variant="h6" color="text.secondary">
-                        {post.content.subtitle}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                        {post.content.info}
-                    </Typography>
-                </CardContent>
+                {(post.content.subtitle || post.content.info) ?
+                    (
+                        <CardContent>
+                            {
+                                post.content.subtitle ?
+                                    (
+                                        <Typography variant="h6" color="text.secondary">
+                                            {post.content.subtitle}
+                                        </Typography>
+                                    ) : null
+                            }
+                            {
+                                post.content.info ?
+                                    (
+                                        <Typography variant="body2" color="text.secondary">
+                                            {post.content.info}
+                                        </Typography>
+                                    ) : null
+                            }
+                        </CardContent>
+                    ) : null
+                }
+                {
+                    post.files.length ? (
+                        <Files files={post.files} />
+                    ) : null
+                }
                 <CardActions disableSpacing>
                     <Paper
                         component="form"
-                        sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', flexGrow: 1 }}
+                        sx={{ p: '2px 4px', marginX: 1, display: 'flex', alignItems: 'center', flexGrow: 1 }}
                     >
                         <InputBase
                             sx={{ ml: 1, flex: 1 }}
                             placeholder="Comment"
                             inputProps={{ 'aria-label': 'Comment', value: comment, onChange: handleChange }}
                         />
-                        <IconButton onClick={handleComment} sx={{ p: '10px' }} aria-label="search">
+                        <IconButton className={classes.createBtn} onClick={handleComment} sx={{ p: '10px' }} aria-label="search">
                             <CreateIcon />
                         </IconButton>
                     </Paper>
@@ -159,12 +226,14 @@ const Post = ({ post, auth }) => {
                         onClick={handleExpandClick}
                         aria-expanded={expanded}
                         aria-label="show comments"
+                        className={classes.btn}
                         title={`${post.totalComments} Comments`}
                     >
                         <ExpandMoreIcon />
                     </ExpandMore>
                 </CardActions>
                 <Collapse in={expanded} timeout="auto" unmountOnExit>
+                    <Divider />
                     <CardContent>
                         <Grid container spacing={2}>
                             <Comments comments={comments} totalComments={comments.length} />

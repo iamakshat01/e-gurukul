@@ -12,12 +12,14 @@ import {
 import { call } from '../../services/api';
 import Notification from '../Utility/Notifications';
 import { useNavigate, useParams } from 'react-router';
+import UploadFileIcon from '@mui/icons-material/UploadFile';
 import ConfirmDialog from '../Utility/ConfirmDialog';
 
 const initialDetails = {
     title: '',
     subtitle: '',
-    info: ''
+    info: '',
+    attachments: []
 }
 
 const PostForm = ({ auth, handleUpdate }) => {
@@ -38,6 +40,19 @@ const PostForm = ({ auth, handleUpdate }) => {
             [event.target.name]: event.target.value
         }));
     };
+
+    const onFileChange = e => {
+        // let newAttachments = [];
+        // console.log(e.target.files);
+        // for(let f of e.target.files){
+        //     newAttachments.push(f);
+        // }
+        setValues(values => {
+            let updateValues = { ...values, attachments: e.target.files };
+            console.log(updateValues);
+            return updateValues;
+        });
+    }
 
     const handleOpen = () => {
         setOpen(true);
@@ -90,7 +105,10 @@ const PostForm = ({ auth, handleUpdate }) => {
         form.append('info', values.info);
         form.append('title', values.title);
         form.append('subtitle', values.subtitle);
-
+        for (let f of values.attachments) {
+            form.append('attachments', f);
+        }
+        console.log(form.getAll('attachments'));
         call('post', `faculty/classrooms/${class_id}/posts`, form).then(data => {
             setNotify({ isOpen: true, message: 'Post created successfully!', type: 'success' });
             handleReset();
@@ -202,6 +220,30 @@ const PostForm = ({ auth, handleUpdate }) => {
                                     variant="outlined"
                                 />
                             </Grid>
+                            {!edit ? (
+                                <Grid
+                                    item
+                                    md={6}
+                                    xs={12}
+                                >
+                                    <label htmlFor="btn-upload">
+                                        <input
+                                            id="btn-upload"
+                                            name="attachments"
+                                            style={{ display: 'none' }}
+                                            type="file"
+                                            multiple
+                                            onChange={onFileChange} />
+                                        <Button
+                                            variant="outlined"
+                                            component="span"
+                                            startIcon={<UploadFileIcon />}
+                                        >
+                                            Upload File
+                                        </Button>
+                                    </label>
+                                </Grid>
+                            ) : null}
                         </Grid>
                     </CardContent>
                     <Divider />

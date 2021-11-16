@@ -18,7 +18,7 @@ import Notification from '../Utility/Notifications';
 import ResponsiveSkeleton from '../Utility/ResponsiveSkeleton';
 import AddIcon from '@mui/icons-material/Add';
 import VideoCallIcon from '@mui/icons-material/VideoCall';
-import InfoIcon from '@mui/icons-material/Info';
+import InfoIcon from '@mui/icons-material/InfoOutlined';
 import pickColor from '../../services/colorPicker';
 import Posts from './Posts';
 import PostFormModal from './PostFormModal';

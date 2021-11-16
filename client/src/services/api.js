@@ -34,13 +34,17 @@ export const formcall = async (method, path, data) => {
   return response.data;
 };
 
+export const getHost = () => {
+  return host;
+}
+
 // check authentication
 export const isAuthenticated = () => {
 
-    if (localStorage.jwtToken)
-        return (decode(localStorage.jwtToken))
-    else
-      return false
+  if (localStorage.jwtToken)
+    return (decode(localStorage.jwtToken))
+  else
+    return false
 }
 
 export const removeToken = () => {
@@ -48,4 +52,4 @@ export const removeToken = () => {
 }
 
 
-export default { setToken, call, isAuthenticated, removeToken,formcall };
+export default { setToken, call, isAuthenticated, removeToken, formcall, getHost };
