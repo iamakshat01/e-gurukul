@@ -65,6 +65,7 @@ const ClassroomForm = ({ auth, handleUpdate }) => {
         call('put', `faculty/classrooms/${class_id}`, form).then(data => {
             setNotify({ isOpen: true, message: 'Classroom updated successfully!', type: 'success' });
             fetchInfo();
+            handleUpdate();
         }).catch(err => {
             if (err.response) {
                 setNotify({ isOpen: true, message: err.response.data.error, type: 'error' });
@@ -73,7 +74,6 @@ const ClassroomForm = ({ auth, handleUpdate }) => {
                 setNotify({ isOpen: true, message: 'Could not update the classroom!', type: 'error' });
             }
         });
-        handleUpdate();
     }
 
     const handleCreate = () => {
@@ -86,6 +86,7 @@ const ClassroomForm = ({ auth, handleUpdate }) => {
         call('post', 'faculty/classrooms/', form).then(data => {
             setNotify({ isOpen: true, message: 'Classroom created successfully!', type: 'success' });
             handleReset();
+            handleUpdate();
         }).catch(err => {
             if (err.response) {
                 setNotify({ isOpen: true, message: err.response.data.error, type: 'error' });
@@ -94,7 +95,6 @@ const ClassroomForm = ({ auth, handleUpdate }) => {
                 setNotify({ isOpen: true, message: 'Could not create the classroom!', type: 'error' });
             }
         });
-        handleUpdate();
     };
 
     const handleSubmit = (evt) => {

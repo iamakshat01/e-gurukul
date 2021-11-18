@@ -91,7 +91,7 @@ const ManageClassrooms = ({ auth }) => {
                         <Grid container sx={{ justifyContent: 'center', alignItems: 'center', p: 2 }}>
                             <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
                                 <Button
-                                    variant='outlined'
+                                    variant='contained'
                                     endIcon={<AddIcon />}
                                     color='secondary'
                                     onClick={handleOpen}

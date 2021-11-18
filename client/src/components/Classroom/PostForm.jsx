@@ -73,6 +73,7 @@ const PostForm = ({ auth, handleUpdate }) => {
         call('put', `faculty/classrooms/${class_id}/posts/${post_id}`, form).then(data => {
             setNotify({ isOpen: true, message: 'Post updated successfully!', type: 'success' });
             fetchInfo();
+            handleUpdate();
         }).catch(err => {
             if (err.response) {
                 setNotify({ isOpen: true, message: err.response.data.error, type: 'error' });
@@ -81,7 +82,6 @@ const PostForm = ({ auth, handleUpdate }) => {
                 setNotify({ isOpen: true, message: 'Could not update the post!', type: 'error' });
             }
         });
-        handleUpdate();
     }
 
     const handleDelete = () => {
@@ -110,6 +110,7 @@ const PostForm = ({ auth, handleUpdate }) => {
         call('post', `faculty/classrooms/${class_id}/posts`, form).then(data => {
             setNotify({ isOpen: true, message: 'Post created successfully!', type: 'success' });
             handleReset();
+            handleUpdate();
         }).catch(err => {
             if (err.response) {
                 setNotify({ isOpen: true, message: err.response.data.error, type: 'error' });
@@ -118,7 +119,6 @@ const PostForm = ({ auth, handleUpdate }) => {
                 setNotify({ isOpen: true, message: 'Could not create the post!', type: 'error' });
             }
         });
-        handleUpdate();
     };
 
     const handleSubmit = (evt) => {

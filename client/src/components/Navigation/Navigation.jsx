@@ -54,7 +54,7 @@ const Navigation = ({ auth, handleLogOut }) => {
                                 onClick={() => navigate('/')}
                                 color="inherit"
                             >
-                                <Logo /> <Typography sx={{marginLeft: 1}} textAlign='center' variant="body" fontWeight='bold'>e-Gurukul</Typography>
+                                <Logo /> <Typography sx={{ marginLeft: 1, textTransform:'none' }} textAlign='center' variant="h5" fontWeight='bold'>e-Gurukul</Typography>
                             </Button>
                         </Box>
                         <Box sx={{ flexGrow: 1 }} />
