@@ -12,12 +12,14 @@ import {
 import { call } from '../../services/api';
 import Notification from '../Utility/Notifications';
 import { useNavigate, useParams } from 'react-router';
+import UploadFileIcon from '@mui/icons-material/UploadFile';
 import ConfirmDialog from '../Utility/ConfirmDialog';
 
 const initialDetails = {
     title: '',
     subtitle: '',
-    info: ''
+    info: '',
+    attachments: []
 }
 
 const PostForm = ({ auth, handleUpdate }) => {
@@ -39,6 +41,18 @@ const PostForm = ({ auth, handleUpdate }) => {
         }));
     };
 
+    const onFileChange = e => {
+        // let newAttachments = [];
+        // console.log(e.target.files);
+        // for(let f of e.target.files){
+        //     newAttachments.push(f);
+        // }
+        setValues(values => {
+            let updateValues = { ...values, attachments: e.target.files };
+            return updateValues;
+        });
+    }
+
     const handleOpen = () => {
         setOpen(true);
     };
@@ -59,6 +73,7 @@ const PostForm = ({ auth, handleUpdate }) => {
         call('put', `faculty/classrooms/${class_id}/posts/${post_id}`, form).then(data => {
             setNotify({ isOpen: true, message: 'Post updated successfully!', type: 'success' });
             fetchInfo();
+            handleUpdate();
         }).catch(err => {
             if (err.response) {
                 setNotify({ isOpen: true, message: err.response.data.error, type: 'error' });
@@ -67,14 +82,13 @@ const PostForm = ({ auth, handleUpdate }) => {
                 setNotify({ isOpen: true, message: 'Could not update the post!', type: 'error' });
             }
         });
-        handleUpdate();
     }
 
     const handleDelete = () => {
         call('delete', `faculty/classrooms/${class_id}/posts/${post_id}`).then(data => {
             setNotify({ isOpen: true, message: 'Post deleted successfully!', type: 'success' });
             handleUpdate();
-            navigate(`/classrooms/${class_id}`);
+            navigate(-1);
         }).catch(err => {
             if (err.response) {
                 setNotify({ isOpen: true, message: err.response.data.error, type: 'error' });
@@ -90,10 +104,13 @@ const PostForm = ({ auth, handleUpdate }) => {
         form.append('info', values.info);
         form.append('title', values.title);
         form.append('subtitle', values.subtitle);
-
+        for (let f of values.attachments) {
+            form.append('attachments', f);
+        }
         call('post', `faculty/classrooms/${class_id}/posts`, form).then(data => {
             setNotify({ isOpen: true, message: 'Post created successfully!', type: 'success' });
             handleReset();
+            handleUpdate();
         }).catch(err => {
             if (err.response) {
                 setNotify({ isOpen: true, message: err.response.data.error, type: 'error' });
@@ -102,7 +119,6 @@ const PostForm = ({ auth, handleUpdate }) => {
                 setNotify({ isOpen: true, message: 'Could not create the post!', type: 'error' });
             }
         });
-        handleUpdate();
     };
 
     const handleSubmit = (evt) => {
@@ -202,6 +218,30 @@ const PostForm = ({ auth, handleUpdate }) => {
                                     variant="outlined"
                                 />
                             </Grid>
+                            {!edit ? (
+                                <Grid
+                                    item
+                                    md={6}
+                                    xs={12}
+                                >
+                                    <label htmlFor="btn-upload">
+                                        <input
+                                            id="btn-upload"
+                                            name="attachments"
+                                            style={{ display: 'none' }}
+                                            type="file"
+                                            multiple
+                                            onChange={onFileChange} />
+                                        <Button
+                                            variant="outlined"
+                                            component="span"
+                                            startIcon={<UploadFileIcon />}
+                                        >
+                                            Upload File
+                                        </Button>
+                                    </label>
+                                </Grid>
+                            ) : null}
                         </Grid>
                     </CardContent>
                     <Divider />
