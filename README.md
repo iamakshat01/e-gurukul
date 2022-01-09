@@ -1,4 +1,4 @@
-# [E-Gurukul 🔗](https://www.e-gurukul.netlify.app/)
+# [E-Gurukul 🔗](https://e-gurukul.netlify.app/)
 
 
 ![Landing Page](https://i.ibb.co/ypW6pJc/Screenshot-from-2021-11-15-20-37-34.png)
