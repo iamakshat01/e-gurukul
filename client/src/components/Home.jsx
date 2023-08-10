@@ -48,12 +48,12 @@ const useStyles = makeStyles((theme) => ({
         marginTop: '1rem',
         padding: '.4rem 1.1rem',
         borderRadius: '2rem',
+        borderColor: 'transparent',
         background: theme.palette.secondary.main,
         fontSize: '1.4rem',
         color: '#fff',
         cursor: 'pointer',
         transition: 'all .3s linear',
-        borderColor: '#ff3399',
         "&:hover": {
             transform: 'scale(1.1)'
         }

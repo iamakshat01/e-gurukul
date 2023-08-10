@@ -1,6 +1,7 @@
+require('dotenv').config()
 const configVars = {
-    mongourl : 'mongodb+srv://egurukul:egurukul@cluster0.iyi0s.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
-    secret : 'egurukul'
+    mongourl : process.env.DATABASE,
+    secret : process.env.SECRET
 };
 
 module.exports = configVars;
