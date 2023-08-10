@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Menu, MenuItem, Tooltip, IconButton, Avatar } from '@mui/material';
+import { Button, Menu, MenuItem, Tooltip, Avatar } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { useNavigate } from 'react-router';
 import LogInIcon from '@mui/icons-material/Login';
