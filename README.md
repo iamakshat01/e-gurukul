@@ -40,7 +40,7 @@ Clone the frontend and backend repositories, cd into them individually, and then
 ## 2. Backend
 
 1. Run `npm install`.
-2. Edit config file in bin folder with following details for JWT secret, Database Link and Port
+2. Create a .env file for JWT secret, Database Link and Port
 	- SECRET=' '
 	- DATABASE = ' '
 	- PORT = ' '
