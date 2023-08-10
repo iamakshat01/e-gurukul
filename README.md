@@ -11,8 +11,8 @@ E-gurukul is a online learning management portal for students and educational in
 # Features Implemented
 
    - Admin - Create Batches, Add Faculty and Students 
-   - Faculty - Create Classrooms, Add Meet Links, Create Posts and Assignments
-   - Students - View Classrooms, Meet links and Submit Assignments
+   - Faculty - Create Classrooms, Add Meet Links, Create Posts. 
+   - Students - View Classrooms, Meet links and Posts. 
 
  
 # Technologies Used
